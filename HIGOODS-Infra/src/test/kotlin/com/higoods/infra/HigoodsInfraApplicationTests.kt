@@ -9,5 +9,4 @@ class HigoodsInfraApplicationTests {
     @Test
     fun contextLoads() {
     }
-
 }

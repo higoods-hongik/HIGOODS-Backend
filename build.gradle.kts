@@ -4,8 +4,9 @@ plugins {
     id("org.springframework.boot") version "2.7.11" apply false
     id("io.spring.dependency-management") version "1.0.15.RELEASE" apply false
     kotlin("jvm") version "1.6.21"
-    kotlin("plugin.spring") version "1.6.21"
-    kotlin("plugin.jpa") version "1.6.21"
+    kotlin("plugin.spring") version "1.6.21" apply false
+    kotlin("plugin.jpa") version "1.6.21" apply false
+    id("org.jlleitschuh.gradle.ktlint") version "11.3.2"
 }
 
 java {
@@ -30,14 +31,14 @@ allprojects {
         useJUnitPlatform()
     }
 
-    apply(plugin = "org.jetbrains.kotlin.plugin.spring" )
+    apply(plugin = "org.jetbrains.kotlin.plugin.spring")
 }
-
 
 subprojects {
     apply(plugin = "org.jetbrains.kotlin.jvm")
     apply(plugin = "org.springframework.boot")
     apply(plugin = "io.spring.dependency-management")
+    apply(plugin = "org.jlleitschuh.gradle.ktlint")
 
     dependencies {
         implementation("org.springframework.boot:spring-boot-starter-data-jpa")
@@ -52,4 +53,3 @@ subprojects {
         enabled = false
     }
 }
-
