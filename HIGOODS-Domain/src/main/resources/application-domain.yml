@@ -1,0 +1,46 @@
+spring:
+  profiles:
+    include:
+      - infrastructure
+      - common
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+  datasource:
+    url: jdbc:mariadb://localhost:3306/higoodsLocalDB
+    username: root
+    password: admin
+    driver-class-name: org.mariadb.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    generate-ddl: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.spatial.dialect.mariadb.MariaDB103SpatialDialect
+        format_sql: true
+    show-sql: true
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+  datasource:
+    url: jdbc:mariadb://${RDS_DEV_URL}/${RDS_DEV_DB_NAME}
+    username: ${RDS_DEV_ID}
+    password: ${RDS_DEV_PW}
+    driver-class-name: org.mariadb.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    generate-ddl: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.spatial.dialect.mariadb.MariaDB103SpatialDialect
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
