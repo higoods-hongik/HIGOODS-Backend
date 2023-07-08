@@ -9,5 +9,4 @@ class HigoodsApiApplicationTests {
     @Test
     fun contextLoads() {
     }
-
 }
