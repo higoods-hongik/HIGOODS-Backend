@@ -1,6 +1,6 @@
-package com.higoods.infra
+package com.higoods.domain
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 
 @SpringBootApplication
-interface HigoodsInfraApplication
+interface HigoodsDomainApplication

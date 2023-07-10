@@ -7,7 +7,7 @@ services:
     ports:
       - 3306:3306
     environment:
-      - MYSQL_DATABASE=higoodsLocalDB
+      - MYSQL_DATABASE=higoodsLocal
       - MYSQL_ROOT_PASSWORD=admin
       - TZ=Asia/Seoul
     command:

@@ -1,6 +1,6 @@
-package com.higoods.infra
+package com.higoods.common
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 
 @SpringBootApplication
-interface HigoodsInfraApplication
+interface HigoodsCommonApplication
