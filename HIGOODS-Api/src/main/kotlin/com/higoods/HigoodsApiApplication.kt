@@ -1,4 +1,4 @@
-package com.higoods.api
+package com.higoods
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
