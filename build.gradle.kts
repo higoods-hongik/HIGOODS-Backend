@@ -1,5 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
+val kotestVersion = "5.5.4"
+
 plugins {
     id("org.springframework.boot") version "2.7.11" apply false
     id("io.spring.dependency-management") version "1.0.15.RELEASE" apply false
@@ -47,6 +49,12 @@ subprojects {
         implementation("io.github.microutils:kotlin-logging-jvm:3.0.5")
 
         testImplementation("org.springframework.boot:spring-boot-starter-test")
+        testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
+        testImplementation("io.kotest:kotest-assertions-core:$kotestVersion")
+        testImplementation("io.kotest:kotest-framework-datatest:$kotestVersion")
+        testImplementation("io.kotest.extensions:kotest-extensions-spring:1.1.2")
+        testImplementation("io.mockk:mockk:1.12.4")
+        testImplementation("com.ninja-squad:springmockk:3.1.2")
     }
 
     tasks.getByName<Jar>("jar") {
