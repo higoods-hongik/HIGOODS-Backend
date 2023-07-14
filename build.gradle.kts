@@ -9,6 +9,7 @@ plugins {
     kotlin("plugin.spring") version "1.6.21" apply false
     kotlin("plugin.jpa") version "1.6.21" apply false
     id("org.jlleitschuh.gradle.ktlint") version "11.3.2"
+    kotlin("kapt") version "1.6.21" apply false
 }
 
 java {
