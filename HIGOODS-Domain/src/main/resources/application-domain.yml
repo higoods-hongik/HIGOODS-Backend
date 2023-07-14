@@ -1,8 +1,8 @@
-spring:
-  profiles:
-    include:
-      - infra
-      - common
+#spring:
+#  profiles:
+#    include:
+#      - infra
+#      - common
 ---
 spring:
   config:

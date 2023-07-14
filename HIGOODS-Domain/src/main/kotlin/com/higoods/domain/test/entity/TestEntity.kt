@@ -1,5 +1,4 @@
 package com.higoods.domain.test.entity
-
 import com.higoods.domain.common.BaseTimeEntity
 import mu.KLogging
 import javax.persistence.Entity
