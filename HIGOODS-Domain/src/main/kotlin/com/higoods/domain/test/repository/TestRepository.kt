@@ -1,4 +1,4 @@
-package com.higoods.domain.test.entity.repository
+package com.higoods.domain.test.repository
 
 import com.higoods.domain.test.entity.TestEntity
 import org.springframework.data.jpa.repository.JpaRepository
