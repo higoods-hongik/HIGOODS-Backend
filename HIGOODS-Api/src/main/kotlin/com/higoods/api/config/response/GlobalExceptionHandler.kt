@@ -109,7 +109,7 @@ class GlobalExceptionHandler(
         e: HiGoodsDynamicException,
         request: HttpServletRequest
     ): ResponseEntity<ErrorResponse?>? {
-        logger.error("WhatnowDynamicException Exception", e)
+        logger.error("HiGoodsDynamicException Exception", e)
         val errorResponse = ErrorResponse(
             e.status,
             e.code,
@@ -124,7 +124,7 @@ class GlobalExceptionHandler(
         e: HiGoodsCodeException,
         request: HttpServletRequest
     ): ResponseEntity<ErrorResponse?>? {
-        logger.error("WhatnowCodeException Exception", e)
+        logger.error("HiGoodsDynamicException Exception", e)
         val errorReason: ErrorReason = e.errorReason
         val errorResponse = ErrorResponse.of(errorReason, request.requestURL.toString())
         return ResponseEntity.status(HttpStatus.valueOf(errorReason.status))
