@@ -6,8 +6,8 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":HIGOODS-Infra"))
-    implementation(project(":HIGOODS-Common"))
+    implementation(project(Modules.INFRA))
+    implementation(project(Modules.COMMON))
 
     val kapt by configurations
     // querydsl
@@ -15,7 +15,6 @@ dependencies {
     kapt(Dependencies.QUERYDSL_PROCESSOR)
     runtimeOnly(Dependencies.MARIA_DB_CLEINT)
     implementation(Dependencies.HIBERNATE_SPATIAL)
-
 }
 
 allOpen {
