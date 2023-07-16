@@ -5,6 +5,7 @@ dependencies {
 
     api(Dependencies.SPRING_REDIS)
     api(Dependencies.REDISSON)
+    api(Dependencies.OPEN_FEIGN)
 }
 
 tasks {
