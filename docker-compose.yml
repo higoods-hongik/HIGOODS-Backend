@@ -5,7 +5,7 @@ services:
     image: mariadb:10
     container_name: HIGOODSMaria
     ports:
-      - 3306:3306
+      - 4000:3306
     environment:
       - MYSQL_DATABASE=higoodsLocal
       - MYSQL_ROOT_PASSWORD=admin
@@ -15,3 +15,9 @@ services:
       - --collation-server=utf8mb4_unicode_ci
     volumes:
       - ./mariadata:/var/lib/maria
+  redis:
+    image: "redis:alpine"
+    ports:
+      - "6379:6379"
+    environment:
+      - TZ=Asia/Seoul
