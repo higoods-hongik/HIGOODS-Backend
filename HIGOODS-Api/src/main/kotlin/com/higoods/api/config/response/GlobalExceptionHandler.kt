@@ -1,6 +1,7 @@
 package com.higoods.api.config.response
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.higoods.api.config.security.SecurityUtils
 import com.higoods.common.exception.GlobalErrorCode
 import com.higoods.common.exception.HiGoodsCodeException
 import com.higoods.common.exception.HiGoodsDynamicException
@@ -23,8 +24,7 @@ import javax.servlet.http.HttpServletRequest
 
 @RestControllerAdvice
 class GlobalExceptionHandler(
-    // TODO : 에러 센더 구현
-    var slackAsyncErrorSender: SlackAsyncErrorSender
+    var slackAsyncErrorSender: SlackAsyncErrorSender,
     val objectMapper: ObjectMapper
 ) : ResponseEntityExceptionHandler() {
 
@@ -139,8 +139,7 @@ class GlobalExceptionHandler(
         logger.error("Exception", e)
 
         val cachingRequest = request as ContentCachingRequestWrapper
-        // TODO : 시큐리티 유틸
-//        val userId: Long = SecurityUtils.currentUserId
+        val userId: Long = SecurityUtils.currentUserId
         val url = UriComponentsBuilder.fromHttpRequest(ServletServerHttpRequest(request))
             .build()
             .toUriString()
