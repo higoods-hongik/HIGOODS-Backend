@@ -1,15 +1,13 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-val kotestVersion = "5.5.4"
-
 plugins {
-    id("org.springframework.boot") version "2.7.11" apply false
-    id("io.spring.dependency-management") version "1.0.15.RELEASE" apply false
-    kotlin("jvm") version "1.6.21"
-    kotlin("plugin.spring") version "1.6.21" apply false
-    kotlin("plugin.jpa") version "1.6.21" apply false
-    id("org.jlleitschuh.gradle.ktlint") version "11.3.2"
-    kotlin("kapt") version "1.6.21" apply false
+    id("org.springframework.boot") version PluginVersions.SPRING_BOOT_VERSION apply false
+    id("io.spring.dependency-management") version PluginVersions.DEPENDENCY_MANAGER_VERSION apply false
+    kotlin("jvm") version PluginVersions.JVM_VERSION
+    kotlin("plugin.spring") version PluginVersions.SPRING_PLUGIN_VERSION apply false
+    kotlin("plugin.jpa") version PluginVersions.JPA_PLUGIN_VERSION apply false
+    id("org.jlleitschuh.gradle.ktlint") version PluginVersions.KTLINT_VERSIOM
+    kotlin("kapt") version PluginVersions.KAPT_VERSION apply false
 }
 
 java {
@@ -43,18 +41,18 @@ subprojects {
     apply(plugin = "org.jlleitschuh.gradle.ktlint")
 
     dependencies {
-        implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-        implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-        implementation("org.jetbrains.kotlin:kotlin-reflect")
-        implementation("io.github.microutils:kotlin-logging-jvm:3.0.5")
+        implementation(Dependencies.SPRING_DATA_JPA)
+        implementation(Dependencies.JACKSON)
+        implementation(Dependencies.KOTLIN_REFLECT)
+        implementation(Dependencies.KOTLIN_LOGGING)
 
-        testImplementation("org.springframework.boot:spring-boot-starter-test")
-        testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
-        testImplementation("io.kotest:kotest-assertions-core:$kotestVersion")
-        testImplementation("io.kotest:kotest-framework-datatest:$kotestVersion")
-        testImplementation("io.kotest.extensions:kotest-extensions-spring:1.1.2")
-        testImplementation("io.mockk:mockk:1.12.4")
-        testImplementation("com.ninja-squad:springmockk:3.1.2")
+        testImplementation(Dependencies.SPRING_TEST)
+        testImplementation(Dependencies.KOTEST_RUNNER_JUNIT5)
+        testImplementation(Dependencies.KOTEST_ASSERTIONS_CORE)
+        testImplementation(Dependencies.KOTEST_FRAMEWORK_DATATEST)
+        testImplementation(Dependencies.KOTEST_EXTENSION_SPRING)
+        testImplementation(Dependencies.MOCKK_DEFAULT)
+        testImplementation(Dependencies.MOCKK_SPRING)
     }
 
     tasks.getByName<Jar>("jar") {
