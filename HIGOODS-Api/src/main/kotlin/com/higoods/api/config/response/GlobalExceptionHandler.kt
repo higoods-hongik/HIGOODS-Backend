@@ -1,11 +1,13 @@
 package com.higoods.api.config.response
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.higoods.api.config.security.SecurityUtils
 import com.higoods.common.exception.GlobalErrorCode
 import com.higoods.common.exception.HiGoodsCodeException
 import com.higoods.common.exception.HiGoodsDynamicException
 import com.higoods.common.exception.dto.ErrorReason
 import com.higoods.common.exception.dto.ErrorResponse
+import com.higoods.infra.api.slack.SlackErrorSender
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -22,8 +24,7 @@ import javax.servlet.http.HttpServletRequest
 
 @RestControllerAdvice
 class GlobalExceptionHandler(
-    // TODO : 에러 센더 구현
-//    var discordErrorSender : DiscordSender
+    var slackAsyncErrorSender: SlackErrorSender,
     val objectMapper: ObjectMapper
 ) : ResponseEntityExceptionHandler() {
 
@@ -108,7 +109,7 @@ class GlobalExceptionHandler(
         e: HiGoodsDynamicException,
         request: HttpServletRequest
     ): ResponseEntity<ErrorResponse?>? {
-        logger.error("WhatnowDynamicException Exception", e)
+        logger.error("HiGoodsDynamicException Exception", e)
         val errorResponse = ErrorResponse(
             e.status,
             e.code,
@@ -123,7 +124,7 @@ class GlobalExceptionHandler(
         e: HiGoodsCodeException,
         request: HttpServletRequest
     ): ResponseEntity<ErrorResponse?>? {
-        logger.error("WhatnowCodeException Exception", e)
+        logger.error("HiGoodsDynamicException Exception", e)
         val errorReason: ErrorReason = e.errorReason
         val errorResponse = ErrorResponse.of(errorReason, request.requestURL.toString())
         return ResponseEntity.status(HttpStatus.valueOf(errorReason.status))
@@ -138,8 +139,7 @@ class GlobalExceptionHandler(
         logger.error("Exception", e)
 
         val cachingRequest = request as ContentCachingRequestWrapper
-        // TODO : 시큐리티 유틸
-//        val userId: Long = SecurityUtils.currentUserId
+        val userId: Long = SecurityUtils.currentUserId
         val url = UriComponentsBuilder.fromHttpRequest(ServletServerHttpRequest(request))
             .build()
             .toUriString()
@@ -151,7 +151,7 @@ class GlobalExceptionHandler(
             internalServerError.reason,
             url
         )
-//        slackProvider.execute(cachingRequest, e, userId)
+        slackAsyncErrorSender.internalError(cachingRequest, e, userId)
         return ResponseEntity.status(HttpStatus.valueOf(internalServerError.status))
             .body<ErrorResponse>(errorResponse)
     }

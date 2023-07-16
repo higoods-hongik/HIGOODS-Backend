@@ -59,6 +59,7 @@ subprojects {
     apply(plugin = "jacoco")
 
     dependencies {
+        implementation(Dependencies.SPRING_WEB)
         implementation(Dependencies.SPRING_DATA_JPA)
         implementation(Dependencies.JACKSON)
         implementation(Dependencies.KOTLIN_REFLECT)
@@ -71,6 +72,8 @@ subprojects {
         testImplementation(Dependencies.KOTEST_EXTENSION_SPRING)
         testImplementation(Dependencies.MOCKK_DEFAULT)
         testImplementation(Dependencies.MOCKK_SPRING)
+
+        annotationProcessor(Dependencies.CONFIGURATION_PROCESSOR)
     }
 
     tasks.getByName<Jar>("jar") {
