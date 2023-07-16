@@ -53,6 +53,8 @@ subprojects {
         testImplementation(Dependencies.KOTEST_EXTENSION_SPRING)
         testImplementation(Dependencies.MOCKK_DEFAULT)
         testImplementation(Dependencies.MOCKK_SPRING)
+
+        annotationProcessor(Dependencies.CONFIGURATION_PROCESSOR)
     }
 
     tasks.getByName<Jar>("jar") {

@@ -86,4 +86,6 @@ object Dependencies {
     const val MOCKK_SPRING = "com.ninja-squad:springmockk:${DependencyVersions.MOCKK_SPRING_VERSION}"
 
     const val REDISSON = "org.redisson:redisson:${DependencyVersions.REDISSON_VERSION}"
+
+    const val SLACK_API = "com.slack.api:slack-api-client:${DependencyVersions.SLACK_API_VERSION}"
 }
