@@ -32,7 +32,7 @@ jobs:
           RELEASE_VERSION_WITHOUT_V="$(cut -d'v' -f2 <<< ${GITHUB_REF#refs/*/})"
           echo ::set-output name=VERSION::$RELEASE_VERSION_WITHOUT_V 
 
-      - name: Start containers  # test 돌릴때 mariadb, redis 필요
+      - name: Start containers  # test시 mariadb, redis 필요
         run: docker-compose up -d
 
       - name: Gradle Build
