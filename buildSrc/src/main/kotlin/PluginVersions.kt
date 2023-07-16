@@ -9,5 +9,5 @@ object PluginVersions {
     const val MOCKK_VERSION = "1.13.2"
     const val DETEKT_VERSION = "1.21.0"
     const val KTLINT_VERSIOM = "11.3.2"
-
+    const val SONAR_VERSION = "4.2.1.3168"
 }
