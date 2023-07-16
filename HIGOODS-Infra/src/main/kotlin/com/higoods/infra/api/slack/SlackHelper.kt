@@ -1,14 +1,15 @@
 package com.higoods.infra.api.slack
 
+import com.higoods.common.annotation.Helper
+import com.higoods.common.helper.SpringEnvironmentHelper
 import com.slack.api.Slack
 import com.slack.api.methods.SlackApiException
 import com.slack.api.model.block.LayoutBlock
 import com.slack.api.webhook.Payload
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.springframework.stereotype.Component
 
-@Component
+@Helper
 class SlackHelper(
     val springEnvironmentHelper: SpringEnvironmentHelper,
 ) {

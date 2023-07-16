@@ -6,6 +6,7 @@ import com.higoods.common.exception.HiGoodsCodeException
 import com.higoods.common.exception.HiGoodsDynamicException
 import com.higoods.common.exception.dto.ErrorReason
 import com.higoods.common.exception.dto.ErrorResponse
+import com.higoods.infra.api.slack.SlackAsyncErrorSender
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -23,7 +24,7 @@ import javax.servlet.http.HttpServletRequest
 @RestControllerAdvice
 class GlobalExceptionHandler(
     // TODO : 에러 센더 구현
-//    var discordErrorSender : DiscordSender
+    var slackAsyncErrorSender: SlackAsyncErrorSender
     val objectMapper: ObjectMapper
 ) : ResponseEntityExceptionHandler() {
 
@@ -151,7 +152,7 @@ class GlobalExceptionHandler(
             internalServerError.reason,
             url
         )
-//        slackProvider.execute(cachingRequest, e, userId)
+        slackAsyncErrorSender.execute(cachingRequest, e, userId)
         return ResponseEntity.status(HttpStatus.valueOf(internalServerError.status))
             .body<ErrorResponse>(errorResponse)
     }

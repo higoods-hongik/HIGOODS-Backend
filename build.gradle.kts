@@ -59,6 +59,7 @@ subprojects {
     apply(plugin = "jacoco")
 
     dependencies {
+        implementation(Dependencies.SPRING_WEB)
         implementation(Dependencies.SPRING_DATA_JPA)
         implementation(Dependencies.JACKSON)
         implementation(Dependencies.KOTLIN_REFLECT)

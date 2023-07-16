@@ -1,9 +1,8 @@
 package com.higoods.infra.api.slack
 
-import com.depromeet.whatnow.annotation.Helper
-import com.depromeet.whatnow.config.slack.SlackProperties
-import com.depromeet.whatnow.config.slack.SlackProperties.SlackSecret
-import com.depromeet.whatnow.consts.SLACK_MAX_LENGTH
+import com.higoods.common.annotation.Helper
+import com.higoods.common.const.SLACK_MAX_LENGTH
+import com.higoods.infra.config.slack.SlackProperties
 import com.slack.api.model.block.LayoutBlock
 import org.springframework.scheduling.annotation.Async
 import java.util.Arrays
@@ -13,7 +12,7 @@ class SlackErrorNotificationProvider(
     val slackHelper: SlackHelper,
     val slackProperties: SlackProperties,
 ) {
-    var slackWebHook: SlackSecret = slackProperties.webhook
+    var slackWebHook: SlackProperties.SlackSecret = slackProperties.webhook
 
     fun getErrorStack(throwable: Throwable): String {
         val exceptionAsStrings = Arrays.toString(throwable.stackTrace)

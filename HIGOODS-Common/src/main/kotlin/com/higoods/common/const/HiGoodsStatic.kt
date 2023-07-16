@@ -17,6 +17,7 @@ const val METHOD_NOT_ALLOWED = 405
 const val INTERNAL_SERVER = 500
 const val REQUEST_TIMEOUT = 408
 const val TOO_MANY_REQUESTS = 429
+const val SLACK_MAX_LENGTH = 1000
 const val ZERO = 0L
 const val KID = "kid"
 const val PROD = "prod"
