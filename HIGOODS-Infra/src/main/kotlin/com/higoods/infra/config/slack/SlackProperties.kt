@@ -6,12 +6,12 @@ import org.springframework.boot.context.properties.ConstructorBinding
 @ConfigurationProperties(prefix = "slack")
 @ConstructorBinding
 data class SlackProperties(
-    val webhook: SlackSecret,
+    val webhook: SlackSecret
 ) {
     data class SlackSecret(
         val token: String,
         val url: String,
         val channelId: String,
-        val userName: String,
+        val userName: String
     )
 }

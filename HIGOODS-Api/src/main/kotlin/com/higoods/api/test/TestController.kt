@@ -5,12 +5,13 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping
 class TestController(
     private val testService: TestService
 ) {
     @GetMapping("/v1/test")
     fun getTest(): TestResponse {
-        return testService.test()
+        throw RuntimeException()
+//        return testService.test()
     }
 }

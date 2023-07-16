@@ -7,7 +7,6 @@ dependencies {
     api(Dependencies.REDISSON)
     api(Dependencies.OPEN_FEIGN)
     api(Dependencies.SLACK_API)
-
 }
 
 tasks {

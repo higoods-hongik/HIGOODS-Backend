@@ -10,7 +10,7 @@ import java.net.UnknownHostException
 
 @Service
 class SlackMessageProvider(
-    val slackProperties: SlackProperties,
+    val slackProperties: SlackProperties
 ) {
     var slackWebHook: SlackSecret = slackProperties.webhook
     private fun send(url: String, text: String) {

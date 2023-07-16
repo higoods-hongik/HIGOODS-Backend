@@ -8,11 +8,11 @@ import org.springframework.context.annotation.Configuration
 
 @Configuration
 class SlackApiConfig(
-    val slackProperties: SlackProperties,
+    val slackProperties: SlackProperties
 ) {
 
     @Bean
-    fun slackClient() : MethodsClient {
+    fun slackClient(): MethodsClient {
         val slackClient = Slack.getInstance()
         return slackClient.methods(slackProperties.webhook.token)
     }

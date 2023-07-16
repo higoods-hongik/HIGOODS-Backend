@@ -14,11 +14,11 @@ import org.springframework.stereotype.Component
 import org.springframework.web.util.ContentCachingRequestWrapper
 
 @Component
-class SlackAsyncErrorSender(
+class SlackErrorSender(
     val slackProvider: SlackErrorNotificationProvider,
-    val objectMapper: ObjectMapper,
+    val objectMapper: ObjectMapper
 ) {
-    fun execute(cachingRequest: ContentCachingRequestWrapper, userId: Long) {
+    fun throttleError(cachingRequest: ContentCachingRequestWrapper, userId: Long) {
         val url = cachingRequest.requestURL.toString()
         val method = cachingRequest.method
         val body = objectMapper.readTree(cachingRequest.contentAsByteArray.decodeToString())
@@ -27,9 +27,9 @@ class SlackAsyncErrorSender(
         layoutBlocks.add(
             Blocks.header { headerBlockBuilder: HeaderBlockBuilder ->
                 headerBlockBuilder.text(
-                    plainText("Rate Limit Error"),
+                    plainText("Rate Limit Error")
                 )
-            },
+            }
         )
         layoutBlocks.add(divider())
         val errorUserIdMarkdown = MarkdownTextObject.builder().text("* User Id :*\n$userId").build()
@@ -39,10 +39,10 @@ class SlackAsyncErrorSender(
                 section.fields(
                     java.util.List.of<TextObject>(
                         errorUserIdMarkdown,
-                        errorUserIpMarkdown,
-                    ),
+                        errorUserIpMarkdown
+                    )
                 )
-            },
+            }
         )
         val methodMarkdown = MarkdownTextObject.builder()
             .text("* Request Addr :*\n$method : $url")
@@ -52,15 +52,15 @@ class SlackAsyncErrorSender(
         layoutBlocks.add(
             section { section: SectionBlockBuilder ->
                 section.fields(
-                    fields,
+                    fields
                 )
-            },
+            }
         )
         layoutBlocks.add(divider())
         slackProvider.sendNotification(layoutBlocks)
     }
 
-    fun execute(cachingRequest: ContentCachingRequestWrapper, e: Exception, userId: Long) {
+    fun internalError(cachingRequest: ContentCachingRequestWrapper, e: Exception, userId: Long) {
         val layoutBlock = mutableListOf<LayoutBlock>()
 
         val url = cachingRequest.requestURL.toString()
@@ -74,9 +74,9 @@ class SlackAsyncErrorSender(
         layoutBlock.add(
             Blocks.header { headerBlockBuilder: HeaderBlockBuilder ->
                 headerBlockBuilder.text(
-                    plainText("Error Detection"),
+                    plainText("Error Detection")
                 )
-            },
+            }
         )
         layoutBlock.add(divider())
 
@@ -89,7 +89,7 @@ class SlackAsyncErrorSender(
         layoutBlock.add(
             section { section ->
                 section.fields(listOf(errorUserIdMarkdown, errorUserIpMarkdown))
-            },
+            }
         )
         val methodMarkdown = MarkdownTextObject.builder()
             .text("* Request Addr :*\n$method : $url")
@@ -98,7 +98,7 @@ class SlackAsyncErrorSender(
         layoutBlock.add(
             section { section ->
                 section.fields(listOf(methodMarkdown, bodyMarkdown))
-            },
+            }
         )
 
         layoutBlock.add(divider())
@@ -108,60 +108,8 @@ class SlackAsyncErrorSender(
         layoutBlock.add(
             section { section ->
                 section.fields(listOf(errorNameMarkdown, errorStackMarkdown))
-            },
+            }
         )
         slackProvider.sendNotification(layoutBlock)
-    }
-
-    fun execute(methodName: String, throwable: Throwable, params: Array<out Any?>) {
-        val layoutBlocks = createLayoutBlocks(methodName, throwable, params)
-        slackProvider.sendNotification(layoutBlocks)
-    }
-
-    private fun createLayoutBlocks(methodName: String, throwable: Throwable, params: Array<out Any?>): List<LayoutBlock> {
-        val layoutBlocks = mutableListOf<LayoutBlock>()
-
-        layoutBlocks.add(
-            Blocks.header { headerBlockBuilder ->
-                headerBlockBuilder.text(plainText("비동기 에러 알림"))
-            },
-        )
-        layoutBlocks.add(divider())
-
-        val errorUserIdMarkdown = MarkdownTextObject.builder()
-            .text("* 메소드 이름 :* $methodName")
-            .build()
-
-        val errorUserIpMarkdown = MarkdownTextObject.builder()
-            .text("* 요청 파라미터 :* ${getParamsToString(params)}".trimIndent())
-            .build()
-
-        layoutBlocks.add(
-            section { section ->
-                section.fields(listOf(errorUserIdMarkdown, errorUserIpMarkdown))
-            },
-        )
-        layoutBlocks.add(divider())
-
-        val errorStack = slackProvider.getErrorStack(throwable)
-        val message = throwable.toString()
-
-        val errorNameMarkdown = MarkdownTextObject.builder()
-            .text("* Message :* $message")
-            .build()
-        val errorStackMarkdown = MarkdownTextObject.builder()
-            .text("* Stack Trace :  :* $errorStack")
-            .build()
-
-        layoutBlocks.add(
-            section { section ->
-                section.fields(listOf(errorNameMarkdown, errorStackMarkdown))
-            },
-        )
-        return layoutBlocks
-    }
-
-    private fun getParamsToString(params: Array<out Any?>): String {
-        return params.joinToString(separator = ", ")
     }
 }
