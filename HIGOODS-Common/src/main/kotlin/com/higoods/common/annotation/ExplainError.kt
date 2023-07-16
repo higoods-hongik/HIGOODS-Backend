@@ -1,4 +1,4 @@
-package com.higoods.common.annotation.annotation
+package com.higoods.common.annotation
 
 import org.springframework.stereotype.Component
 
@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component
     AnnotationTarget.FUNCTION,
     AnnotationTarget.PROPERTY_GETTER,
     AnnotationTarget.PROPERTY_SETTER,
-    AnnotationTarget.PROPERTY,
+    AnnotationTarget.PROPERTY
 )
 @Retention(AnnotationRetention.RUNTIME)
 @MustBeDocumented
