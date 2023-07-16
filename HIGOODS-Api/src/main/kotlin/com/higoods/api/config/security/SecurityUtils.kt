@@ -1,6 +1,6 @@
 package com.higoods.api.config.security
 
-import com.depromeet.whatnow.exception.custom.SecurityContextNotFoundException
+import com.higoods.common.exception.custom.SecurityContextNotFoundException
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.util.CollectionUtils
