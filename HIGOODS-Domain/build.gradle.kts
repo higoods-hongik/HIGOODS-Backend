@@ -11,10 +11,11 @@ dependencies {
 
     val kapt by configurations
     // querydsl
-    api("com.querydsl:querydsl-jpa:5.0.0")
-    kapt("com.querydsl:querydsl-apt:5.0.0:jpa")
-    implementation("org.hibernate:hibernate-spatial:5.6.15.Final")
-    runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
+    api(Dependencies.QUERYDSL)
+    kapt(Dependencies.QUERYDSL_PROCESSOR)
+    runtimeOnly(Dependencies.MARIA_DB_CLEINT)
+    implementation(Dependencies.HIBERNATE_SPATIAL)
+
 }
 
 allOpen {

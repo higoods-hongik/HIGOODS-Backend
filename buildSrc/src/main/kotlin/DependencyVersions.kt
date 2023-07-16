@@ -1,6 +1,6 @@
 object DependencyVersions {
     const val JACKSON_VERSION = "2.10.3"
-    const val JWT_VERSION = "0.9.1"
+    const val JWT_VERSION = "0.11.5" // 업그레이드 시 추가 패키지 필요
     const val AWS_VERSION = "2.2.6.RELEASE"
     const val SES_VERSION = "1.11.852"
     const val REDIS_VERSION = "2.7.2"
@@ -20,4 +20,5 @@ object DependencyVersions {
     const val KOTLIN_LOGGING_VERSION = "3.0.5"
     const val MOCKK_DEFAULT_VERSION = "1.12.4"
     const val MOCKK_SPRING_VERSION = "3.1.2"
+    const val REDISSON_VERSION = "3.19.0"
 }

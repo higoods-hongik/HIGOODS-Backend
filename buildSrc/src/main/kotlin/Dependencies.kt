@@ -28,7 +28,8 @@ object Dependencies {
     const val SPRING_DATA_JPA = "org.springframework.boot:spring-boot-starter-data-jpa:${PluginVersions.SPRING_BOOT_VERSION}"
     const val MYSQL_CONNECTOR = "mysql:mysql-connector-java:${DependencyVersions.MYSQL}"
     const val SPRING_REDIS = "org.springframework.boot:spring-boot-starter-data-redis:${PluginVersions.SPRING_BOOT_VERSION}"
-    const val REDIS = "org.springframework.data:spring-data-redis:${DependencyVersions.REDIS_VERSION}"
+    const val MARIA_DB_CLEINT = "org.mariadb.jdbc:mariadb-java-client"
+    const val HIBERNATE_SPATIAL = "org.hibernate:hibernate-spatial:5.6.15.Final"
 
     // querydsl
     const val QUERYDSL = "com.querydsl:querydsl-jpa:${DependencyVersions.QUERYDSL}"
@@ -38,7 +39,7 @@ object Dependencies {
     const val SPRING_SECURITY = "org.springframework.boot:spring-boot-starter-security"
 
     // jwt
-    const val JWT = "io.jsonwebtoken:jjwt:${DependencyVersions.JWT_VERSION}"
+    const val JWT = "io.jsonwebtoken:jjwt-api:${DependencyVersions.JWT_VERSION}"
 
     // aws
     const val SPRING_AWS = "org.springframework.cloud:spring-cloud-starter-aws:${DependencyVersions.AWS_VERSION}"
@@ -83,4 +84,6 @@ object Dependencies {
     //mockk
     const val MOCKK_DEFAULT = "io.mockk:mockk:${DependencyVersions.MOCKK_DEFAULT_VERSION}"
     const val MOCKK_SPRING = "com.ninja-squad:springmockk:${DependencyVersions.MOCKK_SPRING_VERSION}"
+
+    const val REDISSON = "org.redisson:redisson:${DependencyVersions.REDISSON_VERSION}"
 }
