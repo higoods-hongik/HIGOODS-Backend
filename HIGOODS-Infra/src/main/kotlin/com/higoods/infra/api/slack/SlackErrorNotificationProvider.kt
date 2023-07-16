@@ -4,6 +4,7 @@ import com.higoods.common.annotation.Helper
 import com.higoods.common.const.SLACK_MAX_LENGTH
 import com.higoods.infra.config.slack.SlackProperties
 import com.slack.api.model.block.LayoutBlock
+import org.springframework.scheduling.annotation.Async
 import java.util.Arrays
 
 @Helper
@@ -19,6 +20,7 @@ class SlackErrorNotificationProvider(
         return exceptionAsStrings.substring(0, cutLength)
     }
 
+    @Async
     fun sendNotification(layoutBlocks: List<LayoutBlock>) {
         slackHelper.sendNotification(slackWebHook.channelId, layoutBlocks)
     }

@@ -18,6 +18,7 @@ class SlackErrorSender(
     val slackProvider: SlackErrorNotificationProvider,
     val objectMapper: ObjectMapper
 ) {
+
     fun throttleError(cachingRequest: ContentCachingRequestWrapper, userId: Long) {
         val url = cachingRequest.requestURL.toString()
         val method = cachingRequest.method
@@ -111,5 +112,49 @@ class SlackErrorSender(
             }
         )
         slackProvider.sendNotification(layoutBlock)
+    }
+
+    fun asyncError(methodName: String, throwable: Throwable, params: Array<out Any?>) {
+        val layoutBlocks = mutableListOf<LayoutBlock>()
+
+        layoutBlocks.add(
+            Blocks.header { headerBlockBuilder ->
+                headerBlockBuilder.text(plainText("비동기 에러 알림"))
+            }
+        )
+        layoutBlocks.add(divider())
+
+        val errorUserIdMarkdown = MarkdownTextObject.builder()
+            .text("* 메소드 이름 :* $methodName")
+            .build()
+
+        val errorUserIpMarkdown = MarkdownTextObject.builder()
+            .text("* 요청 파라미터 :* ${params.joinToString(separator = ", ")}".trimIndent())
+            .build()
+
+        layoutBlocks.add(
+            section { section ->
+                section.fields(listOf(errorUserIdMarkdown, errorUserIpMarkdown))
+            }
+        )
+        layoutBlocks.add(divider())
+
+        val errorStack = slackProvider.getErrorStack(throwable)
+        val message = throwable.toString()
+
+        val errorNameMarkdown = MarkdownTextObject.builder()
+            .text("* Message :* $message")
+            .build()
+        val errorStackMarkdown = MarkdownTextObject.builder()
+            .text("* Stack Trace :  :* $errorStack")
+            .build()
+
+        layoutBlocks.add(
+            section { section ->
+                section.fields(listOf(errorNameMarkdown, errorStackMarkdown))
+            }
+        )
+
+        slackProvider.sendNotification(layoutBlocks)
     }
 }

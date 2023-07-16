@@ -11,7 +11,6 @@ class TestController(
 ) {
     @GetMapping("/v1/test")
     fun getTest(): TestResponse {
-        throw RuntimeException()
-//        return testService.test()
+        return testService.test("ASdfasdfa")
     }
 }
