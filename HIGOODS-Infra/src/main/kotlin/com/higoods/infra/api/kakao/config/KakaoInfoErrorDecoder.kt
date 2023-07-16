@@ -1,9 +1,9 @@
 package com.higoods.infra.api.kakao.config
 
-import com.depromeet.whatnow.exception.custom.OtherServerBadRequestException
-import com.depromeet.whatnow.exception.custom.OtherServerExpiredTokenException
-import com.depromeet.whatnow.exception.custom.OtherServerForbiddenException
-import com.depromeet.whatnow.exception.custom.OtherServerUnauthorizedException
+import com.higoods.common.exception.custom.OtherServerBadRequestException
+import com.higoods.common.exception.custom.OtherServerExpiredTokenException
+import com.higoods.common.exception.custom.OtherServerForbiddenException
+import com.higoods.common.exception.custom.OtherServerUnauthorizedException
 import feign.FeignException
 import feign.Response
 import feign.codec.ErrorDecoder
