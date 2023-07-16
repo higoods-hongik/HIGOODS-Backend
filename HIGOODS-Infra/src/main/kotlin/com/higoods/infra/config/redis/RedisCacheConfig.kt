@@ -24,7 +24,7 @@ class RedisCacheConfig {
             BasicPolymorphicTypeValidator.builder()
                 .allowIfBaseType(Any::class.java)
                 .build(),
-            ObjectMapper.DefaultTyping.EVERYTHING,
+            ObjectMapper.DefaultTyping.EVERYTHING
         )
 
     @Bean
@@ -32,14 +32,14 @@ class RedisCacheConfig {
         val redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()
             .serializeKeysWith(
                 RedisSerializationContext.SerializationPair.fromSerializer(
-                    StringRedisSerializer(),
-                ),
+                    StringRedisSerializer()
+                )
             )
             .serializeValuesWith(
                 RedisSerializationContext.SerializationPair
                     .fromSerializer(
-                        GenericJackson2JsonRedisSerializer(objectMapper),
-                    ),
+                        GenericJackson2JsonRedisSerializer(objectMapper)
+                    )
             )
             .entryTtl(Duration.ofDays(7L))
         return RedisCacheManager.RedisCacheManagerBuilder.fromConnectionFactory(cf)

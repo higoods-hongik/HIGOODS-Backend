@@ -19,6 +19,6 @@ interface KakaoInfoClient {
     @PostMapping(path = ["/v1/user/unlink"], consumes = [MediaType.APPLICATION_FORM_URLENCODED_VALUE])
     fun unlinkUser(
         @RequestHeader("Authorization") adminKey: String,
-        @RequestBody unlinkKaKaoTarget: UnlinkKaKaoTarget,
+        @RequestBody unlinkKaKaoTarget: UnlinkKaKaoTarget
     )
 }

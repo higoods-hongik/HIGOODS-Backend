@@ -7,5 +7,5 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming
 data class KakaoTokenResponse(
     val accessToken: String,
     val refreshToken: String,
-    val idToken: String,
+    val idToken: String
 )

@@ -17,7 +17,7 @@ interface KakaoOauthClient {
         @PathVariable("CLIENT_ID") clientId: String,
         @PathVariable("REDIRECT_URI") redirectUri: String,
         @PathVariable("CODE") code: String,
-        @PathVariable("CLIENT_SECRET") client_secret: String,
+        @PathVariable("CLIENT_SECRET") client_secret: String
     ): KakaoTokenResponse
 
     @GetMapping("/.well-known/jwks.json")

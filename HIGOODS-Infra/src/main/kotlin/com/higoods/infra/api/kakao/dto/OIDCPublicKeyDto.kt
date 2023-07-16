@@ -6,5 +6,5 @@ data class OIDCPublicKeyDto(
     val alg: String,
     val use: String,
     val n: String,
-    val e: String,
+    val e: String
 )

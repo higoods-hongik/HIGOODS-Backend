@@ -9,7 +9,7 @@ import feign.Response
 data class KakaoKauthErrorResponse(
     var error: String,
     var errorCode: String,
-    var errorDescription: String,
+    var errorDescription: String
 ) {
 
     companion object {

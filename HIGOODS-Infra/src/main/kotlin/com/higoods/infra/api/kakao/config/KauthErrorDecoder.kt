@@ -16,7 +16,7 @@ class KauthErrorDecoder : ErrorDecoder {
             throw HiGoodsDynamicException(
                 errorReason.status,
                 errorReason.code,
-                errorReason.reason,
+                errorReason.reason
             )
         } catch (e: IllegalArgumentException) {
             val koeInvalidRequest = KOE_INVALID_REQUEST
@@ -24,7 +24,7 @@ class KauthErrorDecoder : ErrorDecoder {
             throw HiGoodsDynamicException(
                 errorReason.status,
                 errorReason.code,
-                errorReason.reason,
+                errorReason.reason
             )
         }
     }
