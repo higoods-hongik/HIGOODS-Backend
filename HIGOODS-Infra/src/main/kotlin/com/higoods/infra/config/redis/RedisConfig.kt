@@ -21,7 +21,7 @@ class RedisConfig(
     private val redisPort: Int,
 
     @Value("\${spring.redis.password}")
-    private val redisPassword: String,
+    private val redisPassword: String
 ) {
 
     @Bean

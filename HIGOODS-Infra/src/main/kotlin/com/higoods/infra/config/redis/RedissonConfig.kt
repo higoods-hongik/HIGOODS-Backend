@@ -13,7 +13,7 @@ class RedissonConfig(
     private val redisHost: String,
 
     @Value("\${spring.redis.port}")
-    private val redisPort: Int,
+    private val redisPort: Int
 ) {
     private val REDISSON_HOST_PREFIX = "redis://"
 
