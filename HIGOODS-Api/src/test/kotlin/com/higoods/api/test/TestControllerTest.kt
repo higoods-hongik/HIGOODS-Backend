@@ -8,10 +8,8 @@ import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get
 import org.springframework.restdocs.payload.JsonFieldType
 import org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath
-import org.springframework.restdocs.payload.PayloadDocumentation.requestFields
 import org.springframework.restdocs.payload.PayloadDocumentation.responseFields
-import org.springframework.restdocs.request.RequestDocumentation.pathParameters
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import java.time.LocalDate
 
 class TestControllerTest : BaseControllerTest() {
@@ -22,30 +20,27 @@ class TestControllerTest : BaseControllerTest() {
         test("RestDoc Test") {
             val testResponse = TestResponse(
                 id = 1,
-                name = "test",
+                name = "querydsl",
                 currentTime = LocalDate.now()
             )
-            every { testService.test() } returns testResponse
+            every { testService.test("test") } returns testResponse
 
             val result = mockMvc.perform(
-                get("/api/v1/test")
+                get("/v1/test")
                     .contentType(MediaType.APPLICATION_JSON)
                     .accept(MediaType.APPLICATION_JSON)
             )
-            result.andExpect(MockMvcResultMatchers.status().isOk())
-                //   .andDo(MockMvcResultHandlers.print())
-                .andDo(
-                    document(
-                        "테스트 API",
-                        pathParameters(),
-                        requestFields(),
-                        responseFields(
-                            fieldWithPath("id").type(JsonFieldType.STRING).description("id"),
-                            fieldWithPath("name").type(JsonFieldType.NUMBER).description("이름"),
-                            fieldWithPath("currentTime").type(JsonFieldType.STRING).description("현재시각")
-                        )
+            result.andExpect(status().isOk())
+            result.andDo(
+                document(
+                    "테스트 API",
+                    responseFields(
+                        fieldWithPath("id").type(JsonFieldType.NUMBER).description("id"),
+                        fieldWithPath("name").type(JsonFieldType.STRING).description("이름"),
+                        fieldWithPath("currentTime").type(JsonFieldType.STRING).description("현재시각")
                     )
                 )
+            )
         }
     }
 }

@@ -3,9 +3,23 @@ import org.springframework.boot.gradle.tasks.bundling.BootJar
 
 plugins {
     // restdocs-api-spec
-    id("com.epages.restdocs-api-spec") version "0.18.0"
+    id("com.epages.restdocs-api-spec") version "0.16.4"
     // swagger
-    id("org.hidetake.swagger.generator") version "2.19.2"
+    id("org.hidetake.swagger.generator") version "2.18.2"
+}
+
+openapi3 {
+    setServer("http://localhost:8080")
+    title = "HIGOODS API Documentation"
+    description = "Spring REST Docs with SwaggerUI"
+    version = "0.0.1"
+    format = "yaml"
+}
+
+swaggerSources {
+    create("ApiDocument").apply {
+        setInputFile(file("${project.buildDir}/api-spec/openapi3.yaml"))
+    }
 }
 
 dependencies {
@@ -20,34 +34,24 @@ dependencies {
     implementation("com.auth0:java-jwt:4.2.1")
 
     // restdocs-api-spec
-    testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc:3.0.0")
-    testImplementation("com.epages:restdocs-api-spec-mockmvc:0.18.0")
+    testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
+    testImplementation("com.epages:restdocs-api-spec-mockmvc:0.16.4")
     // swagger ui
-    swaggerUI("org.webjars:swagger-ui:4.1.3")
+    swaggerUI("org.webjars:swagger-ui:4.11.1")
 
     tasks {
-        openapi3 {
-            setServer("http://localhost:8080")
-            title = "restdocs-swagger Test API Documentation"
-            description = "Spring REST Docs with SwaggerUI"
-            version = "0.0.1"
-            format = "yaml"
-        }
-
-        swaggerSources {
-            register("ApiDocument").configure {
-                setInputFile(file("${rootProject.buildDir}/api-spec/openapi3.yaml"))
-            }
-        }
         withType<Jar> { enabled = false }
         withType<GenerateSwaggerUI> {
             dependsOn("openapi3")
         }
         register<Copy>("copySwaggerUI") {
             dependsOn("generateSwaggerUIApiDocument")
+            mustRunAfter("jacocoTestReport")
 
-            from(project.tasks.getByName<GenerateSwaggerUI>("generateSwaggerUIApiDocument").outputDir)
-            into("src/main/resources/static/swagger")
+            val generateSwaggerUISampleTask =
+                this@tasks.named<GenerateSwaggerUI>("generateSwaggerUIApiDocument").get()
+            from("${generateSwaggerUISampleTask.outputDir}")
+            into("${project.buildDir}/resources/main/static/docs")
         }
         withType<BootJar> {
             enabled = true
