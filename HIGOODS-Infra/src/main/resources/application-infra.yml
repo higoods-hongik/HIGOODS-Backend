@@ -2,6 +2,17 @@
 #  profiles:
 #    include:
 #      - common
+spring:
+  redis:
+    host: ${REDIS_HOST:localhost}
+    port: ${REDIS_PORT:6379}
+    password: ${REDIS_PASSWORD:}
+slack:
+  webhook:
+    token: ${SLACK_WEBHOOK_TOKEN:}
+    url: ${SLACK_WEBHOOK_URL:}
+    channel-id: ${SLACK_CHANNEL:}
+    username: ${SLACK_USERNAME:default}
 ---
 spring:
   config:

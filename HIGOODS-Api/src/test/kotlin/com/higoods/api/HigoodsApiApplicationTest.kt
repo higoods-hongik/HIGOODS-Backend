@@ -1,9 +1,10 @@
 package com.higoods.api
 
+import com.higoods.api.test.config.ApiIntegrateSpringBootTest
 import io.kotest.core.spec.style.StringSpec
-import org.springframework.boot.test.context.SpringBootTest
 
-@SpringBootTest
+@ApiIntegrateSpringBootTest
 class HigoodsApiApplicationTest : StringSpec({
-    "contextLoads" {}
+    "contextLoads" {
+    }
 })

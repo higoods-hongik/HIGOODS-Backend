@@ -1,19 +1,34 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-val kotestVersion = "5.5.4"
-
 plugins {
-    id("org.springframework.boot") version "2.7.11" apply false
-    id("io.spring.dependency-management") version "1.0.15.RELEASE" apply false
-    kotlin("jvm") version "1.6.21"
-    kotlin("plugin.spring") version "1.6.21" apply false
-    kotlin("plugin.jpa") version "1.6.21" apply false
-    id("org.jlleitschuh.gradle.ktlint") version "11.3.2"
-    kotlin("kapt") version "1.6.21" apply false
+    id("org.springframework.boot") version PluginVersions.SPRING_BOOT_VERSION apply false
+    id("io.spring.dependency-management") version PluginVersions.DEPENDENCY_MANAGER_VERSION apply false
+    kotlin("jvm") version PluginVersions.JVM_VERSION
+    kotlin("plugin.spring") version PluginVersions.SPRING_PLUGIN_VERSION apply false
+    kotlin("plugin.jpa") version PluginVersions.JPA_PLUGIN_VERSION apply false
+    id("org.jlleitschuh.gradle.ktlint") version PluginVersions.KTLINT_VERSIOM
+    kotlin("kapt") version PluginVersions.KAPT_VERSION apply false
+    id("org.sonarqube") version PluginVersions.SONAR_VERSION
+    id("jacoco")
 }
 
 java {
     sourceCompatibility = JavaVersion.VERSION_17
+}
+
+sonarqube {
+    properties {
+        property("sonar.projectKey", "higoods-hongik_HIGOODS-Backend")
+        property("sonar.organization", "higoods-api")
+        property("sonar.host.url", "https://sonarcloud.io")
+        // sonar additional settings
+        property("sonar.sources", "src")
+        property("sonar.language", "Kotlin")
+        property("sonar.sourceEncoding", "UTF-8")
+        property("sonar.test.inclusions", "**/*Test.java")
+        property("sonar.exclusions", "**/test/**, **/Q*.kt, **/*Doc*.kt, **/resources/** ,**/*Application*.kt , **/*Config*.kt, **/*Dto*.kt, **/*Request*.kt, **/*Response*.kt ,**/*Exception*.kt ,**/*ErrorCode*.kt")
+        property("sonar.java.coveragePlugin", "jacoco")
+    }
 }
 
 allprojects {
@@ -36,30 +51,70 @@ allprojects {
         }
     }
 
-    subprojects {
-        apply(plugin = "org.jetbrains.kotlin.jvm")
-        apply(plugin = "org.jetbrains.kotlin.plugin.spring")
-        apply(plugin = "org.springframework.boot")
-        apply(plugin = "io.spring.dependency-management")
-        apply(plugin = "org.jlleitschuh.gradle.ktlint")
+subprojects {
+    apply(plugin = "org.jetbrains.kotlin.jvm")
+    apply(plugin = "org.jetbrains.kotlin.plugin.spring")
+    apply(plugin = "org.springframework.boot")
+    apply(plugin = "io.spring.dependency-management")
+    apply(plugin = "org.jlleitschuh.gradle.ktlint")
+    apply(plugin = "jacoco")
 
-        dependencies {
-            implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-            implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-            implementation("org.jetbrains.kotlin:kotlin-reflect")
-            implementation("io.github.microutils:kotlin-logging-jvm:3.0.5")
+    dependencies {
+        implementation(Dependencies.SPRING_WEB)
+        implementation(Dependencies.SPRING_DATA_JPA)
+        implementation(Dependencies.JACKSON)
+        implementation(Dependencies.KOTLIN_REFLECT)
+        implementation(Dependencies.KOTLIN_LOGGING)
 
-            testImplementation("org.springframework.boot:spring-boot-starter-test")
-            testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
-            testImplementation("io.kotest:kotest-assertions-core:$kotestVersion")
-            testImplementation("io.kotest:kotest-framework-datatest:$kotestVersion")
-            testImplementation("io.kotest.extensions:kotest-extensions-spring:1.1.2")
-            testImplementation("io.mockk:mockk:1.12.4")
-            testImplementation("com.ninja-squad:springmockk:3.1.2")
+        testImplementation(Dependencies.SPRING_TEST)
+        testImplementation(Dependencies.KOTEST_RUNNER_JUNIT5)
+        testImplementation(Dependencies.KOTEST_ASSERTIONS_CORE)
+        testImplementation(Dependencies.KOTEST_FRAMEWORK_DATATEST)
+        testImplementation(Dependencies.KOTEST_EXTENSION_SPRING)
+        testImplementation(Dependencies.MOCKK_DEFAULT)
+        testImplementation(Dependencies.MOCKK_SPRING)
+
+        annotationProcessor(Dependencies.CONFIGURATION_PROCESSOR)
+    }
+
+    tasks.getByName<Jar>("jar") {
+        enabled = false
+    }
+    tasks.test {
+        finalizedBy(tasks.jacocoTestReport) // report is always generated after tests run
+    }
+    tasks.jacocoTestReport {
+        dependsOn(tasks.test) // tests are required to run before generating the report
+        reports {
+            html.required.set(true) // html 설정
+            csv.required.set(true) // csv 설정
+            xml.required.set(true)
+            xml.outputLocation.set(File("$buildDir/reports/jacoco.xml"))
         }
+        classDirectories.setFrom(
+            files(
+                classDirectories.files.map {
+                    fileTree(it) { // 테스트 커버리지 측정 제외 목록
+                        exclude(
+                            "**/*Application*",
+                            "**/*Config*",
+                            "**/*Dto*",
+                            "**/*Request*",
+                            "**/*Response*",
+                            "**/*Interceptor*",
+                            "**/*Exception*",
+                            "**/Q*"
+                        ) // QueryDsl 용이나 Q로 시작하는 클래스 뺄 위험 존재
+                    }
+                }
+            )
+        )
+    }
 
-        tasks {
-            withType<Jar> { enabled = false }
+    sonarqube {
+        properties {
+            property("sonar.java.binaries", "$buildDir/classes")
+            property("sonar.coverage.jacoco.xmlReportPaths", "$buildDir/reports/jacoco.xml")
         }
     }
 }
