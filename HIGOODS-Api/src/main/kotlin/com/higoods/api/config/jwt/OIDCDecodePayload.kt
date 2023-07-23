@@ -9,6 +9,6 @@ data class OIDCDecodePayload(
     val aud: String,
 
     /** oauth provider account unique id  */
-    val sub: String,
+    val sub: String
 
 )

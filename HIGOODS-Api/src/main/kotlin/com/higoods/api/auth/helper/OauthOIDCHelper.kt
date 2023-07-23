@@ -1,14 +1,14 @@
 package com.higoods.api.auth.helper
 
-import com.higoods.api.config.jwt.JwtOIDCHelper
 import com.depromeet.whatnow.config.jwt.OIDCDecodePayload
+import com.higoods.api.config.jwt.JwtOIDCHelper
 import com.higoods.common.annotation.Helper
 import com.higoods.infra.api.kakao.dto.OIDCPublicKeyDto
 import com.higoods.infra.api.kakao.dto.OIDCPublicKeysResponse
 
 @Helper
 class OauthOIDCHelper(
-    val jwtOIDCProvider: JwtOIDCHelper,
+    val jwtOIDCProvider: JwtOIDCHelper
 ) {
 
     /**
@@ -19,7 +19,7 @@ class OauthOIDCHelper(
         token: String, // id Token
         iss: String, // 발행자
         aud: String, // 유저의 고유 oauth id
-        oidcPublicKeysResponse: OIDCPublicKeysResponse,
+        oidcPublicKeysResponse: OIDCPublicKeysResponse
     ): OIDCDecodePayload {
         val kid = getKidFromUnsignedIdToken(token, iss, aud)
         val oidcPublicKeyDto: OIDCPublicKeyDto = oidcPublicKeysResponse.keys.stream()
@@ -29,7 +29,7 @@ class OauthOIDCHelper(
         return jwtOIDCProvider.getOIDCTokenBody(
             token,
             oidcPublicKeyDto.n,
-            oidcPublicKeyDto.e,
+            oidcPublicKeyDto.e
         )
     }
 

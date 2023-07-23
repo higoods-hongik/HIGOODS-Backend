@@ -1,6 +1,5 @@
 package com.higoods.api.config.jwt
 
-
 import com.higoods.common.exception.custom.ExpiredTokenException
 import com.higoods.common.exception.custom.InvalidTokenException
 import io.jsonwebtoken.Claims
@@ -19,7 +18,7 @@ fun JwtParseExecuter(operation: () -> Jwt<Header<*>, Claims>): Jwt<Header<*>, Cl
             is io.jsonwebtoken.security.SecurityException,
             is MalformedJwtException,
             is UnsupportedJwtException,
-            is IllegalArgumentException,
+            is IllegalArgumentException
             -> throw InvalidTokenException.EXCEPTION
             is ExpiredJwtException -> throw ExpiredTokenException.EXCEPTION
             else -> throw ex
@@ -35,7 +34,7 @@ fun JwsParseExecuter(operation: () -> Jws<Claims>): Jws<Claims> {
             is io.jsonwebtoken.security.SecurityException,
             is MalformedJwtException,
             is UnsupportedJwtException,
-            is IllegalArgumentException,
+            is IllegalArgumentException
             -> throw InvalidTokenException.EXCEPTION
             is ExpiredJwtException -> throw ExpiredTokenException.EXCEPTION
             else -> throw ex

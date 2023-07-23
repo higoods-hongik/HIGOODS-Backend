@@ -13,7 +13,7 @@ import com.higoods.domain.user.service.UserDomainService
 class LoginUseCase(
     val kakaoOauthHelper: KakaoOauthHelper,
     val userDomainService: UserDomainService,
-    val tokenGenerateHelper: TokenGenerateHelper,
+    val tokenGenerateHelper: TokenGenerateHelper
 ) {
     fun execute(idToken: String, loginRequest: LoginRequest): TokenAndUserResponse {
         val oauthInfo: OauthInfo = kakaoOauthHelper.getOauthInfoByIdToken(idToken)

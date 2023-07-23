@@ -15,7 +15,7 @@ class RefreshUseCase(
     val jwtTokenHelper: JwtTokenHelper,
     val userAdapter: UserAdapter,
     val userDomainService: UserDomainService,
-    val tokenGenerateHelper: TokenGenerateHelper,
+    val tokenGenerateHelper: TokenGenerateHelper
 ) {
 
     /**

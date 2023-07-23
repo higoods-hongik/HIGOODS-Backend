@@ -17,7 +17,7 @@ import com.higoods.domain.user.service.UserDomainService
 class RegisterUserUseCase(
     val userDomainService: UserDomainService,
     val kakaoOauthHelper: KakaoOauthHelper,
-    val tokenGenerateHelper: TokenGenerateHelper,
+    val tokenGenerateHelper: TokenGenerateHelper
 ) {
 
     /**
@@ -60,7 +60,7 @@ class RegisterUserUseCase(
             oauthInfo,
             oauthInfo.oauthId,
             registerRequest.fcmToken,
-            registerRequest.appAlarm,
+            registerRequest.appAlarm
         )
 
         return tokenGenerateHelper.execute(user)

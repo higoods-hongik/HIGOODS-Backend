@@ -7,7 +7,7 @@ import com.higoods.common.annotation.UseCase
 
 @UseCase
 class OauthUserInfoUseCase(
-    val kakaoOauthHelper: KakaoOauthHelper,
+    val kakaoOauthHelper: KakaoOauthHelper
 ) {
 
     /**

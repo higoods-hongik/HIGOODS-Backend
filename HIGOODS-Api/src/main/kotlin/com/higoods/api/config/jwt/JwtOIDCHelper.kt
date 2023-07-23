@@ -52,7 +52,7 @@ class JwtOIDCHelper {
         return OIDCDecodePayload(
             body.issuer,
             body.audience,
-            body.subject,
+            body.subject
         )
     }
 

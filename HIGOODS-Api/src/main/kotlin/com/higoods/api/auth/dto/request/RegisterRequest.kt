@@ -5,5 +5,5 @@ data class RegisterRequest(
     val isDefaultImage: Boolean,
     val nickname: String,
     val fcmToken: String,
-    val appAlarm: Boolean,
+    val appAlarm: Boolean
 )

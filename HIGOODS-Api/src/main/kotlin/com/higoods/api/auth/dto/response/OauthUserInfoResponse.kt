@@ -5,7 +5,7 @@ import com.higoods.api.auth.helper.OauthUserInfoDto
 data class OauthUserInfoResponse(
     val profileImage: String,
     val isDefaultImage: Boolean,
-    val nickname: String,
+    val nickname: String
 ) {
 
     companion object {

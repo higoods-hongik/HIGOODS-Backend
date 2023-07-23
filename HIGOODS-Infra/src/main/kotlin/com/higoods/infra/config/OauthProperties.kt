@@ -6,7 +6,7 @@ import org.springframework.boot.context.properties.ConstructorBinding
 @ConfigurationProperties(prefix = "oauth")
 @ConstructorBinding
 data class OauthProperties(
-    val kakao: OAuthSecret,
+    val kakao: OAuthSecret
 ) {
     data class OAuthSecret(
         val baseUrl: String,
@@ -14,6 +14,6 @@ data class OauthProperties(
         val clientSecret: String,
         val redirectUrl: String,
         val appId: String,
-        val adminKey: String,
+        val adminKey: String
     )
 }

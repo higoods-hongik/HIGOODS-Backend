@@ -22,16 +22,16 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
+// @Tag(name = "1-1. [인증]")
 @RestController
 @RequestMapping("/v1/auth")
-//@Tag(name = "1-1. [인증]")
 class AuthController(
     val registerUseCase: RegisterUserUseCase,
     val oauthUserInfoUseCase: OauthUserInfoUseCase,
     val loginUseCase: LoginUseCase,
     val refreshUseCase: RefreshUseCase,
     val logoutUseCase: LogoutUseCase,
-    val withDrawUseCase: WithDrawUseCase,
+    val withDrawUseCase: WithDrawUseCase
 ) {
 
 //    @Operation(summary = "개발용 회원가입입니다 ( 백엔드용 )", deprecated = true)
@@ -49,7 +49,7 @@ class AuthController(
 //    @Operation(summary = "카카오 code 요청받는 곳입니다. ( 백엔드 용 ) ")
     @GetMapping("/oauth/kakao")
     fun getCredentialFromKaKao(
-        @RequestParam("code") code: String,
+        @RequestParam("code") code: String
     ): OauthTokenResponse {
         return registerUseCase.getCredentialFromKaKao(code)
     }
@@ -59,7 +59,7 @@ class AuthController(
     fun kakaoAuthCheckRegisterValid(
         @RequestParam("id_token") token: String,
         @Validated @RequestBody
-        registerRequest: RegisterRequest,
+        registerRequest: RegisterRequest
     ): TokenAndUserResponse {
         return registerUseCase.registerUserByOCIDToken(token, registerRequest)
     }
@@ -67,7 +67,7 @@ class AuthController(
 //    @Operation(summary = "회원가입이 가능한지 id token 으로 확인합니다.")
     @GetMapping("/oauth/kakao/register/valid")
     fun kakaoAuthCheckRegisterValid(
-        @RequestParam("id_token") token: String,
+        @RequestParam("id_token") token: String
     ): AbleRegisterResponse {
         return registerUseCase.checkAvailableRegister(token)
     }
@@ -75,7 +75,7 @@ class AuthController(
 //    @Operation(summary = "accessToken 으로 oauth user 정보를 가져옵니다.")
     @PostMapping("/oauth/kakao/info")
     fun kakaoOauthUserInfo(
-        @RequestParam("access_token") accessToken: String,
+        @RequestParam("access_token") accessToken: String
     ): OauthUserInfoResponse {
         return oauthUserInfoUseCase.execute(accessToken)
     }
@@ -86,7 +86,7 @@ class AuthController(
     fun kakaoOauthUserLogin(
         @RequestParam("id_token") token: String,
         @Validated @RequestBody
-        loginRequest: LoginRequest,
+        loginRequest: LoginRequest
     ): TokenAndUserResponse {
         return loginUseCase.execute(token, loginRequest)
     }
@@ -94,7 +94,7 @@ class AuthController(
 //    @Operation(summary = "refreshToken 용입니다.")
     @PostMapping("/token/refresh")
     fun tokenRefresh(
-        @RequestParam(value = "token") refreshToken: String,
+        @RequestParam(value = "token") refreshToken: String
     ): TokenAndUserResponse {
         return refreshUseCase.execute(refreshToken)
     }

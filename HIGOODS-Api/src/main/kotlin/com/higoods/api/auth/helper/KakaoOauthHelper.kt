@@ -1,6 +1,5 @@
 package com.higoods.api.auth.helper
 
-
 import com.depromeet.whatnow.config.jwt.OIDCDecodePayload
 import com.higoods.common.annotation.Helper
 import com.higoods.common.const.BEARER
@@ -19,7 +18,7 @@ class KakaoOauthHelper(
     val oauthProperties: OauthProperties,
     val kakaoInfoClient: KakaoInfoClient,
     val kakaoOauthClient: KakaoOauthClient,
-    val oauthOIDCHelper: OauthOIDCHelper,
+    val oauthOIDCHelper: OauthOIDCHelper
 ) {
     var kakaoOauth: OauthProperties.OAuthSecret = oauthProperties.kakao
 
@@ -35,7 +34,7 @@ class KakaoOauthHelper(
             kakaoOauth.clientId,
             kakaoOauth.redirectUrl,
             code,
-            kakaoOauth.clientSecret,
+            kakaoOauth.clientSecret
         )
     }
 
@@ -51,7 +50,7 @@ class KakaoOauthHelper(
             token,
             kakaoOauth.baseUrl,
             kakaoOauth.appId,
-            oidcPublicKeysResponse,
+            oidcPublicKeysResponse
         )
     }
 

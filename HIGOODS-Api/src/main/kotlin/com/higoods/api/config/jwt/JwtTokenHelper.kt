@@ -1,6 +1,5 @@
 package com.higoods.api.config.jwt
 
-
 import com.higoods.common.annotation.Helper
 import com.higoods.common.const.ACCESS_TOKEN
 import com.higoods.common.const.MILLI_TO_SECOND
@@ -29,7 +28,7 @@ class JwtTokenHelper(
     val accessExpireIn: Long,
 
     @Value("\${auth.jwt.refresh-exp}")
-    val refreshExpireIn: Long,
+    val refreshExpireIn: Long
 ) {
     fun getJws(token: String): Jws<Claims> {
         return JwsParseExecuter {
@@ -44,7 +43,7 @@ class JwtTokenHelper(
         id: Long,
         issuedAt: Date,
         accessTokenExpiresIn: Date,
-        role: String,
+        role: String
     ): String {
         val encodedKey = secretKey
         return Jwts.builder()

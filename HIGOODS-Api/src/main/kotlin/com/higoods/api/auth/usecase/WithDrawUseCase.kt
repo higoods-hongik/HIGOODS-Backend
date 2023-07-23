@@ -13,7 +13,7 @@ class WithDrawUseCase(
     val refreshTokenAdapter: RefreshTokenAdapter,
     val userAdapter: UserAdapter,
     val userDomainService: UserDomainService,
-    val kakaoOauthHelper: KakaoOauthHelper,
+    val kakaoOauthHelper: KakaoOauthHelper
 ) {
 
     @Transactional

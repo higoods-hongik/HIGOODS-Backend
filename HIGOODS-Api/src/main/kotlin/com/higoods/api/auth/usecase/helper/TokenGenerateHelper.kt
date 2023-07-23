@@ -1,7 +1,7 @@
 package com.higoods.api.auth.usecase.helper
 
-import com.higoods.api.config.jwt.JwtTokenHelper
 import com.higoods.api.auth.dto.response.TokenAndUserResponse
+import com.higoods.api.config.jwt.JwtTokenHelper
 import com.higoods.common.annotation.Helper
 import com.higoods.domain.user.adapter.RefreshTokenAdapter
 import com.higoods.domain.user.domain.RefreshTokenRedisEntity
@@ -10,7 +10,7 @@ import com.higoods.domain.user.domain.User
 @Helper
 class TokenGenerateHelper(
     val jwtTokenHelper: JwtTokenHelper,
-    val refreshTokenAdapter: RefreshTokenAdapter,
+    val refreshTokenAdapter: RefreshTokenAdapter
 ) {
 
     /**
@@ -20,7 +20,7 @@ class TokenGenerateHelper(
     fun execute(user: User): TokenAndUserResponse {
         val newAccessToken: String = jwtTokenHelper.generateAccessToken(
             user.id,
-            user.accountRole.toString(),
+            user.accountRole.toString()
         )
 
         val newRefreshToken: String = jwtTokenHelper.generateRefreshToken(user.id)
