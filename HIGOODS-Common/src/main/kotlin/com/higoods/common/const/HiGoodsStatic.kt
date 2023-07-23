@@ -23,6 +23,7 @@ const val KID = "kid"
 const val PROD = "prod"
 const val DEV = "dev"
 const val LOCAL = "local"
+const val WITHDRAW_PREFIX = "WITHDRAW_"
 
 val SWAGGER_PATTERNS = arrayOf(
     "/swagger-resources/**",
