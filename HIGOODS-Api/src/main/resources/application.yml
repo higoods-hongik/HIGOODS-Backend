@@ -4,6 +4,23 @@ spring:
       - infra
       - domain
       - common
+
+springdoc:
+  default-produces-media-type: application/json
+  default-consumes-media-type: application/json
+  swagger-ui:
+    tags-sorter: alpha
+
+swagger:
+  user: ${SWAGGER_USER:user}
+  password: ${SWAGGER_PASSWORD:password}
+  version: ${HIGOODS_VERSION:0.0.1-SNAPSHOT}
+
+auth:
+  jwt:
+    secret-key: ${JWT_SECRET_KEY:testkeytestkeytestkeytestkeytestkeytestkeytestkeytestkeytestkey}
+    access-exp: ${JWT_ACCESS_EXP:3600}
+    refresh-exp: ${JWT_REFRESH_EXP:3600}
 ---
 spring:
   config:

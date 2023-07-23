@@ -1,18 +1,12 @@
 package com.higoods.domain.test.entity
-import com.higoods.domain.common.BaseTimeEntity
+import com.higoods.domain.common.BaseEntity
 import mu.KLogging
 import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.GenerationType
-import javax.persistence.Id
 
 @Entity
 data class TestEntity(
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long? = 1,
     val name: String = "test"
-) : BaseTimeEntity() {
+) : BaseEntity() {
     fun loggingTest() {
         val log = KLogging().logger
         log.info { "info" }
