@@ -68,8 +68,6 @@ class SecurityConfig(
             .permitAll()
             .mvcMatchers("/v1/auth/token/refresh")
             .permitAll()
-            .mvcMatchers("/docs/index.html")
-            .permitAll()
 //            .hasRole("ADMIN") // 인증 이필요한 모든 요청은 USER 권한을 최소한 가지고있어야한다.
             // 스웨거용 인메모리 유저의 권한은 SWAGGER 이다
             // 따라서 스웨거용 인메모리 유저가 basic auth 필터를 통과해서 들어오더라도
