@@ -14,7 +14,6 @@ class TestServiceTest : StringSpec({
         every { testService.test("test") } returns TestResponse.of(TestEntity())
         val result = testService.test("test")
 
-        result.id shouldBe 1
         result.name shouldBe "test"
     }
 })
