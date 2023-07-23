@@ -2,14 +2,17 @@ package com.higoods.api.config.security
 
 import com.higoods.common.const.SWAGGER_PATTERNS
 import com.higoods.common.helper.SpringEnvironmentHelper
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.http.SessionCreationPolicy
+import org.springframework.security.core.userdetails.User
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
+import org.springframework.security.provisioning.InMemoryUserDetailsManager
 import org.springframework.security.web.DefaultSecurityFilterChain
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler
@@ -19,21 +22,21 @@ class SecurityConfig(
     val filterConfig: FilterConfig,
     val springEnvironmentHelper: SpringEnvironmentHelper
 ) {
-//    @Value("\${swagger.user}")
-//    lateinit var swaggerUser: String
-//
-//    @Value("\${swagger.password}")
-//    lateinit var swaggerPassword: String
+    @Value("\${swagger.user}")
+    lateinit var swaggerUser: String
+
+    @Value("\${swagger.password}")
+    lateinit var swaggerPassword: String
 
     /** 스웨거용 인메모리 유저 설정  */
-//    @Bean
-//    fun userDetailsService(): InMemoryUserDetailsManager {
-//        val user = User.withUsername(swaggerUser)
-//            .password(passwordEncoder().encode(swaggerPassword))
-//            .roles("SWAGGER")
-//            .build()
-//        return InMemoryUserDetailsManager(user)
-//    }
+    @Bean
+    fun userDetailsService(): InMemoryUserDetailsManager {
+        val user = User.withUsername(swaggerUser)
+            .password(passwordEncoder().encode(swaggerPassword))
+            .roles("SWAGGER")
+            .build()
+        return InMemoryUserDetailsManager(user)
+    }
 
     @Bean
     fun passwordEncoder(): PasswordEncoder {

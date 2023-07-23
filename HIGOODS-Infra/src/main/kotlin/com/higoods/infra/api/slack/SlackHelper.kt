@@ -16,9 +16,9 @@ class SlackHelper(
 ) {
     val logger: Logger = LoggerFactory.getLogger(SlackHelper::class.java)
     fun sendNotification(channelId: String, layoutBlocks: List<LayoutBlock>) {
-//        if (!springEnvironmentHelper.isProdAndDevProfile) {
-//            return
-//        }
+        if (!springEnvironmentHelper.isProdAndDevProfile) {
+            return
+        }
         val chatPostMessageRequest = ChatPostMessageRequest.builder()
             .channel(channelId)
             .blocks(layoutBlocks)

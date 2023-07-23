@@ -5,6 +5,16 @@ spring:
       - domain
       - common
 
+springdoc:
+  default-produces-media-type: application/json
+  default-consumes-media-type: application/json
+  swagger-ui:
+    tags-sorter: alpha
+
+swagger:
+  user: ${SWAGGER_USER:user}
+  password: ${SWAGGER_PASSWORD:password}
+  version: ${HIGOODS_VERSION:0.0.1-SNAPSHOT}
 
 auth:
   jwt:
