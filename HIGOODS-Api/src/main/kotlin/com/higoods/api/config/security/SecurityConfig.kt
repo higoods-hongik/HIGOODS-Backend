@@ -4,17 +4,19 @@ import com.higoods.common.const.SWAGGER_PATTERNS
 import com.higoods.common.helper.SpringEnvironmentHelper
 import org.springframework.context.annotation.Bean
 import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl
+import org.springframework.security.config.annotation.SecurityConfigurerAdapter
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
+import org.springframework.security.web.DefaultSecurityFilterChain
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler
 
 @EnableWebSecurity
 class SecurityConfig(
-//    val filterConfig: FilterConfig,
+    val filterConfig: FilterConfig,
     val springEnvironmentHelper: SpringEnvironmentHelper
 ) {
 //    @Value("\${swagger.user}")
@@ -70,7 +72,7 @@ class SecurityConfig(
             // 내부 소스까지 실행을 못함. 권한 문제 때문에.
             .anyRequest()
             .hasRole("USER")
-//        http.apply<SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity>>(filterConfig)
+        http.apply<SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity>>(filterConfig)
         return http.build()
     }
 
