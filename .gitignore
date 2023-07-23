@@ -40,4 +40,4 @@ out/
 .env
 .env.*
 
-**/src/main/resources/static/swagger
+**/src/main/resources/static/docs

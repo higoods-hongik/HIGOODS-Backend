@@ -1,9 +1,6 @@
 package com.higoods.api.common
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import io.kotest.core.spec.style.FunSpec
-import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.restdocs.ManualRestDocumentation
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation
 import org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint
@@ -11,8 +8,6 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.test.web.servlet.setup.StandaloneMockMvcBuilder
 
-@AutoConfigureMockMvc
-@AutoConfigureRestDocs
 abstract class BaseControllerTest : FunSpec() {
     protected abstract val controller: Any
     protected lateinit var mockMvc: MockMvc
@@ -38,14 +33,6 @@ abstract class BaseControllerTest : FunSpec() {
                     .withRequestDefaults(prettyPrint())
                     .withResponseDefaults(prettyPrint())
             )
-//            .setControllerAdvice(ExceptionHandler())
-//            .setCustomArgumentResolvers()
-//            .setMessageConverters()
             .build()
-    }
-
-    companion object {
-        @JvmStatic
-        protected val objectMapper = ObjectMapper()
     }
 }

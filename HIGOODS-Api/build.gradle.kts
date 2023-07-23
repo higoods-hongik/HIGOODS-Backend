@@ -51,7 +51,7 @@ dependencies {
             val generateSwaggerUISampleTask =
                 this@tasks.named<GenerateSwaggerUI>("generateSwaggerUIApiDocument").get()
             from("${generateSwaggerUISampleTask.outputDir}")
-            into("${project.buildDir}/resources/main/static/docs")
+            into("src/main/resources/static/docs")
         }
         withType<BootJar> {
             enabled = true
