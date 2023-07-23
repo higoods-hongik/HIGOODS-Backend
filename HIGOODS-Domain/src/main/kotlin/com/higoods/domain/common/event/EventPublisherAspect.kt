@@ -1,6 +1,5 @@
 package com.higoods.domain.common.event
 
-import com.higoods.domain.common.event.Events
 import org.aspectj.lang.ProceedingJoinPoint
 import org.aspectj.lang.annotation.Around
 import org.aspectj.lang.annotation.Aspect
