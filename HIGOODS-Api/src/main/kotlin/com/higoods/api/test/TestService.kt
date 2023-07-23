@@ -12,7 +12,7 @@ class TestService(
 ) {
 
     fun test(hi: String): TestResponse {
-        val testEntity = TestEntity(null, "querydsl")
+        val testEntity = TestEntity("querydsl")
         testRepository.save(testEntity)
         testEntity.loggingTest()
         return TestResponse.of(querydslRepository.getTestByName("querydsl") ?: TestEntity())
