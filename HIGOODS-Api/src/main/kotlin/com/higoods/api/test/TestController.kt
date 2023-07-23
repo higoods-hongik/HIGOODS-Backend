@@ -11,6 +11,6 @@ class TestController(
 ) {
     @GetMapping("/v1/test")
     fun getTest(): TestResponse {
-        return testService.test("ASdfasdfa")
+        return testService.test("test")
     }
 }

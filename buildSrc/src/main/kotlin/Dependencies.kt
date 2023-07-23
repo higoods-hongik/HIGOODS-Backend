@@ -88,4 +88,9 @@ object Dependencies {
     const val REDISSON = "org.redisson:redisson:${DependencyVersions.REDISSON_VERSION}"
 
     const val SLACK_API = "com.slack.api:slack-api-client:${DependencyVersions.SLACK_API_VERSION}"
+
+    //api doc
+    const val REST_DOC = "org.springframework.restdocs:spring-restdocs-mockmvc"
+    const val REST_DOC_API_SPEC = "com.epages:restdocs-api-spec-mockmvc:${DependencyVersions.REST_DOC_API_SPEC_VERSION}"
+    const val SWAGGER_UI = "org.webjars:swagger-ui:${DependencyVersions.SWAGGER_UI_VERSION}"
 }

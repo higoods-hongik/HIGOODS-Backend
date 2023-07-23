@@ -38,82 +38,84 @@ allprojects {
     repositories {
         mavenCentral()
     }
-    tasks.withType<KotlinCompile> {
-        kotlinOptions {
-            freeCompilerArgs += "-Xjsr305=strict"
-            jvmTarget = "17"
+
+    tasks {
+        withType<KotlinCompile> {
+            kotlinOptions {
+                freeCompilerArgs += "-Xjsr305=strict"
+                jvmTarget = "17"
+            }
+            withType<Test> {
+                useJUnitPlatform()
+            }
         }
     }
 
-    tasks.withType<Test> {
-        useJUnitPlatform()
-    }
-}
+    subprojects {
+        apply(plugin = "org.jetbrains.kotlin.jvm")
+        apply(plugin = "org.jetbrains.kotlin.plugin.spring")
+        apply(plugin = "org.springframework.boot")
+        apply(plugin = "io.spring.dependency-management")
+        apply(plugin = "org.jlleitschuh.gradle.ktlint")
+        apply(plugin = "jacoco")
 
-subprojects {
-    apply(plugin = "org.jetbrains.kotlin.jvm")
-    apply(plugin = "org.jetbrains.kotlin.plugin.spring")
-    apply(plugin = "org.springframework.boot")
-    apply(plugin = "io.spring.dependency-management")
-    apply(plugin = "org.jlleitschuh.gradle.ktlint")
-    apply(plugin = "jacoco")
+        dependencies {
+            implementation(Dependencies.SPRING_WEB)
+            implementation(Dependencies.SPRING_DATA_JPA)
+            implementation(Dependencies.JACKSON)
+            implementation(Dependencies.KOTLIN_REFLECT)
+            implementation(Dependencies.KOTLIN_LOGGING)
 
-    dependencies {
-        implementation(Dependencies.SPRING_WEB)
-        implementation(Dependencies.SPRING_DATA_JPA)
-        implementation(Dependencies.JACKSON)
-        implementation(Dependencies.KOTLIN_REFLECT)
-        implementation(Dependencies.KOTLIN_LOGGING)
+            testImplementation(Dependencies.SPRING_TEST)
+            testImplementation(Dependencies.KOTEST_RUNNER_JUNIT5)
+            testImplementation(Dependencies.KOTEST_ASSERTIONS_CORE)
+            testImplementation(Dependencies.KOTEST_FRAMEWORK_DATATEST)
+            testImplementation(Dependencies.KOTEST_EXTENSION_SPRING)
+            testImplementation(Dependencies.MOCKK_DEFAULT)
+            testImplementation(Dependencies.MOCKK_SPRING)
 
-        testImplementation(Dependencies.SPRING_TEST)
-        testImplementation(Dependencies.KOTEST_RUNNER_JUNIT5)
-        testImplementation(Dependencies.KOTEST_ASSERTIONS_CORE)
-        testImplementation(Dependencies.KOTEST_FRAMEWORK_DATATEST)
-        testImplementation(Dependencies.KOTEST_EXTENSION_SPRING)
-        testImplementation(Dependencies.MOCKK_DEFAULT)
-        testImplementation(Dependencies.MOCKK_SPRING)
-
-        annotationProcessor(Dependencies.CONFIGURATION_PROCESSOR)
-    }
-
-    tasks.getByName<Jar>("jar") {
-        enabled = false
-    }
-    tasks.test {
-        finalizedBy(tasks.jacocoTestReport) // report is always generated after tests run
-    }
-    tasks.jacocoTestReport {
-        dependsOn(tasks.test) // tests are required to run before generating the report
-        reports {
-            html.required.set(true) // html 설정
-            csv.required.set(true) // csv 설정
-            xml.required.set(true)
-            xml.outputLocation.set(File("$buildDir/reports/jacoco.xml"))
+            annotationProcessor(Dependencies.CONFIGURATION_PROCESSOR)
         }
-        classDirectories.setFrom(
-            files(
-                classDirectories.files.map {
-                    fileTree(it) { // 테스트 커버리지 측정 제외 목록
-                        exclude(
-                            "**/*Application*",
-                            "**/*Config*",
-                            "**/*Dto*",
-                            "**/*Request*",
-                            "**/*Response*",
-                            "**/*Interceptor*",
-                            "**/*Exception*",
-                            "**/Q*"
-                        ) // QueryDsl 용이나 Q로 시작하는 클래스 뺄 위험 존재
+
+        tasks.getByName<Jar>("jar") {
+            enabled = false
+        }
+        tasks.test {
+            finalizedBy(tasks.jacocoTestReport) // report is always generated after tests run
+        }
+        tasks.jacocoTestReport {
+            dependsOn(tasks.test) // tests are required to run before generating the report
+            reports {
+                html.required.set(true) // html 설정
+                csv.required.set(true) // csv 설정
+                xml.required.set(true)
+                xml.outputLocation.set(File("$buildDir/reports/jacoco.xml"))
+            }
+            classDirectories.setFrom(
+                files(
+                    classDirectories.files.map {
+                        fileTree(it) { // 테스트 커버리지 측정 제외 목록
+                            exclude(
+                                "**/*Application*",
+                                "**/*Config*",
+                                "**/*Dto*",
+                                "**/*Request*",
+                                "**/*Response*",
+                                "**/*Interceptor*",
+                                "**/*Exception*",
+                                "**/Q*"
+                            ) // QueryDsl 용이나 Q로 시작하는 클래스 뺄 위험 존재
+                        }
                     }
-                }
+                )
             )
-        )
-    }
+        }
 
-    sonarqube {
-        properties {
-            property("sonar.java.binaries", "$buildDir/classes")
-            property("sonar.coverage.jacoco.xmlReportPaths", "$buildDir/reports/jacoco.xml")
+        sonarqube {
+            properties {
+                property("sonar.java.binaries", "$buildDir/classes")
+                property("sonar.coverage.jacoco.xmlReportPaths", "$buildDir/reports/jacoco.xml")
+            }
         }
     }
 }

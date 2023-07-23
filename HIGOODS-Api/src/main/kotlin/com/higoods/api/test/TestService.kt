@@ -4,6 +4,7 @@ import com.higoods.domain.test.entity.TestEntity
 import com.higoods.domain.test.repository.TestQuerydslRepository
 import com.higoods.domain.test.repository.TestRepository
 import org.springframework.stereotype.Service
+import javax.transaction.Transactional
 
 @Service
 class TestService(
@@ -11,6 +12,7 @@ class TestService(
     private val querydslRepository: TestQuerydslRepository
 ) {
 
+    @Transactional
     fun test(hi: String): TestResponse {
         val testEntity = TestEntity("querydsl")
         testRepository.save(testEntity)
