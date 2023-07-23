@@ -22,4 +22,6 @@ object DependencyVersions {
     const val MOCKK_SPRING_VERSION = "3.1.2"
     const val REDISSON_VERSION = "3.19.0"
     const val SLACK_API_VERSION = "1.28.0"
+    const val REST_DOC_API_SPEC_VERSION = "0.16.4"
+    const val SWAGGER_UI_VERSION = "4.11.1"
 }

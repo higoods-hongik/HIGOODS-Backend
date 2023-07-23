@@ -29,15 +29,10 @@ dependencies {
 
     implementation(Dependencies.SPRING_SECURITY)
     implementation(Dependencies.JWT)
-    implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("org.springframework.boot:spring-boot-starter-security")
-    implementation("com.auth0:java-jwt:4.2.1")
 
-    // restdocs-api-spec
-    testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
-    testImplementation("com.epages:restdocs-api-spec-mockmvc:0.16.4")
-    // swagger ui
-    swaggerUI("org.webjars:swagger-ui:4.11.1")
+    testImplementation(Dependencies.REST_DOC)
+    testImplementation(Dependencies.REST_DOC_API_SPEC)
+    swaggerUI(Dependencies.SWAGGER_UI)
 
     tasks {
         withType<Jar> { enabled = false }
