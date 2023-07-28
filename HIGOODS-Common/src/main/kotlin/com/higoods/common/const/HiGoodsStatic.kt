@@ -28,6 +28,7 @@ const val WITHDRAW_PREFIX = "WITHDRAW_"
 val SWAGGER_PATTERNS = arrayOf(
     "/docs/index.html",
     "/docs/index.html/**",
+    "/docs/swagger**",
     "/swagger-resources/**",
     "/swagger-ui/**",
     "/v3/api-docs/**",
