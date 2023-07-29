@@ -55,4 +55,4 @@ jobs:
         with:
           context: ./HIGOODS-Api
           push: true
-          tags: higoods2023/HIGOODS-Api:${{ steps.get_version.outputs.VERSION }}
+          tags: higoods2023/higoods-api:${{ steps.get_version.outputs.VERSION }}
