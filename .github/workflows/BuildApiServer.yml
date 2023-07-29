@@ -1,7 +1,8 @@
 name: Build Api Server
 on:
   push:
-    branches: [ "dev" ]
+    tags:
+      - Api-v*.*.*
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -54,4 +55,4 @@ jobs:
         with:
           context: ./HIGOODS-Api
           push: true
-          tags: higoods2023/higoods-api:0.0.1
+          tags: higoods2023/higoods-api:${{ steps.get_version.outputs.VERSION }}
