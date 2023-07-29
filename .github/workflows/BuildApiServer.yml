@@ -1,8 +1,7 @@
 name: Build Api Server
 on:
   push:
-    tags:
-      - Api-v*.*.*
+    branches: [ "dev" ]
 jobs:
   build:
     runs-on: ubuntu-latest
