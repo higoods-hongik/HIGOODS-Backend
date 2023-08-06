@@ -5,9 +5,9 @@ import javax.persistence.Entity
 import javax.persistence.Table
 
 @Entity
-@Table(name = "tbl_order_form")
-class OrderForm(
+@Table(name = "tbl_multiple_choice_group")
+class MultipleChoiceGroup(
 
-    val projectId: Long
+    val orderFormId: Long
 
 ) : BaseEntity()
