@@ -1,9 +1,11 @@
 package com.higoods.api.project.usecase
 
+import com.higoods.api.config.security.SecurityUtils
 import com.higoods.api.project.dto.request.ProjectUpdateRequest
 import com.higoods.api.project.dto.response.ProjectResponse
 import com.higoods.common.annotation.UseCase
 import com.higoods.domain.project.adapter.ProjectAdapter
+import com.higoods.domain.project.exception.ProjectNotHostException
 import com.higoods.domain.project.service.ProjectDomainService
 import com.higoods.domain.user.adapter.UserAdapter
 
@@ -15,6 +17,11 @@ class ProjectUpdateUseCase(
 ) {
 
     fun execute(projectId: Long, projectUpdateRequest: ProjectUpdateRequest): ProjectResponse {
+        val originalProject = projectAdapter.queryById(projectId)
+        if (originalProject.userId != SecurityUtils.currentUserId) {
+            throw ProjectNotHostException.EXCEPTION
+        }
+
         val newProjectId = projectDomainService.update(
             projectId,
             projectUpdateRequest.content,
