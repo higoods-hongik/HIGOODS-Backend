@@ -2,6 +2,7 @@ package com.higoods.domain.project.adapter
 
 import com.higoods.common.annotation.Adapter
 import com.higoods.domain.project.domain.Project
+import com.higoods.domain.project.exception.ProjectNotFoundException
 import com.higoods.domain.project.repository.ProjectRepository
 import org.springframework.data.repository.findByIdOrNull
 
@@ -15,6 +16,6 @@ class ProjectAdapter(
     }
 
     fun queryById(projectId: Long): Project {
-        return projectRepository.findByIdOrNull(projectId) ?: throw ProjectNotFoundException()
+        return projectRepository.findByIdOrNull(projectId) ?: throw ProjectNotFoundException.EXCEPTION
     }
 }
