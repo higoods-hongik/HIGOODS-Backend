@@ -1,13 +1,16 @@
 package com.higoods.api.project.controller
 
 import com.higoods.api.project.dto.request.ProjectCreateRequest
+import com.higoods.api.project.dto.request.ProjectUpdateRequest
 import com.higoods.api.project.dto.response.ProjectResponse
 import com.higoods.api.project.usecase.ProjectCreateUseCase
 import com.higoods.api.project.usecase.ProjectReadUseCase
+import com.higoods.api.project.usecase.ProjectUpdateUseCase
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -20,7 +23,8 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/v1/projects")
 class ProjectController(
     val projectCreateUseCase: ProjectCreateUseCase,
-    val projectReadUseCase: ProjectReadUseCase
+    val projectReadUseCase: ProjectReadUseCase,
+    val projectUpdateUseCase: ProjectUpdateUseCase
 ) {
 
     @PostMapping
@@ -29,6 +33,15 @@ class ProjectController(
         projectCreateRequest: ProjectCreateRequest
     ): ProjectResponse {
         return projectCreateUseCase.execute(projectCreateRequest)
+    }
+
+    @PatchMapping("{project_id}")
+    fun update(
+        @PathVariable("project_id") projectId: Long,
+        @Validated @RequestBody
+        projectUpdateRequest: ProjectUpdateRequest
+    ): ProjectResponse {
+        return projectUpdateUseCase.execute(projectId, projectUpdateRequest)
     }
 
     @GetMapping("/{project_id}")

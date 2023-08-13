@@ -14,4 +14,15 @@ class ProjectDomainService(
     fun create(project: Project): Long {
         return projectAdapter.save(project).id
     }
+
+    @Transactional
+    fun update(projectId: Long, content: String, subTitle: String, titleImage: String): Long {
+        val project = projectAdapter.queryById(projectId)
+        project.update(
+            content,
+            subTitle,
+            titleImage
+        )
+        return projectId
+    }
 }

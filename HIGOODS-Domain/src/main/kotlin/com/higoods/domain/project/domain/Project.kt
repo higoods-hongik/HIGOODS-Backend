@@ -17,13 +17,22 @@ class Project(
     var titleImage: String, // 대표이미지
     var subTitle: String, // 한줄 소개
 
-    var content: String, // 프로젝트 소개
-
     val minimumPurchaseQuantity: Long, // 최소 구매 인원
 
     var endDateTime: LocalDateTime, // 마감기한 날짜
 
     @Enumerated(EnumType.STRING)
-    var shipmentType: ShipmentType // 배송 / 현장 배부 날짜
+    var shipmentType: ShipmentType, // 배송 / 현장 배부 날짜
 
-) : BaseEntity()
+    @Enumerated(EnumType.STRING)
+    var projectProgress: ProjectProgress = ProjectProgress.PREPARING,
+
+    var content: String = "" // 프로젝트 소개
+
+) : BaseEntity() {
+    fun update(content: String, subTitle: String, titleImage: String) {
+        this.content = content
+        this.subTitle = subTitle
+        this.titleImage = titleImage
+    }
+}
