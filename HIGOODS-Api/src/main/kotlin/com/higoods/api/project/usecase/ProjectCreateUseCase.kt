@@ -1,5 +1,6 @@
 package com.higoods.api.project.usecase
 
+import com.higoods.api.config.security.SecurityUtils
 import com.higoods.api.project.dto.request.ProjectCreateRequest
 import com.higoods.api.project.dto.response.ProjectResponse
 import com.higoods.common.annotation.UseCase
@@ -15,7 +16,7 @@ class ProjectCreateUseCase(
 ) {
 
     fun execute(projectCreateRequest: ProjectCreateRequest): ProjectResponse {
-        val newProjectId = projectDomainService.create(projectCreateRequest.toProject())
+        val newProjectId = projectDomainService.create(projectCreateRequest.toProject(SecurityUtils.currentUserId))
         val project = projectAdapter.queryById(newProjectId)
         val user = userAdapter.queryUser(project.userId)
         return ProjectResponse.of(project, user.toUserInfoVo())

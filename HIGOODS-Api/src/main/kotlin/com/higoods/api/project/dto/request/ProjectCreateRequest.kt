@@ -1,6 +1,5 @@
 package com.higoods.api.project.dto.request
 
-import com.higoods.api.config.security.SecurityUtils
 import com.higoods.domain.project.domain.Project
 import com.higoods.domain.project.domain.ShipmentType
 import java.time.LocalDateTime
@@ -13,9 +12,9 @@ data class ProjectCreateRequest(
     val endDateTime: LocalDateTime, // 마감기한 날짜
     val shipmentType: ShipmentType
 ) {
-    fun toProject(): Project {
+    fun toProject(userId: Long): Project {
         return Project(
-            userId = SecurityUtils.currentUserId,
+            userId = userId,
             title = this.title,
             titleImage = this.titleImage,
             subTitle = this.subTitle,
