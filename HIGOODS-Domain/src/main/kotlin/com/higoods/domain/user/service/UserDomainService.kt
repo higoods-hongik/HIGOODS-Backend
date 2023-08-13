@@ -2,6 +2,7 @@ package com.higoods.domain.user.service
 
 import com.higoods.common.annotation.DomainService
 import com.higoods.domain.user.adapter.UserAdapter
+import com.higoods.domain.user.domain.CertificationLevel
 import com.higoods.domain.user.domain.FcmNotificationVo
 import com.higoods.domain.user.domain.OauthInfo
 import com.higoods.domain.user.domain.User
@@ -45,7 +46,10 @@ class UserDomainService(
                     username,
                     profileImage,
                     defaultImage,
-                    FcmNotificationVo("", false)
+                    FcmNotificationVo("", false),
+                    studentId = "TEST",
+                    department = "",
+                    certificationLevel = CertificationLevel.UNIVERSITY_EMAIL
                 )
             )
         }
@@ -66,7 +70,10 @@ class UserDomainService(
                     username,
                     profileImage,
                     defaultImage,
-                    FcmNotificationVo(fcmToken, appAlarm)
+                    FcmNotificationVo(fcmToken, appAlarm),
+                    studentId = "TEST",
+                    department = "",
+                    certificationLevel = CertificationLevel.UNIVERSITY_EMAIL
                 )
             )
         }

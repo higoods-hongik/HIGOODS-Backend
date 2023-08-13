@@ -36,7 +36,11 @@ class User(
     var status: UserStatus = UserStatus.NORMAL,
 
     @Enumerated(EnumType.STRING)
-    var accountRole: AccountRole = AccountRole.USER
+    var accountRole: AccountRole = AccountRole.USER,
+
+    var studentId: String,
+    var department: String,
+    var certificationLevel: CertificationLevel
 
 ) : BaseEntity() {
 
