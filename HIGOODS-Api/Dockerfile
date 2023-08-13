@@ -3,6 +3,7 @@ FROM openjdk:17-alpine
 EXPOSE 8080
 
 COPY ./build/libs/*.jar app.jar
+COPY ./src/main/resources/static /app/src/main/resources/static
 ARG PROFILE=dev
 ENV PROFILE=${PROFILE}
 
