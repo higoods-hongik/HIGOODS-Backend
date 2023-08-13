@@ -9,7 +9,7 @@ import org.springframework.data.repository.findByIdOrNull
 
 @Adapter
 class UserAdapter(
-    val userRepository: UserRepository
+    private val userRepository: UserRepository
 ) {
 
     fun queryUser(userId: Long): User {
