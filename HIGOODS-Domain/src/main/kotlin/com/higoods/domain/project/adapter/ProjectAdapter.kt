@@ -24,4 +24,8 @@ class ProjectAdapter(
     fun findAll(pageable: Pageable): Page<Project> {
         return projectRepository.findAll(pageable)
     }
+
+    fun queryProjects(projectIds: List<Long>): List<Project> {
+        return projectRepository.findAllById(projectIds)
+    }
 }

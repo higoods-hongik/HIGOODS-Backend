@@ -9,11 +9,11 @@ import org.springframework.expression.spel.support.StandardEvaluationContext
  *
  * example
  * // (1)
- * @DistributedLock(key = "#lockName")
+ * @RedissonLock(key = "#lockName")
  * public void shipment(String lockName) {
  *
  * // (2)
- * @DistributedLock(key = "#model.getName().concat('-').concat(#model.getShipmentOrderNumber())")
+ * @RedissonLock(key = "#model.getName().concat('-').concat(#model.getShipmentOrderNumber())")
  * public void shipment(ShipmentModel model) {
  *
  * 위 예시처럼 파싱을 해줍니다.
