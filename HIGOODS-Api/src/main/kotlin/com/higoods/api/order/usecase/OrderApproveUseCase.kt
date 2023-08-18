@@ -9,7 +9,7 @@ import com.higoods.domain.project.exception.ProjectNotHostException
 import org.springframework.transaction.annotation.Transactional
 
 @UseCase
-class OrderAproveUseCase(
+class OrderApproveUseCase(
     private val orderDomainService: OrderDomainService,
     private val orderAdapter: OrderAdapter,
     private val projectAdapter: ProjectAdapter
