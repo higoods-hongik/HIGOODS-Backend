@@ -37,4 +37,8 @@ class Order(
     fun cancel() {
         this.orderState = OrderState.CANCELED
     }
+
+    fun approve() {
+        this.orderState = OrderState.APPROVAL
+    }
 }

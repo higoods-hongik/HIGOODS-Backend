@@ -39,4 +39,9 @@ class OrderDomainService(
         order.cancel()
         return order.id
     }
+
+    fun approveOrder(order: Order): Long {
+        order.approve()
+        return order.id
+    }
 }

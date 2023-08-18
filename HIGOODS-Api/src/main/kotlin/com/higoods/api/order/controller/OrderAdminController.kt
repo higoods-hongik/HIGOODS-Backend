@@ -18,4 +18,11 @@ class OrderAdminController(
     ): Long {
         return orderCancelUseCase.execute(orderId)
     }
+
+    @PostMapping("/{order_id}/approvals")
+    fun approve(
+        @PathVariable("order_id") orderId: Long
+    ): Long {
+        return orderCancelUseCase.execute(orderId)
+    }
 }
