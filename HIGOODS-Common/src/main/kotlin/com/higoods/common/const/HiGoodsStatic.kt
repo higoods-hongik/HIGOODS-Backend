@@ -24,6 +24,7 @@ const val PROD = "prod"
 const val DEV = "dev"
 const val LOCAL = "local"
 const val WITHDRAW_PREFIX = "WITHDRAW_"
+const val NO_START_NUMBER = 10000L
 
 val SWAGGER_PATTERNS = arrayOf(
     "/docs/index.html",
