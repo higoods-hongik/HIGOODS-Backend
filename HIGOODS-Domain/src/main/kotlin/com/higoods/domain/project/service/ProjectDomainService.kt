@@ -27,17 +27,14 @@ class ProjectDomainService(
         return projectId
     }
 
-    @Transactional
     @RedissonLock(key = "#projectId", lockName = "구매 인원 증가")
     fun increasePurchaseNum(projectId: Long) {
         val project = projectAdapter.queryById(projectId)
         project.increaseCurrentPurchaseQuantity()
     }
 
-    @Transactional
     @RedissonLock(key = "#projectId", lockName = "구매 인원 감소")
-    fun decreasePurchaseNum(projectId: Long) {
-        val project = projectAdapter.queryById(projectId)
+    fun decreasePurchaseNum(project: Project) {
         project.decreaseCurrentPurchaseQuantity()
     }
 }

@@ -33,4 +33,8 @@ class Order(
     fun createOrder() {
         this.orderNo = "H" + (NO_START_NUMBER + id)
     }
+
+    fun cancel() {
+        this.orderState = OrderState.CANCELED
+    }
 }
