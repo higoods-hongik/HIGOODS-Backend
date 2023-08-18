@@ -1,26 +1,26 @@
-//package com.higoods.api.order
+// package com.higoods.api.order
 //
-//import com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper
-//import com.epages.restdocs.apispec.ResourceDocumentation.parameterWithName
-//import com.epages.restdocs.apispec.ResourceSnippetParametersBuilder
-//import com.higoods.api.common.BaseControllerTest
-//import com.higoods.api.order.controller.OrderController
-//import com.higoods.api.order.dto.request.OrderAnswerDto
-//import com.higoods.api.order.dto.request.OrderCreateRequest
-//import com.higoods.api.order.dto.request.OrderOptionDto
-//import com.higoods.api.order.dto.response.OrderResponse
-//import com.higoods.api.order.usecase.OrderCreateUseCase
-//import com.higoods.domain.order.domain.AnswerType
-//import com.higoods.domain.order.domain.ReceiveType
-//import io.mockk.every
-//import io.mockk.mockk
-//import org.springframework.http.MediaType
-//import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders
-//import org.springframework.restdocs.payload.JsonFieldType
-//import org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath
-//import org.springframework.test.web.servlet.result.MockMvcResultMatchers
+// import com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper
+// import com.epages.restdocs.apispec.ResourceDocumentation.parameterWithName
+// import com.epages.restdocs.apispec.ResourceSnippetParametersBuilder
+// import com.higoods.api.common.BaseControllerTest
+// import com.higoods.api.order.controller.OrderController
+// import com.higoods.api.order.dto.request.OrderAnswerDto
+// import com.higoods.api.order.dto.request.OrderCreateRequest
+// import com.higoods.api.order.dto.request.OrderOptionDto
+// import com.higoods.api.order.dto.response.OrderResponse
+// import com.higoods.api.order.usecase.OrderCreateUseCase
+// import com.higoods.domain.order.domain.AnswerType
+// import com.higoods.domain.order.domain.ReceiveType
+// import io.mockk.every
+// import io.mockk.mockk
+// import org.springframework.http.MediaType
+// import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders
+// import org.springframework.restdocs.payload.JsonFieldType
+// import org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath
+// import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 //
-//class OrderControllerTest : BaseControllerTest() {
+// class OrderControllerTest : BaseControllerTest() {
 //    private val orderCreateUseCase: OrderCreateUseCase = mockk()
 //    override val controller: OrderController = OrderController(orderCreateUseCase)
 //
@@ -110,4 +110,4 @@
 //                )
 //        }
 //    }
-//}
+// }
