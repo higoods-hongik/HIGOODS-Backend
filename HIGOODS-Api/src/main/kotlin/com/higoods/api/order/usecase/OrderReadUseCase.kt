@@ -1,30 +1,26 @@
 package com.higoods.api.order.usecase
 
 import com.higoods.api.config.security.SecurityUtils
+import com.higoods.api.order.dto.response.OrderProjectsResponse
 import com.higoods.api.order.dto.response.OrderResponse
 import com.higoods.common.annotation.UseCase
 import com.higoods.domain.order.adapter.OrderAdapter
 import com.higoods.domain.order.exception.OrderNotUserException
 import com.higoods.domain.project.adapter.ProjectAdapter
-import com.higoods.domain.user.adapter.UserAdapter
 
 @UseCase
 class OrderReadUseCase(
     private val orderAdapter: OrderAdapter,
-    private val projectAdapter: ProjectAdapter,
-    private val userAdapter: UserAdapter
+    private val projectAdapter: ProjectAdapter
 ) {
-//    fun findAll(): List<OrderProjectsResponse> {
-//        val findAll = orderAdapter.findAll(SecurityUtils.currentUserId)
-//        val userIds = findAll.map { project ->
-//            project.userId
-//        }.toList()
-//        val users = userAdapter.queryUsers(userIds)
-//        return findAll.map { project ->
-//            val user = users.find { it.id == project.userId } ?: throw UserNotFoundException.EXCEPTION
-//            ProjectResponse.of(project, user.toUserInfoVo())
-//        }
-//    }
+    fun findAll(): List<OrderProjectsResponse> {
+        val orders = orderAdapter.findAll(SecurityUtils.currentUserId)
+        if (orders.isNullOrEmpty()) return emptyList()
+        return orders.map { order ->
+            val project = projectAdapter.queryById(order.projectId)
+            OrderProjectsResponse.of(order.id, project)
+        }
+    }
 
     fun findById(orderId: Long): OrderResponse {
         val order = orderAdapter.queryById(orderId)

@@ -34,10 +34,14 @@ class OrderAdapter(
     }
 
     fun findOrderOptionItemByOrderId(orderId: Long): List<OrderOptionItem> {
-        return optionItemRepository.findAllByOrderIdOrNull(orderId) ?: throw OrderOptionItemNotFoundException.EXCEPTION
+        return optionItemRepository.findAllByOrderId(orderId) ?: throw OrderOptionItemNotFoundException.EXCEPTION
     }
 
     fun findAllOrderAnswerByOrderIdOrNull(orderId: Long): List<OrderAnswer>? {
-        return answerRepository.findAllByOrderIdOrNull(orderId)
+        return answerRepository.findAllByOrderId(orderId)
+    }
+
+    fun findAll(userId: Long): List<Order>? {
+        return orderRepository.findAllByUserIdOrderByCreatedAtDesc(userId)
     }
 }
