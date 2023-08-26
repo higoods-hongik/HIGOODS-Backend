@@ -21,7 +21,7 @@ class OrderAdminController(
     private val orderReadUseCase: OrderReadUseCase
 ) {
     // 주문 취소
-    @PostMapping("/{order_id}")
+    @PostMapping("/{order_id}/cancellations")
     fun create(
         @PathVariable("order_id") orderId: Long
     ): Long {
@@ -41,7 +41,7 @@ class OrderAdminController(
     fun get(
         @PathVariable("project_id") projectId: Long,
         @RequestParam(value = "state", defaultValue = "PENDING") state: OrderState,
-        @RequestParam(value = "name", required = false) name: String,
+        @RequestParam(value = "name", required = false) name: String?,
         @RequestParam("page") page: Int,
         @RequestParam("size") size: Int
     ): Page<OrderAdminResponse> {
