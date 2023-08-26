@@ -1,7 +1,7 @@
 package com.higoods.api.order
 
 import com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper
-import com.epages.restdocs.apispec.ResourceDocumentation
+import com.epages.restdocs.apispec.ResourceDocumentation.parameterWithName
 import com.epages.restdocs.apispec.ResourceSnippetParametersBuilder
 import com.higoods.api.common.BaseControllerTest
 import com.higoods.api.order.controller.OrderAdminController
@@ -17,7 +17,7 @@ import org.springframework.data.domain.PageRequest
 import org.springframework.http.MediaType
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders
 import org.springframework.restdocs.payload.JsonFieldType
-import org.springframework.restdocs.payload.PayloadDocumentation
+import org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 
 class OrderAdminControllerTest : BaseControllerTest() {
@@ -44,10 +44,10 @@ class OrderAdminControllerTest : BaseControllerTest() {
                         ResourceSnippetParametersBuilder()
                             .description("총대가 주문을 취소합니다.")
                             .pathParameters(
-                                ResourceDocumentation.parameterWithName("order_id").description("주문 id")
+                                parameterWithName("order_id").description("주문 id")
                             )
                             .responseFields(
-                                PayloadDocumentation.fieldWithPath("orderId").type(JsonFieldType.NUMBER).description("주문 id")
+                                fieldWithPath("orderId").type(JsonFieldType.NUMBER).description("주문 id")
                             )
                     )
                 )
@@ -70,10 +70,10 @@ class OrderAdminControllerTest : BaseControllerTest() {
                         ResourceSnippetParametersBuilder()
                             .description("총대가 입금 승인합니다.")
                             .pathParameters(
-                                ResourceDocumentation.parameterWithName("order_id").description("주문 id")
+                                parameterWithName("order_id").description("주문 id")
                             )
                             .responseFields(
-                                PayloadDocumentation.fieldWithPath("orderId").type(JsonFieldType.NUMBER).description("주문 id")
+                                fieldWithPath("orderId").type(JsonFieldType.NUMBER).description("주문 id")
                             )
                     )
                 )
@@ -114,12 +114,19 @@ class OrderAdminControllerTest : BaseControllerTest() {
                         ResourceSnippetParametersBuilder()
                             .description("총대가 주문(입금) 명단을 관리합니다.")
                             .pathParameters(
-                                ResourceDocumentation.parameterWithName("project_id").description("프로젝트 id")
+                                parameterWithName("project_id").description("프로젝트 id")
                             )
                             .responseFields(
-                                PayloadDocumentation.subsectionWithPath("content[]").description("주문 목록"),
-                                PayloadDocumentation.fieldWithPath("pageable").description("페이지 정보"),
-                                PayloadDocumentation.fieldWithPath("totalElements").description("전체 주문 개수")
+                                fieldWithPath("content[]").description("주문 목록"),
+                                fieldWithPath("content[].orderNo").description("주문 번호"),
+                                fieldWithPath("content[].name").description("이름"),
+                                fieldWithPath("content[].depositName").description("입금자명"),
+                                fieldWithPath("content[].createdAt").description("주문 일시"),
+                                fieldWithPath("content[].phoneNum").description("전화번호"),
+                                fieldWithPath("content[].totalCost").description("총 금액"),
+                                fieldWithPath("content[].orderState").description("주문 상태"),
+                                fieldWithPath("pageable").description("페이지 정보"),
+                                fieldWithPath("totalElements").description("전체 주문 개수")
                             )
                     )
                 )
