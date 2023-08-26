@@ -1,12 +1,17 @@
 package com.higoods.api.order.usecase
 
 import com.higoods.api.config.security.SecurityUtils
+import com.higoods.api.order.dto.response.OrderAdminResponse
 import com.higoods.api.order.dto.response.OrderProjectsResponse
 import com.higoods.api.order.dto.response.OrderResponse
 import com.higoods.common.annotation.UseCase
 import com.higoods.domain.order.adapter.OrderAdapter
+import com.higoods.domain.order.domain.OrderState
 import com.higoods.domain.order.exception.OrderNotUserException
 import com.higoods.domain.project.adapter.ProjectAdapter
+import com.higoods.domain.project.exception.ProjectNotHostException
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.transaction.annotation.Transactional
 
 @UseCase
@@ -31,5 +36,19 @@ class OrderReadUseCase(
         val orderOptions = orderAdapter.findOrderOptionItemByOrderId(orderId)
         val orderAnswers = orderAdapter.findAllOrderAnswerByOrderIdOrNull(orderId)
         return OrderResponse.of(order, orderOptions, orderAnswers)
+    }
+
+    fun findByStateAndName(
+        projectId: Long,
+        state: OrderState,
+        name: String?,
+        pageable: Pageable
+    ): Page<OrderAdminResponse> {
+        val project = projectAdapter.queryById(projectId)
+        if (project.userId != SecurityUtils.currentUserId) throw ProjectNotHostException.EXCEPTION
+        val orders = orderAdapter.queryOrders(project.id, state, name, pageable)
+        return orders.map { order ->
+            OrderAdminResponse.of(order)
+        }
     }
 }

@@ -30,7 +30,7 @@
 //                orderNo = "H100001", // 주문번호
 //                name = "이홍익", // 이름
 //                studentId = "B811112", // 학번
-//                phoneNum = "01011112222", // 전화번호
+//                phoneNum = "010-1111-2222", // 전화번호
 //                receiveType = ReceiveType.DISTRIBUTION, // 상품 수령 방법, DELIVERY or DISTRIBUTION
 //                refundBank = "신한은행", // 환불 은행
 //                refundAccount = "1234567890", // 환불 계좌
@@ -44,7 +44,7 @@
 //            val orderCreateRequest = OrderCreateRequest(
 //                name = "이홍익",
 //                studentId = "B811112",
-//                phoneNum = "01011112222",
+//                phoneNum = "010-1111-2222",
 //                receiveType = ReceiveType.DISTRIBUTION,
 //                depositName = "이홍익",
 //                refundBank = "신한은행",
