@@ -42,7 +42,7 @@ class OrderAdminControllerTest : BaseControllerTest() {
                     MockMvcRestDocumentationWrapper.document(
                         "[어드민] 주문 취소 API",
                         ResourceSnippetParametersBuilder()
-                            .description("총대가 주문을 취소합니다.")
+                            .description("[어드민] 주문 취소 API")
                             .pathParameters(
                                 parameterWithName("order_id").description("주문 id")
                             )
@@ -68,7 +68,7 @@ class OrderAdminControllerTest : BaseControllerTest() {
                     MockMvcRestDocumentationWrapper.document(
                         "[어드민] 입금 승인 API",
                         ResourceSnippetParametersBuilder()
-                            .description("총대가 입금 승인합니다.")
+                            .description("[어드민] 입금 승인 API")
                             .pathParameters(
                                 parameterWithName("order_id").description("주문 id")
                             )
@@ -112,7 +112,7 @@ class OrderAdminControllerTest : BaseControllerTest() {
                     MockMvcRestDocumentationWrapper.document(
                         "[어드민] 명단 관리-입금 확인 목록 API",
                         ResourceSnippetParametersBuilder()
-                            .description("총대가 주문(입금) 명단을 관리합니다.")
+                            .description("[어드민] 명단 관리-입금 확인 목록 API")
                             .pathParameters(
                                 parameterWithName("project_id").description("프로젝트 id")
                             )
