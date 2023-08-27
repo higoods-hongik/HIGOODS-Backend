@@ -9,7 +9,7 @@ plugins {
 }
 
 openapi3 {
-    setServer("http://localhost:8080")
+    setServer("http://localhost:8080/api")
     title = "HIGOODS API Documentation"
     description = "Spring REST Docs with SwaggerUI"
     version = "0.0.1"
