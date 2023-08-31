@@ -172,7 +172,7 @@ class OrderControllerTest : BaseControllerTest() {
             every { orderReadUseCase.findById(1L) } returns orderResponse
 
             mockMvc.perform(
-                RestDocumentationRequestBuilders.post("/v1/orders/{order_id}", 1L)
+                RestDocumentationRequestBuilders.get("/v1/orders/{order_id}", 1L)
                     .contentType(MediaType.APPLICATION_JSON)
                     .accept(MediaType.APPLICATION_JSON)
             )
