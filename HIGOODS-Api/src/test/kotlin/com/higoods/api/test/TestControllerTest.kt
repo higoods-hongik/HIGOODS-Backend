@@ -43,6 +43,7 @@ class TestControllerTest : BaseControllerTest() {
                         resource(
                             ResourceSnippetParametersBuilder()
                                 .description("이번엔 되겠지")
+                                .tag("테스트")
                                 .responseFields(
                                     fieldWithPath("id").type(JsonFieldType.NUMBER).description("id"),
                                     fieldWithPath("name").type(JsonFieldType.STRING).description("이름"),

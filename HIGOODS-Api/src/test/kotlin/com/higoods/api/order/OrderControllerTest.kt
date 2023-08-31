@@ -4,6 +4,7 @@ import com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document
 import com.epages.restdocs.apispec.ResourceDocumentation.parameterWithName
 import com.epages.restdocs.apispec.ResourceDocumentation.resource
 import com.epages.restdocs.apispec.ResourceSnippetParametersBuilder
+import com.epages.restdocs.apispec.Schema
 import com.higoods.api.common.BaseControllerTest
 import com.higoods.api.order.controller.OrderController
 import com.higoods.api.order.dto.request.OrderAnswerDto
@@ -81,7 +82,8 @@ class OrderControllerTest : BaseControllerTest() {
                         preprocessResponse(prettyPrint()),
                         resource(
                             ResourceSnippetParametersBuilder()
-                                .description("유저가 주문을 생성합니다.")
+                                .description("주문 생성 API")
+                                .tag("주문")
                                 .pathParameters(
                                     parameterWithName("project_id").description("프로젝트 id")
                                 )
@@ -121,7 +123,10 @@ class OrderControllerTest : BaseControllerTest() {
                                     fieldWithPath("orderAnswers[].answerType").type(JsonFieldType.STRING).description("커스텀 주문폼 정보").optional(),
                                     fieldWithPath("orderAnswers[].multipleChoiceId").type(JsonFieldType.NUMBER).description("커스텀 주문폼 정보").optional(),
                                     fieldWithPath("orderAnswers[].shortAnswer").type(JsonFieldType.STRING).description("커스텀 주문폼 정보").optional()
-                                ).build()
+                                )
+                                .requestSchema(Schema.schema("주문 생성 Req"))
+                                .responseSchema(Schema.schema("주문 생성 Res"))
+                                .build()
                         )
                     )
                 )
@@ -153,7 +158,8 @@ class OrderControllerTest : BaseControllerTest() {
                         preprocessResponse(prettyPrint()),
                         resource(
                             ResourceSnippetParametersBuilder()
-                                .description("마이페이지-내 주문 목록을 조회합니다.")
+                                .description("마이페이지-내 주문 목록 조회 API")
+                                .tag("주문")
                                 .responseFields(
                                     fieldWithPath("[].orderId").type(JsonFieldType.NUMBER).description("주문 id"),
                                     fieldWithPath("[].title").type(JsonFieldType.STRING).description("제목"),
@@ -161,6 +167,7 @@ class OrderControllerTest : BaseControllerTest() {
                                     fieldWithPath("[].subTitle").type(JsonFieldType.STRING).description("부제목"),
                                     fieldWithPath("[].orderState").type(JsonFieldType.STRING).description("주문 상태")
                                 )
+                                .responseSchema(Schema.schema("마이페이지-내 주문 목록 조회 Res"))
                                 .build()
                         )
                     )
@@ -184,7 +191,8 @@ class OrderControllerTest : BaseControllerTest() {
                         preprocessResponse(prettyPrint()),
                         resource(
                             ResourceSnippetParametersBuilder()
-                                .description("내 주문을 상세 조회합니다.")
+                                .description("내 주문 상세 조회 API")
+                                .tag("주문")
                                 .pathParameters(
                                     parameterWithName("order_id").description("주문 id")
                                 )
@@ -207,6 +215,7 @@ class OrderControllerTest : BaseControllerTest() {
                                     fieldWithPath("orderAnswers[].multipleChoiceId").type(JsonFieldType.NUMBER).description("커스텀 주문폼 정보").optional(),
                                     fieldWithPath("orderAnswers[].shortAnswer").type(JsonFieldType.STRING).description("커스텀 주문폼 정보").optional()
                                 )
+                                .responseSchema(Schema.schema("내 주문 상세 조회 Res"))
                                 .build()
                         )
                     )

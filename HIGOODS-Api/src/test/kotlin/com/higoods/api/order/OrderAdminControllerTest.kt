@@ -4,6 +4,7 @@ import com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document
 import com.epages.restdocs.apispec.ResourceDocumentation.parameterWithName
 import com.epages.restdocs.apispec.ResourceDocumentation.resource
 import com.epages.restdocs.apispec.ResourceSnippetParametersBuilder
+import com.epages.restdocs.apispec.Schema
 import com.higoods.api.common.BaseControllerTest
 import com.higoods.api.order.controller.OrderAdminController
 import com.higoods.api.order.dto.response.OrderAdminResponse
@@ -16,13 +17,12 @@ import io.mockk.mockk
 import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.PageRequest
 import org.springframework.http.MediaType
-import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post
 import org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest
 import org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse
 import org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint
-import org.springframework.restdocs.payload.JsonFieldType
 import org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 
 class OrderAdminControllerTest : BaseControllerTest() {
@@ -33,12 +33,21 @@ class OrderAdminControllerTest : BaseControllerTest() {
 
     init {
         test("주문 취소") {
-            val orderId = 1L
+            val orderAdminResponse =
+                OrderAdminResponse(
+                    orderNo = "H100001",
+                    name = "이홍익",
+                    depositName = "이홍익",
+                    createdAt = "23.08.27 03:15",
+                    phoneNum = "010-1111-2222",
+                    totalCost = 10000,
+                    orderState = OrderState.PENDING
+                )
 
-            every { orderCancelUseCase.execute(orderId) } returns orderId
+            every { orderCancelUseCase.execute(1L) } returns orderAdminResponse
 
             mockMvc.perform(
-                RestDocumentationRequestBuilders.post("/v1/admins/orders/{order_id}/cancellations", 1L)
+                post("/v1/admins/orders/{order_id}/cancellations", 1L)
                     .contentType(MediaType.APPLICATION_JSON)
                     .accept(MediaType.APPLICATION_JSON)
             )
@@ -50,13 +59,21 @@ class OrderAdminControllerTest : BaseControllerTest() {
                         preprocessResponse(prettyPrint()),
                         resource(
                             ResourceSnippetParametersBuilder()
-                                .description("총대가 주문을 취소합니다.")
+                                .description("[어드민] 주문 취소 API")
+                                .tag("[어드민] 주문")
                                 .pathParameters(
                                     parameterWithName("order_id").description("주문 id")
                                 )
                                 .responseFields(
-                                    fieldWithPath("orderId").type(JsonFieldType.NUMBER).description("주문 id")
+                                    fieldWithPath("orderNo").description("주문 번호"),
+                                    fieldWithPath("name").description("이름"),
+                                    fieldWithPath("depositName").description("입금자명"),
+                                    fieldWithPath("createdAt").description("주문 일시"),
+                                    fieldWithPath("phoneNum").description("전화번호"),
+                                    fieldWithPath("totalCost").description("총 금액"),
+                                    fieldWithPath("orderState").description("주문 상태")
                                 )
+                                .responseSchema(Schema.schema("[어드민] 주문 취소 Res"))
                                 .build()
                         )
                     )
@@ -64,12 +81,21 @@ class OrderAdminControllerTest : BaseControllerTest() {
         }
 
         test("입금 승인") {
-            val orderId = 1L
+            val orderAdminResponse =
+                OrderAdminResponse(
+                    orderNo = "H100001",
+                    name = "이홍익",
+                    depositName = "이홍익",
+                    createdAt = "23.08.27 03:15",
+                    phoneNum = "010-1111-2222",
+                    totalCost = 10000,
+                    orderState = OrderState.PENDING
+                )
 
-            every { orderApproveUseCase.execute(1) } returns orderId
+            every { orderApproveUseCase.execute(1L) } returns orderAdminResponse
 
             mockMvc.perform(
-                RestDocumentationRequestBuilders.post("/v1/admins/orders/{order_id}/approvals", 1)
+                post("/v1/admins/orders/{order_id}/approvals", 1L)
                     .contentType(MediaType.APPLICATION_JSON)
                     .accept(MediaType.APPLICATION_JSON)
             )
@@ -82,12 +108,21 @@ class OrderAdminControllerTest : BaseControllerTest() {
                         resource(
                             ResourceSnippetParametersBuilder()
                                 .description("총대가 입금을 승인합니다.")
+                                .tag("[어드민] 주문")
                                 .pathParameters(
                                     parameterWithName("order_id").description("주문 id")
                                 )
                                 .responseFields(
-                                    fieldWithPath("orderId").type(JsonFieldType.NUMBER).description("주문 id")
-                                ).build()
+                                    fieldWithPath("orderNo").description("주문 번호"),
+                                    fieldWithPath("name").description("이름"),
+                                    fieldWithPath("depositName").description("입금자명"),
+                                    fieldWithPath("createdAt").description("주문 일시"),
+                                    fieldWithPath("phoneNum").description("전화번호"),
+                                    fieldWithPath("totalCost").description("총 금액"),
+                                    fieldWithPath("orderState").description("주문 상태")
+                                )
+                                .responseSchema(Schema.schema("[어드민] 입금 승인 Res"))
+                                .build()
                         )
                     )
                 )
@@ -105,9 +140,7 @@ class OrderAdminControllerTest : BaseControllerTest() {
                         totalCost = 10000,
                         orderState = OrderState.PENDING
                     )
-                ),
-                PageRequest.of(1, 6),
-                10 // 전체 아이템 개수
+                )
             )
 
             every { orderReadUseCase.findByStateAndName(1, OrderState.PENDING, null, PageRequest.of(1, 6)) } returns orderAdminResponse
@@ -130,8 +163,15 @@ class OrderAdminControllerTest : BaseControllerTest() {
                         resource(
                             ResourceSnippetParametersBuilder()
                                 .description("[어드민] 명단 관리-입금 확인 목록 API")
+                                .tag("[어드민] 주문")
                                 .pathParameters(
                                     parameterWithName("project_id").description("프로젝트 id")
+                                )
+                                .requestParameters(
+                                    parameterWithName("state").description("state"),
+                                    parameterWithName("name").description("name").optional(),
+                                    parameterWithName("page").description("page"),
+                                    parameterWithName("size").description("size")
                                 )
                                 .responseFields(
                                     fieldWithPath("content[]").description("주문 목록"),
@@ -143,8 +183,19 @@ class OrderAdminControllerTest : BaseControllerTest() {
                                     fieldWithPath("content[].totalCost").description("총 금액"),
                                     fieldWithPath("content[].orderState").description("주문 상태"),
                                     fieldWithPath("pageable").description("페이지 정보"),
-                                    fieldWithPath("totalElements").description("전체 주문 개수")
+                                    fieldWithPath("totalElements").description("전체 주문 개수"),
+                                    fieldWithPath("totalPages").description("전체 페이지 수"),
+                                    fieldWithPath("last").description("마지막 페이지 여부"),
+                                    fieldWithPath("number").description("현재 페이지 번호"),
+                                    fieldWithPath("size").description("페이지 크기"),
+                                    fieldWithPath("sort.empty").description("정렬 필드가 비어있는지 여부"),
+                                    fieldWithPath("sort.unsorted").description("정렬된 상태 여부"),
+                                    fieldWithPath("sort.sorted").description("정렬되지 않은 상태 여부"),
+                                    fieldWithPath("first").description("첫 페이지 여부"),
+                                    fieldWithPath("numberOfElements").description("현재 페이지의 요소 수"),
+                                    fieldWithPath("empty").description("데이터 비어있음 여부")
                                 )
+                                .responseSchema(Schema.schema("[어드민] 명단 관리-입금 확인 목록 Res"))
                                 .build()
                         )
                     )
