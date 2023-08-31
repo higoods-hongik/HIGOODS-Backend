@@ -1,7 +1,10 @@
 package com.higoods.api.order
 
-import com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper
+import com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document
+import com.epages.restdocs.apispec.ResourceDocumentation.parameterWithName
+import com.epages.restdocs.apispec.ResourceDocumentation.resource
 import com.epages.restdocs.apispec.ResourceSnippetParametersBuilder
+import com.epages.restdocs.apispec.Schema
 import com.higoods.api.common.BaseControllerTest
 import com.higoods.api.order.controller.OrderController
 import com.higoods.api.order.dto.request.OrderAnswerDto
@@ -18,8 +21,12 @@ import io.mockk.every
 import io.mockk.mockk
 import org.springframework.http.MediaType
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders
+import org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest
+import org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse
+import org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint
 import org.springframework.restdocs.payload.JsonFieldType
 import org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath
+import org.springframework.restdocs.payload.PayloadDocumentation.responseFields
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 
 class OrderControllerTest : BaseControllerTest() {
@@ -58,64 +65,72 @@ class OrderControllerTest : BaseControllerTest() {
     }
 
     init {
-//        test("주문 생성 테스트") {
-//            every { orderCreateUseCase.execute(1, orderCreateRequest) } returns orderResponse
-//
-//            mockMvc.perform(
-//                RestDocumentationRequestBuilders.post("/v1/orders/{project_id}", 1)
-//                    .contentType(MediaType.APPLICATION_JSON)
-//                    .accept(MediaType.APPLICATION_JSON)
-//                    .content(objectMapper.writeValueAsString(orderCreateRequest))
-//            )
-//                .andExpect(MockMvcResultMatchers.status().isOk())
-//                .andDo(
-//                    MockMvcRestDocumentationWrapper.document(
-//                        "주문 생성 API",
-//                        ResourceSnippetParametersBuilder()
-//                            .description("주문 생성 API")
-//                            .pathParameters(
-//                                parameterWithName("project_id").description("프로젝트 id")
-//                            )
-//                            .requestFields(
-//                                fieldWithPath("name").type(JsonFieldType.STRING).description("이름"),
-//                                fieldWithPath("studentId").type(JsonFieldType.STRING).description("학번"),
-//                                fieldWithPath("phoneNum").type(JsonFieldType.STRING).description("전화번호"),
-//                                fieldWithPath("receiveType").type(JsonFieldType.STRING).description("상품 수령 방법"),
-//                                fieldWithPath("depositName").type(JsonFieldType.STRING).description("입금자명"),
-//                                fieldWithPath("refundBank").type(JsonFieldType.STRING).description("환불 은행"),
-//                                fieldWithPath("refundAccount").type(JsonFieldType.STRING).description("환불 계좌"),
-//                                fieldWithPath("totalCost").type(JsonFieldType.NUMBER).description("총 금액"),
-//                                fieldWithPath("orderOptions[]").type(JsonFieldType.ARRAY).description("상품 옵션 정보"),
-//                                fieldWithPath("orderOptions[].optionId").type(JsonFieldType.NUMBER).description("상품 옵션 id"),
-//                                fieldWithPath("orderOptions[].count").type(JsonFieldType.NUMBER).description("상품 옵션 수량"),
-//                                fieldWithPath("orderAnswers[]").type(JsonFieldType.ARRAY).description("커스텀 주문폼 정보").optional(),
-//                                fieldWithPath("orderAnswers[].optionId").type(JsonFieldType.NUMBER).description("커스텀 주문폼 정보").optional(),
-//                                fieldWithPath("orderAnswers[].answerType").type(JsonFieldType.STRING).description("커스텀 주문폼 정보").optional(),
-//                                fieldWithPath("orderAnswers[].multipleChoiceId").type(JsonFieldType.NUMBER).description("커스텀 주문폼 정보").optional(),
-//                                fieldWithPath("orderAnswers[].shortAnswer").type(JsonFieldType.STRING).description("커스텀 주문폼 정보").optional()
-//                            )
-//                            .responseFields(
-//                                fieldWithPath("orderNo").type(JsonFieldType.STRING).description("주문 번호"),
-//                                fieldWithPath("name").type(JsonFieldType.STRING).description("이름"),
-//                                fieldWithPath("studentId").type(JsonFieldType.STRING).description("학번"),
-//                                fieldWithPath("phoneNum").type(JsonFieldType.STRING).description("전화번호"),
-//                                fieldWithPath("receiveType").type(JsonFieldType.STRING).description("상품 수령 방법"),
-//                                fieldWithPath("depositName").type(JsonFieldType.STRING).description("입금자명"),
-//                                fieldWithPath("refundBank").type(JsonFieldType.STRING).description("환불 은행"),
-//                                fieldWithPath("refundAccount").type(JsonFieldType.STRING).description("환불 계좌"),
-//                                fieldWithPath("totalCost").type(JsonFieldType.NUMBER).description("총 금액"),
-//                                fieldWithPath("orderOptions[]").type(JsonFieldType.ARRAY).description("상품 옵션 정보"),
-//                                fieldWithPath("orderOptions[].optionId").type(JsonFieldType.NUMBER).description("상품 옵션 id"),
-//                                fieldWithPath("orderOptions[].count").type(JsonFieldType.NUMBER).description("상품 옵션 수량"),
-//                                fieldWithPath("orderAnswers[]").type(JsonFieldType.ARRAY).description("커스텀 주문폼 정보"),
-//                                fieldWithPath("orderAnswers[].optionId").type(JsonFieldType.NUMBER).description("커스텀 주문폼 정보").optional(),
-//                                fieldWithPath("orderAnswers[].answerType").type(JsonFieldType.STRING).description("커스텀 주문폼 정보").optional(),
-//                                fieldWithPath("orderAnswers[].multipleChoiceId").type(JsonFieldType.NUMBER).description("커스텀 주문폼 정보").optional(),
-//                                fieldWithPath("orderAnswers[].shortAnswer").type(JsonFieldType.STRING).description("커스텀 주문폼 정보").optional()
-//                            )
-//                    )
-//                )
-//        }
+        test("주문 생성 테스트") {
+            every { orderCreateUseCase.execute(1, orderCreateRequest) } returns orderResponse
+
+            mockMvc.perform(
+                RestDocumentationRequestBuilders.post("/v1/orders/{project_id}", 1)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .accept(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(orderCreateRequest))
+            )
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(
+                    document(
+                        "주문 생성 API",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        resource(
+                            ResourceSnippetParametersBuilder()
+                                .description("주문 생성 API")
+                                .tag("주문")
+                                .pathParameters(
+                                    parameterWithName("project_id").description("프로젝트 id")
+                                )
+                                .requestFields(
+                                    fieldWithPath("name").type(JsonFieldType.STRING).description("이름"),
+                                    fieldWithPath("studentId").type(JsonFieldType.STRING).description("학번"),
+                                    fieldWithPath("phoneNum").type(JsonFieldType.STRING).description("전화번호"),
+                                    fieldWithPath("receiveType").type(JsonFieldType.STRING).description("상품 수령 방법"),
+                                    fieldWithPath("depositName").type(JsonFieldType.STRING).description("입금자명"),
+                                    fieldWithPath("refundBank").type(JsonFieldType.STRING).description("환불 은행"),
+                                    fieldWithPath("refundAccount").type(JsonFieldType.STRING).description("환불 계좌"),
+                                    fieldWithPath("totalCost").type(JsonFieldType.NUMBER).description("총 금액"),
+                                    fieldWithPath("orderOptions[]").type(JsonFieldType.ARRAY).description("상품 옵션 정보"),
+                                    fieldWithPath("orderOptions[].optionId").type(JsonFieldType.NUMBER).description("상품 옵션 id"),
+                                    fieldWithPath("orderOptions[].count").type(JsonFieldType.NUMBER).description("상품 옵션 수량"),
+                                    fieldWithPath("orderAnswers[]").type(JsonFieldType.ARRAY).description("커스텀 주문폼 정보").optional(),
+                                    fieldWithPath("orderAnswers[].optionId").type(JsonFieldType.NUMBER).description("커스텀 주문폼 정보").optional(),
+                                    fieldWithPath("orderAnswers[].answerType").type(JsonFieldType.STRING).description("커스텀 주문폼 정보").optional(),
+                                    fieldWithPath("orderAnswers[].multipleChoiceId").type(JsonFieldType.NUMBER).description("커스텀 주문폼 정보").optional(),
+                                    fieldWithPath("orderAnswers[].shortAnswer").type(JsonFieldType.STRING).description("커스텀 주문폼 정보").optional()
+                                )
+                                .responseFields(
+                                    fieldWithPath("orderNo").type(JsonFieldType.STRING).description("주문 번호"),
+                                    fieldWithPath("name").type(JsonFieldType.STRING).description("이름"),
+                                    fieldWithPath("studentId").type(JsonFieldType.STRING).description("학번"),
+                                    fieldWithPath("phoneNum").type(JsonFieldType.STRING).description("전화번호"),
+                                    fieldWithPath("receiveType").type(JsonFieldType.STRING).description("상품 수령 방법"),
+                                    fieldWithPath("depositName").type(JsonFieldType.STRING).description("입금자명"),
+                                    fieldWithPath("refundBank").type(JsonFieldType.STRING).description("환불 은행"),
+                                    fieldWithPath("refundAccount").type(JsonFieldType.STRING).description("환불 계좌"),
+                                    fieldWithPath("totalCost").type(JsonFieldType.NUMBER).description("총 금액"),
+                                    fieldWithPath("orderOptions[]").type(JsonFieldType.ARRAY).description("상품 옵션 정보"),
+                                    fieldWithPath("orderOptions[].optionId").type(JsonFieldType.NUMBER).description("상품 옵션 id"),
+                                    fieldWithPath("orderOptions[].count").type(JsonFieldType.NUMBER).description("상품 옵션 수량"),
+                                    fieldWithPath("orderAnswers[]").type(JsonFieldType.ARRAY).description("커스텀 주문폼 정보"),
+                                    fieldWithPath("orderAnswers[].optionId").type(JsonFieldType.NUMBER).description("커스텀 주문폼 정보").optional(),
+                                    fieldWithPath("orderAnswers[].answerType").type(JsonFieldType.STRING).description("커스텀 주문폼 정보").optional(),
+                                    fieldWithPath("orderAnswers[].multipleChoiceId").type(JsonFieldType.NUMBER).description("커스텀 주문폼 정보").optional(),
+                                    fieldWithPath("orderAnswers[].shortAnswer").type(JsonFieldType.STRING).description("커스텀 주문폼 정보").optional()
+                                )
+                                .requestSchema(Schema.schema("주문 생성 Req"))
+                                .responseSchema(Schema.schema("주문 생성 Res"))
+                                .build()
+                        )
+                    )
+                )
+        }
 
         test("마이페이지-내 주문 목록 조회") {
             val orderProjectResponse = listOf(
@@ -137,60 +152,74 @@ class OrderControllerTest : BaseControllerTest() {
             )
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(
-                    MockMvcRestDocumentationWrapper.document(
+                    document(
                         "마이페이지-내 주문 목록 조회 API",
-                        ResourceSnippetParametersBuilder()
-                            .description("마이페이지-내 주문 목록 조회 API")
-                            .responseFields(
-                                fieldWithPath("orderId").type(JsonFieldType.NUMBER).description("주문 id"),
-                                fieldWithPath("title").type(JsonFieldType.STRING).description("제목"),
-                                fieldWithPath("titleImage").type(JsonFieldType.STRING).description("이미지"),
-                                fieldWithPath("subTitle").type(JsonFieldType.STRING).description("부제목"),
-                                fieldWithPath("orderState").type(JsonFieldType.STRING).description("주문 상태")
-                            )
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        resource(
+                            ResourceSnippetParametersBuilder()
+                                .description("마이페이지-내 주문 목록 조회 API")
+                                .tag("주문")
+                                .responseFields(
+                                    fieldWithPath("[].orderId").type(JsonFieldType.NUMBER).description("주문 id"),
+                                    fieldWithPath("[].title").type(JsonFieldType.STRING).description("제목"),
+                                    fieldWithPath("[].titleImage").type(JsonFieldType.STRING).description("이미지"),
+                                    fieldWithPath("[].subTitle").type(JsonFieldType.STRING).description("부제목"),
+                                    fieldWithPath("[].orderState").type(JsonFieldType.STRING).description("주문 상태")
+                                )
+                                .responseSchema(Schema.schema("마이페이지-내 주문 목록 조회 Res"))
+                                .build()
+                        )
                     )
                 )
         }
 
-//        test("내 주문 상세 조회") {
-//
-//            every { orderReadUseCase.findById(1) } returns orderResponse
-//
-//            mockMvc.perform(
-//                RestDocumentationRequestBuilders.post("/v1/orders/{order_id}", 1)
-//                    .contentType(MediaType.APPLICATION_JSON)
-//                    .accept(MediaType.APPLICATION_JSON)
-//            )
-//                .andExpect(MockMvcResultMatchers.status().isOk())
-//                .andDo(
-//                    MockMvcRestDocumentationWrapper.document(
-//                        "내 주문 상세 조회 API",
-//                        ResourceSnippetParametersBuilder()
-//                            .description("내 주문 상세 조회 API")
-//                            .pathParameters(
-//                                parameterWithName("order_id").description("주문 id")
-//                            )
-//                            .responseFields(
-//                                fieldWithPath("orderNo").type(JsonFieldType.STRING).description("주문 번호"),
-//                                fieldWithPath("name").type(JsonFieldType.STRING).description("이름"),
-//                                fieldWithPath("studentId").type(JsonFieldType.STRING).description("학번"),
-//                                fieldWithPath("phoneNum").type(JsonFieldType.STRING).description("전화번호"),
-//                                fieldWithPath("receiveType").type(JsonFieldType.STRING).description("상품 수령 방법"),
-//                                fieldWithPath("depositName").type(JsonFieldType.STRING).description("입금자명"),
-//                                fieldWithPath("refundBank").type(JsonFieldType.STRING).description("환불 은행"),
-//                                fieldWithPath("refundAccount").type(JsonFieldType.STRING).description("환불 계좌"),
-//                                fieldWithPath("totalCost").type(JsonFieldType.NUMBER).description("총 금액"),
-//                                fieldWithPath("orderOptions[]").description("상품 옵션 정보"),
-//                                fieldWithPath("orderOptions[].optionId").type(JsonFieldType.NUMBER).description("상품 옵션 id"),
-//                                fieldWithPath("orderOptions[].count").type(JsonFieldType.NUMBER).description("상품 옵션 수량"),
-//                                fieldWithPath("orderAnswers[]").description("커스텀 주문폼 정보"),
-//                                fieldWithPath("orderAnswers[].optionId").type(JsonFieldType.NUMBER).description("커스텀 주문폼 정보").optional(),
-//                                fieldWithPath("orderAnswers[].answerType").type(JsonFieldType.STRING).description("커스텀 주문폼 정보").optional(),
-//                                fieldWithPath("orderAnswers[].multipleChoiceId").type(JsonFieldType.NUMBER).description("커스텀 주문폼 정보").optional(),
-//                                fieldWithPath("orderAnswers[].shortAnswer").type(JsonFieldType.STRING).description("커스텀 주문폼 정보").optional()
-//                            )
-//                    )
-//                )
-//        }
+        test("내 주문 상세 조회") {
+
+            every { orderReadUseCase.findById(1L) } returns orderResponse
+
+            mockMvc.perform(
+                RestDocumentationRequestBuilders.get("/v1/orders/{order_id}", 1L)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .accept(MediaType.APPLICATION_JSON)
+            )
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(
+                    document(
+                        "내 주문 상세 조회 API",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        resource(
+                            ResourceSnippetParametersBuilder()
+                                .description("내 주문 상세 조회 API")
+                                .tag("주문")
+                                .pathParameters(
+                                    parameterWithName("order_id").description("주문 id")
+                                )
+                                .responseFields(
+                                    fieldWithPath("orderNo").type(JsonFieldType.STRING).description("주문 번호"),
+                                    fieldWithPath("name").type(JsonFieldType.STRING).description("이름"),
+                                    fieldWithPath("studentId").type(JsonFieldType.STRING).description("학번"),
+                                    fieldWithPath("phoneNum").type(JsonFieldType.STRING).description("전화번호"),
+                                    fieldWithPath("receiveType").type(JsonFieldType.STRING).description("상품 수령 방법"),
+                                    fieldWithPath("depositName").type(JsonFieldType.STRING).description("입금자명"),
+                                    fieldWithPath("refundBank").type(JsonFieldType.STRING).description("환불 은행"),
+                                    fieldWithPath("refundAccount").type(JsonFieldType.STRING).description("환불 계좌"),
+                                    fieldWithPath("totalCost").type(JsonFieldType.NUMBER).description("총 금액"),
+                                    fieldWithPath("orderOptions[]").description("상품 옵션 정보"),
+                                    fieldWithPath("orderOptions[].optionId").type(JsonFieldType.NUMBER).description("상품 옵션 id"),
+                                    fieldWithPath("orderOptions[].count").type(JsonFieldType.NUMBER).description("상품 옵션 수량"),
+                                    fieldWithPath("orderAnswers[]").description("커스텀 주문폼 정보"),
+                                    fieldWithPath("orderAnswers[].optionId").type(JsonFieldType.NUMBER).description("커스텀 주문폼 정보").optional(),
+                                    fieldWithPath("orderAnswers[].answerType").type(JsonFieldType.STRING).description("커스텀 주문폼 정보").optional(),
+                                    fieldWithPath("orderAnswers[].multipleChoiceId").type(JsonFieldType.NUMBER).description("커스텀 주문폼 정보").optional(),
+                                    fieldWithPath("orderAnswers[].shortAnswer").type(JsonFieldType.STRING).description("커스텀 주문폼 정보").optional()
+                                )
+                                .responseSchema(Schema.schema("내 주문 상세 조회 Res"))
+                                .build()
+                        )
+                    )
+                )
+        }
     }
 }

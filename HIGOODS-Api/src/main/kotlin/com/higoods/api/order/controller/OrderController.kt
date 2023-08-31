@@ -36,7 +36,7 @@ class OrderController(
     }
 
     // 내 주문 상세 조회
-    @GetMapping("{order_id}")
+    @GetMapping("/{order_id}")
     fun findOrderById(
         @PathVariable("order_id") orderId: Long
     ): OrderResponse {

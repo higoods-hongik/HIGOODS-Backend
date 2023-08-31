@@ -1,12 +1,16 @@
 package com.higoods.api.test
 
 import com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document
+import com.epages.restdocs.apispec.ResourceDocumentation.resource
 import com.epages.restdocs.apispec.ResourceSnippetParametersBuilder
 import com.higoods.api.common.BaseControllerTest
 import io.mockk.every
 import io.mockk.mockk
 import org.springframework.http.MediaType
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get
+import org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest
+import org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse
+import org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint
 import org.springframework.restdocs.payload.JsonFieldType
 import org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
@@ -34,13 +38,19 @@ class TestControllerTest : BaseControllerTest() {
                 .andDo(
                     document(
                         "테스트 API",
-                        ResourceSnippetParametersBuilder()
-                            .description("이번엔 되겠지")
-                            .responseFields(
-                                fieldWithPath("id").type(JsonFieldType.NUMBER).description("id"),
-                                fieldWithPath("name").type(JsonFieldType.STRING).description("이름"),
-                                fieldWithPath("currentTime").type(JsonFieldType.STRING).description("현재시각")
-                            )
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        resource(
+                            ResourceSnippetParametersBuilder()
+                                .description("이번엔 되겠지")
+                                .tag("테스트")
+                                .responseFields(
+                                    fieldWithPath("id").type(JsonFieldType.NUMBER).description("id"),
+                                    fieldWithPath("name").type(JsonFieldType.STRING).description("이름"),
+                                    fieldWithPath("currentTime").type(JsonFieldType.STRING).description("현재시각")
+                                )
+                                .build()
+                        )
                     )
                 )
         }

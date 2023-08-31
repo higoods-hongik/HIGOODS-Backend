@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import io.kotest.core.spec.style.FunSpec
 import org.springframework.restdocs.ManualRestDocumentation
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation
-import org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.test.web.servlet.setup.StandaloneMockMvcBuilder
@@ -12,7 +11,6 @@ import org.springframework.test.web.servlet.setup.StandaloneMockMvcBuilder
 abstract class BaseControllerTest : FunSpec() {
     protected abstract val controller: Any
     protected lateinit var mockMvc: MockMvc
-    protected lateinit var objectMapper: ObjectMapper
     private val restDocumentation = ManualRestDocumentation()
     init {
         beforeSpec {
@@ -32,9 +30,12 @@ abstract class BaseControllerTest : FunSpec() {
                 MockMvcRestDocumentation.documentationConfiguration(restDocumentation)
                     .uris().withScheme("http").withHost("localhost").and()
                     .operationPreprocessors()
-                    .withRequestDefaults(prettyPrint())
-                    .withResponseDefaults(prettyPrint())
             )
             .build()
+    }
+
+    companion object {
+        @JvmStatic
+        protected val objectMapper = ObjectMapper()
     }
 }
