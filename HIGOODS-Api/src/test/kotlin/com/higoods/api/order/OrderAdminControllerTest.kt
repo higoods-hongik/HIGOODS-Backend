@@ -22,6 +22,7 @@ import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.pos
 import org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest
 import org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse
 import org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint
+import org.springframework.restdocs.payload.JsonFieldType
 import org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 
@@ -65,13 +66,13 @@ class OrderAdminControllerTest : BaseControllerTest() {
                                     parameterWithName("order_id").description("주문 id")
                                 )
                                 .responseFields(
-                                    fieldWithPath("orderNo").description("주문 번호"),
-                                    fieldWithPath("name").description("이름"),
-                                    fieldWithPath("depositName").description("입금자명"),
-                                    fieldWithPath("createdAt").description("주문 일시"),
-                                    fieldWithPath("phoneNum").description("전화번호"),
-                                    fieldWithPath("totalCost").description("총 금액"),
-                                    fieldWithPath("orderState").description("주문 상태")
+                                    fieldWithPath("orderNo").type(JsonFieldType.STRING).description("주문 번호"),
+                                    fieldWithPath("name").type(JsonFieldType.STRING).description("이름"),
+                                    fieldWithPath("depositName").type(JsonFieldType.STRING).description("입금자명"),
+                                    fieldWithPath("createdAt").type(JsonFieldType.STRING).description("주문 일시"),
+                                    fieldWithPath("phoneNum").type(JsonFieldType.STRING).description("전화번호"),
+                                    fieldWithPath("totalCost").type(JsonFieldType.NUMBER).description("총 금액"),
+                                    fieldWithPath("orderState").type(JsonFieldType.STRING).description("주문 상태")
                                 )
                                 .responseSchema(Schema.schema("[어드민] 주문 취소 Res"))
                                 .build()
@@ -113,13 +114,13 @@ class OrderAdminControllerTest : BaseControllerTest() {
                                     parameterWithName("order_id").description("주문 id")
                                 )
                                 .responseFields(
-                                    fieldWithPath("orderNo").description("주문 번호"),
-                                    fieldWithPath("name").description("이름"),
-                                    fieldWithPath("depositName").description("입금자명"),
-                                    fieldWithPath("createdAt").description("주문 일시"),
-                                    fieldWithPath("phoneNum").description("전화번호"),
-                                    fieldWithPath("totalCost").description("총 금액"),
-                                    fieldWithPath("orderState").description("주문 상태")
+                                    fieldWithPath("orderNo").type(JsonFieldType.STRING).description("주문 번호"),
+                                    fieldWithPath("name").type(JsonFieldType.STRING).description("이름"),
+                                    fieldWithPath("depositName").type(JsonFieldType.STRING).description("입금자명"),
+                                    fieldWithPath("createdAt").type(JsonFieldType.STRING).description("주문 일시"),
+                                    fieldWithPath("phoneNum").type(JsonFieldType.STRING).description("전화번호"),
+                                    fieldWithPath("totalCost").type(JsonFieldType.NUMBER).description("총 금액"),
+                                    fieldWithPath("orderState").type(JsonFieldType.STRING).description("주문 상태")
                                 )
                                 .responseSchema(Schema.schema("[어드민] 입금 승인 Res"))
                                 .build()
@@ -174,14 +175,14 @@ class OrderAdminControllerTest : BaseControllerTest() {
                                     parameterWithName("size").description("size")
                                 )
                                 .responseFields(
-                                    fieldWithPath("content[]").description("주문 목록"),
-                                    fieldWithPath("content[].orderNo").description("주문 번호"),
-                                    fieldWithPath("content[].name").description("이름"),
-                                    fieldWithPath("content[].depositName").description("입금자명"),
-                                    fieldWithPath("content[].createdAt").description("주문 일시"),
-                                    fieldWithPath("content[].phoneNum").description("전화번호"),
-                                    fieldWithPath("content[].totalCost").description("총 금액"),
-                                    fieldWithPath("content[].orderState").description("주문 상태"),
+                                    fieldWithPath("content[]").type(JsonFieldType.ARRAY).description("주문 목록"),
+                                    fieldWithPath("content[].orderNo").type(JsonFieldType.STRING).description("주문 번호"),
+                                    fieldWithPath("content[].name").type(JsonFieldType.STRING).description("이름"),
+                                    fieldWithPath("content[].depositName").type(JsonFieldType.STRING).description("입금자명"),
+                                    fieldWithPath("content[].createdAt").type(JsonFieldType.STRING).description("주문 일시"),
+                                    fieldWithPath("content[].phoneNum").type(JsonFieldType.STRING).description("전화번호"),
+                                    fieldWithPath("content[].totalCost").type(JsonFieldType.NUMBER).description("총 금액"),
+                                    fieldWithPath("content[].orderState").type(JsonFieldType.STRING).description("주문 상태"),
                                     fieldWithPath("pageable").description("페이지 정보"),
                                     fieldWithPath("totalElements").description("전체 주문 개수"),
                                     fieldWithPath("totalPages").description("전체 페이지 수"),
