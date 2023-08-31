@@ -25,7 +25,7 @@ class OrderAdminController(
     @PostMapping("/{order_id}/cancellations")
     fun create(
         @PathVariable("order_id") orderId: Long
-    ): Long {
+    ): OrderAdminResponse {
         return orderCancelUseCase.execute(orderId)
     }
 
@@ -33,7 +33,7 @@ class OrderAdminController(
     @PostMapping("/{order_id}/approvals")
     fun approve(
         @PathVariable("order_id") orderId: Long
-    ): Long {
+    ): OrderAdminResponse {
         return orderApproveUseCase.execute(orderId)
     }
 

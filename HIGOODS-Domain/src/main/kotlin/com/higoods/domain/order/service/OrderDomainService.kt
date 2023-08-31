@@ -35,13 +35,13 @@ class OrderDomainService(
             .toList()
     }
 
-    fun cancelOrder(order: Order): Long {
+    fun cancelOrder(order: Order): Order {
         order.cancel()
-        return order.id
+        return order
     }
 
-    fun approveOrder(order: Order): Long {
+    fun approveOrder(order: Order): Order {
         order.approve()
-        return order.id
+        return order
     }
 }
