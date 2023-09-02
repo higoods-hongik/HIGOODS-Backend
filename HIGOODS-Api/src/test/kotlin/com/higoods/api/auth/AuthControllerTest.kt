@@ -1,10 +1,5 @@
 package com.higoods.api.auth
 
-import com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper
-import com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document
-import com.epages.restdocs.apispec.ResourceDocumentation.parameterWithName
-import com.epages.restdocs.apispec.ResourceSnippetParametersBuilder
-import com.epages.restdocs.apispec.Schema
 import com.higoods.api.auth.controller.AuthController
 import com.higoods.api.auth.dto.response.TokenAndUserResponse
 import com.higoods.api.auth.usecase.LoginUseCase
@@ -14,17 +9,15 @@ import com.higoods.api.auth.usecase.RefreshUseCase
 import com.higoods.api.auth.usecase.RegisterUserUseCase
 import com.higoods.api.auth.usecase.WithDrawUseCase
 import com.higoods.api.common.BaseControllerTest
+import com.higoods.api.common.DocumentObjects
+import com.higoods.api.common.NUMBER
+import com.higoods.api.common.OpenApiTag
+import com.higoods.api.common.STRING
 import com.higoods.domain.common.vo.UserDetailVo
 import com.higoods.domain.user.domain.FcmNotificationVo
 import com.higoods.domain.user.domain.OauthProvider
 import io.mockk.every
 import io.mockk.mockk
-import org.springframework.http.MediaType
-import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get
-import org.springframework.restdocs.payload.JsonFieldType
-import org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath
-import org.springframework.restdocs.payload.PayloadDocumentation.responseFields
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 class AuthControllerTest : BaseControllerTest() {
     private val registerUseCase: RegisterUserUseCase = mockk()
@@ -65,33 +58,23 @@ class AuthControllerTest : BaseControllerTest() {
             )
             every { registerUseCase.upsertKakaoOauthUser(any()) } returns testResponse
 
-            mockMvc.perform(
-                get("/v1/auth/oauth/kakao/develop")
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .accept(MediaType.APPLICATION_JSON)
-                    .param("code", "카카오 코드 벨류 oauth 인증 이후 값을 받습니다.")
-            )
-                .andExpect(status().isOk())
-                .andDo {
-                    MockMvcRestDocumentationWrapper.document(
-                        identifier = "백엔드 환경에서 카카오 개발용 회원가입을 할 수 있습니다.",
-                        resourceDetails = ResourceSnippetParametersBuilder()
-                            .tag("Sample")
-                            .description("자동으로 code 요청을 받아서 수행합니다.")
-                            .requestParameters(
-                                parameterWithName("code").description("The page to be requested.")
-                            )
-                            .responseSchema(
-                                Schema("SliceResponseEventProfileResponse")
-                            )
-                            .responseFields(
-                                fieldWithPath("id").type(JsonFieldType.NUMBER).description("id"),
-                                fieldWithPath("name").type(JsonFieldType.STRING).description("이름"),
-                                fieldWithPath("currentTime").type(JsonFieldType.STRING)
-                                    .description("현재시각")
-                            )
+            get("/v1/auth/oauth/kakao/develop") {
+                param("code", "파람 벨류")
+            }
+                .isStatus(200)
+                .makeDocument(
+                    DocumentInfo(identifier = "test", tag = OpenApiTag.AUTH, description = "백엔드 환경에서 카카오 개발용 회원가입을 할 수 있습니다."),
+                    queryParameters(
+                        "code" type STRING means "카카오 로그인시 넘겨저오는 토큰"
+                    ),
+                    responseFields(
+                        *DocumentObjects.userInfoVo,
+                        "accessTokenExpireIn" type NUMBER means "Access 토큰 만료시간",
+                        "accessToken" type STRING means "Access 토큰 ",
+                        "refreshToken" type STRING means "refreshToken 토큰",
+                        "refreshTokenExpireIn" type NUMBER means "Refresh 토큰 말뇨시간"
                     )
-                }
+                )
         }
     }
 }
