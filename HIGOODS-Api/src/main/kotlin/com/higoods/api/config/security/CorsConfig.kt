@@ -9,6 +9,7 @@ class CorsConfig : WebMvcConfigurer {
     override fun addCorsMappings(registry: CorsRegistry) {
         val allowedOriginPatterns = ArrayList<String>()
         allowedOriginPatterns.add("*")
+        allowedOriginPatterns.add("localhost")
 
         val patterns = allowedOriginPatterns.toTypedArray()
         registry.addMapping("/**")
