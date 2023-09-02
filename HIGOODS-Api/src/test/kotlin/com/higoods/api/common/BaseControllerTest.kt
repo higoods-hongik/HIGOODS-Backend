@@ -1,10 +1,36 @@
 package com.higoods.api.common
 
+import com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document
+import com.epages.restdocs.apispec.ResourceSnippetParametersBuilder
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.kotest.core.spec.style.FunSpec
+import org.springframework.http.MediaType
+import org.springframework.mock.web.MockMultipartFile
+import org.springframework.mock.web.MockPart
 import org.springframework.restdocs.ManualRestDocumentation
+import org.springframework.restdocs.headers.HeaderDocumentation
+import org.springframework.restdocs.headers.RequestHeadersSnippet
+import org.springframework.restdocs.headers.ResponseHeadersSnippet
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.delete
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.patch
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.put
+import org.springframework.restdocs.payload.PayloadDocumentation.requestFields
+import org.springframework.restdocs.payload.PayloadDocumentation.responseFields
+import org.springframework.restdocs.payload.RequestFieldsSnippet
+import org.springframework.restdocs.payload.ResponseFieldsSnippet
+import org.springframework.restdocs.request.PathParametersSnippet
+import org.springframework.restdocs.request.RequestDocumentation.pathParameters
+import org.springframework.restdocs.request.RequestDocumentation.requestParameters
+import org.springframework.restdocs.request.RequestParametersSnippet
+import org.springframework.restdocs.snippet.Snippet
 import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.ResultActions
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.test.web.servlet.setup.StandaloneMockMvcBuilder
 
@@ -30,7 +56,6 @@ abstract class BaseControllerTest : FunSpec() {
         }
     }
 
-
     private fun setUpMockMvc() {
         mockMvc = MockMvcBuilders.standaloneSetup(controller)
             .apply<StandaloneMockMvcBuilder>(
@@ -40,4 +65,155 @@ abstract class BaseControllerTest : FunSpec() {
             )
             .build()
     }
+
+    protected fun get(url: String, buildRequest: MockHttpServletRequestBuilder.() -> Unit): ResultActions =
+        mockMvc.perform(get(url).apply(buildRequest))
+
+    protected fun get(
+        url: String,
+        pathParams: Array<Any> = emptyArray(),
+        buildRequest: MockHttpServletRequestBuilder.() -> Unit
+    ): ResultActions =
+        mockMvc.perform(get(url, *pathParams).apply(buildRequest))
+
+    protected fun post(
+        url: String,
+        pathParams: Array<Any> = emptyArray(),
+        buildRequest: MockHttpServletRequestBuilder.() -> Unit
+    ): ResultActions =
+        mockMvc.perform(post(url, *pathParams).apply(buildRequest))
+
+    protected fun post(
+        url: String,
+        request: Any,
+        pathParams: Array<Any> = emptyArray(),
+        buildRequest: MockHttpServletRequestBuilder.() -> Unit
+    ): ResultActions =
+        mockMvc.perform(
+            post(url, *pathParams).apply {
+                contentType(MediaType.APPLICATION_JSON)
+                content(objectMapper.writeValueAsString(request))
+                buildRequest()
+            }
+        )
+
+    protected fun multipart(
+        url: String,
+        mockFiles: List<MockMultipartFile>,
+        mockParts: List<MockPart>,
+        buildRequest: MockHttpServletRequestBuilder.() -> Unit
+    ): ResultActions {
+        return mockMvc.perform(
+            RestDocumentationRequestBuilders.multipart(url)
+                .apply {
+                    mockFiles.forEach { this.file(it) }
+                    mockParts.forEach { this.part(it) }
+                    buildRequest()
+                }
+        )
+    }
+
+    protected fun delete(
+        url: String,
+        pathParams: Array<Any> = emptyArray(),
+        buildRequest: MockHttpServletRequestBuilder.() -> Unit
+    ): ResultActions =
+        mockMvc.perform(delete(url, *pathParams).apply(buildRequest))
+
+    protected fun patch(
+        url: String,
+        pathParams: Array<Any> = emptyArray(),
+        buildRequest: MockHttpServletRequestBuilder.() -> Unit
+    ): ResultActions =
+        mockMvc.perform(patch(url, *pathParams).apply(buildRequest))
+
+    protected fun put(
+        url: String,
+        request: Any,
+        pathParams: Array<Any> = emptyArray(),
+        buildRequest: MockHttpServletRequestBuilder.() -> Unit
+    ): ResultActions =
+        mockMvc.perform(
+            put(url, *pathParams)
+                .apply {
+                    contentType(MediaType.APPLICATION_JSON)
+                    content(objectMapper.writeValueAsString(request))
+                    buildRequest()
+                }
+        )
+
+    // TODO : 나중에 다시 보기
+//    protected fun MockHttpServletRequestBuilder.authorizationHeader(userId: UserId) {
+//        SecurityContextHolder.getContext().authentication = TokenAuthentication("Token", userId)
+//
+//        this.header("Authorization", "Bearer Token")
+//    }
+
+    protected fun ResultActions.isStatus(code: Int): ResultActions =
+        andExpect(status().`is`(code))
+
+    protected fun ResultActions.makeDocument(
+        documentInfo: DocumentInfo,
+        vararg snippets: Snippet
+    ): ResultActions =
+        andDo(
+            document(
+                identifier = documentInfo.identifier,
+                resourceDetails = ResourceSnippetParametersBuilder()
+                    .description(documentInfo.description)
+                    .deprecated(documentInfo.deprecated)
+                    .tag(documentInfo.tag.value),
+                snippets = snippets
+            )
+        )
+
+    protected infix fun String.type(fieldType: DocumentFieldType): DocumentField {
+        return DocumentField(this, fieldType.type)
+    }
+
+    protected infix fun <T : Enum<T>> String.type(fieldType: ENUM<T>): DocumentField {
+        return DocumentField(this, fieldType.type, fieldType.enums)
+    }
+
+    protected infix fun String.means(description: String): DocumentField =
+        DocumentField(this).apply {
+            means(description)
+        }
+
+    protected fun requestHeaders(vararg fields: DocumentField): RequestHeadersSnippet =
+        HeaderDocumentation.requestHeaders(
+            fields.map(DocumentField::toHeaderDescriptor).toList()
+        )
+
+    protected fun responseHeaders(vararg fields: DocumentField): ResponseHeadersSnippet =
+        HeaderDocumentation.responseHeaders(
+            fields.map(DocumentField::toHeaderDescriptor).toList()
+        )
+
+    protected fun pathParameters(vararg fields: DocumentField): PathParametersSnippet =
+        pathParameters(
+            fields.map(DocumentField::toParameterDescriptor).toList()
+        )
+
+    protected fun queryParameters(vararg fields: DocumentField): RequestParametersSnippet =
+        requestParameters(
+            fields.map(DocumentField::toParameterDescriptor).toList()
+        )
+
+    protected fun requestFields(vararg fields: DocumentField): RequestFieldsSnippet =
+        requestFields(
+            fields.map(DocumentField::toFieldDescriptor).toList()
+        )
+
+    protected fun responseFields(vararg fields: DocumentField): ResponseFieldsSnippet =
+        responseFields(
+            fields.map(DocumentField::toFieldDescriptor).toList()
+        )
+
+    protected data class DocumentInfo(
+        val identifier: String,
+        val tag: OpenApiTag,
+        val description: String? = null,
+        val deprecated: Boolean = false
+    )
 }
