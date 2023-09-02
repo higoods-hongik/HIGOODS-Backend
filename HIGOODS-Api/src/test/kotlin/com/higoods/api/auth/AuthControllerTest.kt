@@ -52,7 +52,7 @@ class AuthControllerTest : BaseControllerTest() {
             }
                 .isStatus(200)
                 .makeDocument(
-                    DocumentInfo(identifier = "회원가입", tag = OpenApiTag.AUTH, description = "백엔드 환경에서 카카오 개발용 회원가입을 할 수 있습니다."),
+                    DocumentInfo(identifier = "백엔드 테스트 회원가입", tag = OpenApiTag.AUTH, description = "백엔드 환경에서 카카오 개발용 회원가입을 할 수 있습니다."),
                     queryParameters(
                         "code" type STRING means "카카오 로그인시 넘겨저오는 토큰"
                     ),
@@ -69,7 +69,7 @@ class AuthControllerTest : BaseControllerTest() {
             get("/v1/auth/oauth/kakao/link/test") {}
                 .isStatus(200)
                 .makeDocument(
-                    DocumentInfo(identifier = "카카오 oauth 링크 발급", tag = OpenApiTag.AUTH, description = "백엔드 환경에서 카카오 개발용 테스트 링크 발급"),
+                    DocumentInfo(identifier = "카카오 oauth 테스트 링크 발급", tag = OpenApiTag.AUTH, description = "백엔드 환경에서 카카오 개발용 테스트 링크 발급"),
                     responseFields(
                         "link" type STRING means "카카오 회원가입용 링크"
                     )
@@ -91,7 +91,7 @@ class AuthControllerTest : BaseControllerTest() {
             }
                 .isStatus(200)
                 .makeDocument(
-                    DocumentInfo(identifier = "카카오 oauth 링크 발급", tag = OpenApiTag.AUTH, description = "백엔드 환경에서 카카오 개발용 테스트 링크 발급"),
+                    DocumentInfo(identifier = "회원가입", tag = OpenApiTag.AUTH, description = "id_token 으로 회원가입"),
                     tokenAndUserResponseDocs()
                 )
         }
@@ -109,7 +109,7 @@ class AuthControllerTest : BaseControllerTest() {
             }
                 .isStatus(200)
                 .makeDocument(
-                    DocumentInfo(identifier = "카카오 oauth 링크 발급", tag = OpenApiTag.AUTH, description = "백엔드 환경에서 카카오 개발용 테스트 링크 발급"),
+                    DocumentInfo(identifier = "실제 code 콜백으로 받은 url", tag = OpenApiTag.AUTH, description = "카카오 oauth 코드 인증을 위함"),
                     responseFields(
                         "accessToken" type STRING means "카카오의 accessToken 토큰",
                         "refreshToken" type STRING means "카카오의 refreshToken 토큰",
@@ -129,7 +129,8 @@ class AuthControllerTest : BaseControllerTest() {
             }
                 .isStatus(200)
                 .makeDocument(
-                    DocumentInfo(identifier = "카카오 oauth 링크 발급", tag = OpenApiTag.AUTH, description = "백엔드 환경에서 카카오 개발용 테스트 링크 발급"),
+                    DocumentInfo(identifier = "회원가입, 로그인 분기용", tag = OpenApiTag.AUTH, description = "회원가입, 로그인 분기용"),
+                    queryParameters("id_token" type STRING means "카카오 oauth 인증이후 발급된 id_token"),
                     responseFields(
                         "canRegister" type BOOLEAN means "회원가입 가능한여부"
                     )
@@ -149,7 +150,8 @@ class AuthControllerTest : BaseControllerTest() {
             }
                 .isStatus(200)
                 .makeDocument(
-                    DocumentInfo(identifier = "카카오 oauth 링크 발급", tag = OpenApiTag.AUTH, description = "백엔드 환경에서 카카오 개발용 테스트 링크 발급"),
+                    DocumentInfo(identifier = "어세스 토큰 정보획득", tag = OpenApiTag.AUTH, description = "카카오 어세스 토큰 정보획득"),
+                    queryParameters("access_token" type STRING means "카카오 "),
                     responseFields(
                         "profileImage" type STRING means "프로필 이미지",
                         "isDefaultImage" type BOOLEAN means "회원가입 가능한여부",
@@ -167,7 +169,7 @@ class AuthControllerTest : BaseControllerTest() {
             }
                 .isStatus(200)
                 .makeDocument(
-                    DocumentInfo(identifier = "카카오 oauth 링크 발급", tag = OpenApiTag.AUTH, description = "백엔드 환경에서 카카오 개발용 테스트 링크 발급"),
+                    DocumentInfo(identifier = "로그인 요청", tag = OpenApiTag.AUTH, description = "로그인 요청"),
                     tokenAndUserResponseDocs()
                 )
         }
@@ -180,7 +182,7 @@ class AuthControllerTest : BaseControllerTest() {
             }
                 .isStatus(200)
                 .makeDocument(
-                    DocumentInfo(identifier = "카카오 oauth 링크 발급", tag = OpenApiTag.AUTH, description = "백엔드 환경에서 카카오 개발용 테스트 링크 발급"),
+                    DocumentInfo(identifier = "리프레쉬", tag = OpenApiTag.AUTH, description = "리프레쉬"),
                     tokenAndUserResponseDocs()
                 )
         }
@@ -192,7 +194,7 @@ class AuthControllerTest : BaseControllerTest() {
             post("/v1/auth/logout") {}
                 .isStatus(200)
                 .makeDocument(
-                    DocumentInfo(identifier = "카카오 oauth 링크 발급", tag = OpenApiTag.AUTH, description = "백엔드 환경에서 카카오 개발용 테스트 링크 발급")
+                    DocumentInfo(identifier = "로그아웃", tag = OpenApiTag.AUTH, description = "로그아웃")
                 )
         }
 
@@ -202,7 +204,7 @@ class AuthControllerTest : BaseControllerTest() {
             delete("/v1/auth/me") {}
                 .isStatus(200)
                 .makeDocument(
-                    DocumentInfo(identifier = "카카오 oauth 링크 발급", tag = OpenApiTag.AUTH, description = "백엔드 환경에서 카카오 개발용 테스트 링크 발급")
+                    DocumentInfo(identifier = "회원탈퇴", tag = OpenApiTag.AUTH, description = "회원탈퇴")
                 )
         }
     }
