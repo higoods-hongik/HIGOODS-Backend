@@ -16,6 +16,8 @@ object DocumentObjects : BaseControllerTest() {
         "user.fcmInfo.appAlarm" type BOOLEAN means "FcmNotificationVo"
     ).toTypedArray()
 
+    val authorizationHeaderDocs = requestHeaders("Authorization" type STRING means "bearerAuthJWT")
+
     override val controller: Any
         get() = OBJECT
 }

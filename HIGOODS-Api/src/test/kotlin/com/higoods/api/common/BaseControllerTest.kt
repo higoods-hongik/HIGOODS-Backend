@@ -3,7 +3,9 @@ package com.higoods.api.common
 import com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document
 import com.epages.restdocs.apispec.ResourceSnippetParametersBuilder
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.higoods.api.config.security.AuthDetails
 import io.kotest.core.spec.style.FunSpec
+import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
 import org.springframework.mock.web.MockMultipartFile
 import org.springframework.mock.web.MockPart
@@ -27,6 +29,8 @@ import org.springframework.restdocs.request.RequestDocumentation.pathParameters
 import org.springframework.restdocs.request.RequestDocumentation.requestParameters
 import org.springframework.restdocs.request.RequestParametersSnippet
 import org.springframework.restdocs.snippet.Snippet
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.ResultActions
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder
@@ -142,12 +146,15 @@ abstract class BaseControllerTest : FunSpec() {
                 }
         )
 
-    // TODO : 나중에 다시 보기
-//    protected fun MockHttpServletRequestBuilder.authorizationHeader(userId: UserId) {
-//        SecurityContextHolder.getContext().authentication = TokenAuthentication("Token", userId)
-//
-//        this.header("Authorization", "Bearer Token")
-//    }
+    protected fun MockHttpServletRequestBuilder.authorizationHeader(userId: Long) {
+        val authDetails = AuthDetails(userId.toString(), "ROLE_USER")
+        SecurityContextHolder.getContext().authentication = UsernamePasswordAuthenticationToken(
+            authDetails,
+            "user",
+            authDetails.authorities
+        )
+        this.header(HttpHeaders.AUTHORIZATION, "bearerAuthJWT")
+    }
 
     protected fun ResultActions.isStatus(code: Int): ResultActions =
         andExpect(status().`is`(code))
@@ -163,6 +170,7 @@ abstract class BaseControllerTest : FunSpec() {
                     .description(documentInfo.description)
                     .deprecated(documentInfo.deprecated)
                     .tag(documentInfo.tag.value),
+
                 snippets = snippets
             )
         )

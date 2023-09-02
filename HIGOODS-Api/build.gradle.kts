@@ -17,6 +17,7 @@ openapi3 {
 }
 
 swaggerSources {
+
     create("ApiDocument").apply {
         setInputFile(file("${project.buildDir}/api-spec/openapi3.yaml"))
     }
@@ -29,6 +30,8 @@ dependencies {
 
     implementation(Dependencies.SPRING_SECURITY)
     implementation(Dependencies.JWT)
+    runtimeOnly(Dependencies.JWT_JACKSON)
+    runtimeOnly(Dependencies.JWT_IMPL)
 
     testImplementation(Dependencies.REST_DOC)
     testImplementation(Dependencies.REST_DOC_API_SPEC)
