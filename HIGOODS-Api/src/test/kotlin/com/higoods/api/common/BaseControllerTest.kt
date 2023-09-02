@@ -12,8 +12,13 @@ import org.springframework.test.web.servlet.setup.StandaloneMockMvcBuilder
 abstract class BaseControllerTest : FunSpec() {
     protected abstract val controller: Any
     protected lateinit var mockMvc: MockMvc
-    protected lateinit var objectMapper: ObjectMapper
     private val restDocumentation = ManualRestDocumentation()
+
+    companion object {
+        @JvmStatic
+        protected val objectMapper = ObjectMapper()
+    }
+
     init {
         beforeSpec {
             setUpMockMvc()
@@ -25,6 +30,7 @@ abstract class BaseControllerTest : FunSpec() {
             restDocumentation.afterTest()
         }
     }
+
 
     private fun setUpMockMvc() {
         mockMvc = MockMvcBuilders.standaloneSetup(controller)

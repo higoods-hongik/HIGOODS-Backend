@@ -3,8 +3,6 @@ package com.higoods.api.auth
 import com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper
 import com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document
 import com.epages.restdocs.apispec.ResourceDocumentation.parameterWithName
-import com.epages.restdocs.apispec.ResourceDocumentation.resource
-import com.epages.restdocs.apispec.ResourceSnippetParameters
 import com.epages.restdocs.apispec.ResourceSnippetParametersBuilder
 import com.epages.restdocs.apispec.Schema
 import com.higoods.api.auth.controller.AuthController
@@ -76,12 +74,16 @@ class AuthControllerTest : BaseControllerTest() {
                 .andExpect(status().isOk())
                 .andDo {
                     MockMvcRestDocumentationWrapper.document(
-                        "백엔드 환경에서 카카오 개발용 회원가입을 할 수 있습니다.",
-                        ResourceSnippetParametersBuilder()
-                            .responseSchema(
-                                Schema("SliceResponseEventProfileResponse"))
-
+                        identifier = "백엔드 환경에서 카카오 개발용 회원가입을 할 수 있습니다.",
+                        resourceDetails = ResourceSnippetParametersBuilder()
+                            .tag("Sample")
                             .description("자동으로 code 요청을 받아서 수행합니다.")
+                            .requestParameters(
+                                parameterWithName("code").description("The page to be requested.")
+                            )
+                            .responseSchema(
+                                Schema("SliceResponseEventProfileResponse")
+                            )
                             .responseFields(
                                 fieldWithPath("id").type(JsonFieldType.NUMBER).description("id"),
                                 fieldWithPath("name").type(JsonFieldType.STRING).description("이름"),
@@ -90,18 +92,6 @@ class AuthControllerTest : BaseControllerTest() {
                             )
                     )
                 }
-                .andDo(document("book",
-                    resource(
-                        ResourceSnippetParameters.builder()
-                            .pathParameters(
-                                parameterWithName("id").description("book unique id")
-                            )
-                            .responseFields(
-                                fieldWithPath("id").description("book unique id"),
-                                fieldWithPath("title").description("title"),
-                                fieldWithPath("author").description("author")
-                            ).build()
-                    )))
         }
     }
 }
