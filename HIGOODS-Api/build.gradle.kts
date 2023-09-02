@@ -17,6 +17,7 @@ openapi3 {
 }
 
 swaggerSources {
+
     create("ApiDocument").apply {
         setInputFile(file("${project.buildDir}/api-spec/openapi3.yaml"))
     }
