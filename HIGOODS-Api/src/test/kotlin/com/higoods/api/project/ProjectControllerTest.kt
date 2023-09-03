@@ -47,6 +47,7 @@ class ProjectControllerTest : BaseControllerTest() {
             )
 
             post("/v1/projects", request) {
+                authorizationHeader(1)
             }
                 .isStatus(200)
                 .makeDocument(
@@ -81,6 +82,7 @@ class ProjectControllerTest : BaseControllerTest() {
                 contentType(MediaType.APPLICATION_JSON)
                 accept(MediaType.APPLICATION_JSON)
                 content(objectMapper.writeValueAsString(projectUpdateRequest))
+                authorizationHeader(1)
             }
                 .isStatus(200)
                 .makeDocument(
