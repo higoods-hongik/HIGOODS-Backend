@@ -5,5 +5,6 @@ enum class OpenApiTag(
 ) {
     TEST("test"),
     AUTH("Auth"),
-    USER("User")
+    USER("User"),
+    PROJECT("PROJECT")
 }

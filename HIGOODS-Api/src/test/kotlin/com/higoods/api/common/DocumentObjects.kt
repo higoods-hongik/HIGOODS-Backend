@@ -4,7 +4,7 @@ import com.higoods.domain.user.domain.OauthProvider
 
 object DocumentObjects : BaseControllerTest() {
 
-    val userInfoVo: Array<DocumentField> = listOf(
+    val userDetailVo: Array<DocumentField> = listOf(
         "user" type OBJECT means "UserDetailVo",
         "user.id" type NUMBER means "유저아이디",
         "user.nickname" type STRING means "유저닉네임",
@@ -15,6 +15,16 @@ object DocumentObjects : BaseControllerTest() {
         "user.fcmInfo.fcmToken" type STRING means "FcmNotificationVo",
         "user.fcmInfo.appAlarm" type BOOLEAN means "FcmNotificationVo"
     ).toTypedArray()
+
+    val userInfoVo: Array<DocumentField> = listOf(
+        "user" type OBJECT means "UserDetailVo",
+        "user.id" type NUMBER means "유저아이디",
+        "user.nickname" type STRING means "유저닉네임",
+        "user.profileImg" type STRING means "프로필 이미지 주소",
+        "user.isDefaultImg" type BOOLEAN means "카카오 기본 이미지 여부"
+    ).toTypedArray()
+
+    val dateTimeFormatString: String = "1999-11-27T11:22"
 
     override val controller: Any
         get() = OBJECT

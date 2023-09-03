@@ -3,6 +3,8 @@ package com.higoods.api.common
 import com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document
 import com.epages.restdocs.apispec.ResourceSnippetParametersBuilder
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.higoods.api.config.security.AuthDetails
 import io.kotest.core.spec.style.FunSpec
 import org.springframework.http.HttpHeaders
@@ -45,7 +47,7 @@ abstract class BaseControllerTest : FunSpec() {
 
     companion object {
         @JvmStatic
-        protected val objectMapper = ObjectMapper()
+        protected val objectMapper: ObjectMapper = jacksonObjectMapper().registerModule(JavaTimeModule())
     }
 
     init {

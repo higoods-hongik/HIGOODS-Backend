@@ -214,7 +214,7 @@ class AuthControllerTest : BaseControllerTest() {
     }
 
     private fun tokenAndUserResponseDocs() = responseFields(
-        *DocumentObjects.userInfoVo,
+        *DocumentObjects.userDetailVo,
         "accessTokenExpireIn" type NUMBER means "Access 토큰 만료시간",
         "accessToken" type STRING means "Access 토큰 ",
         "refreshToken" type STRING means "refreshToken 토큰",
