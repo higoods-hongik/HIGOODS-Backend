@@ -17,6 +17,7 @@ class Project(
     var titleImage: String, // 대표이미지
     var subTitle: String, // 한줄 소개
 
+    var currentPurchaseQuantity: Long = 0, // 현재 구매 인원
     val minimumPurchaseQuantity: Long, // 최소 구매 인원
 
     var endDateTime: LocalDateTime, // 마감기한 날짜
@@ -35,4 +36,7 @@ class Project(
         this.subTitle = subTitle
         this.titleImage = titleImage
     }
+
+    fun increaseCurrentPurchaseQuantity() { this.currentPurchaseQuantity = currentPurchaseQuantity + 1 }
+    fun decreaseCurrentPurchaseQuantity() { this.currentPurchaseQuantity = currentPurchaseQuantity - 1 }
 }

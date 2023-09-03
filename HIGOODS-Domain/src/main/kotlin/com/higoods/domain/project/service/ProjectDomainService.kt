@@ -1,6 +1,7 @@
 package com.higoods.domain.project.service
 
 import com.higoods.common.annotation.DomainService
+import com.higoods.domain.common.lock.RedissonLock
 import com.higoods.domain.project.adapter.ProjectAdapter
 import com.higoods.domain.project.domain.Project
 import org.springframework.transaction.annotation.Transactional
@@ -24,5 +25,16 @@ class ProjectDomainService(
             titleImage
         )
         return projectId
+    }
+
+    @RedissonLock(key = "#projectId", lockName = "구매 인원 증가")
+    fun increasePurchaseNum(projectId: Long) {
+        val project = projectAdapter.queryById(projectId)
+        project.increaseCurrentPurchaseQuantity()
+    }
+
+    @RedissonLock(key = "#projectId", lockName = "구매 인원 감소")
+    fun decreasePurchaseNum(project: Project) {
+        project.decreaseCurrentPurchaseQuantity()
     }
 }

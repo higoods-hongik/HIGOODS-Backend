@@ -9,7 +9,7 @@ plugins {
 }
 
 openapi3 {
-    setServer("http://localhost:8080")
+    setServer("http://localhost:8080/api")
     title = "HIGOODS API Documentation"
     description = "Spring REST Docs with SwaggerUI"
     version = "0.0.1"
@@ -17,6 +17,7 @@ openapi3 {
 }
 
 swaggerSources {
+
     create("ApiDocument").apply {
         setInputFile(file("${project.buildDir}/api-spec/openapi3.yaml"))
     }
@@ -29,6 +30,8 @@ dependencies {
 
     implementation(Dependencies.SPRING_SECURITY)
     implementation(Dependencies.JWT)
+    runtimeOnly(Dependencies.JWT_JACKSON)
+    runtimeOnly(Dependencies.JWT_IMPL)
 
     testImplementation(Dependencies.REST_DOC)
     testImplementation(Dependencies.REST_DOC_API_SPEC)

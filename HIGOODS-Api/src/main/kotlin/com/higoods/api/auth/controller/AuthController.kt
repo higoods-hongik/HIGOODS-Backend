@@ -73,7 +73,7 @@ class AuthController(
     }
 
 //    @Operation(summary = "accessToken 으로 oauth user 정보를 가져옵니다.")
-    @PostMapping("/oauth/kakao/info")
+    @GetMapping("/oauth/kakao/info")
     fun kakaoOauthUserInfo(
         @RequestParam("access_token") accessToken: String
     ): OauthUserInfoResponse {
