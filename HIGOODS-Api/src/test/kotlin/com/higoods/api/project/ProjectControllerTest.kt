@@ -3,7 +3,6 @@ package com.higoods.api.project
 import com.higoods.api.common.BaseControllerTest
 import com.higoods.api.common.DocumentObjects
 import com.higoods.api.common.DocumentObjects.getPageResponse
-import com.higoods.api.common.DocumentObjects.type
 import com.higoods.api.common.ENUM
 import com.higoods.api.common.NUMBER
 import com.higoods.api.common.OpenApiTag
@@ -20,6 +19,7 @@ import com.higoods.domain.project.domain.ShipmentType
 import io.mockk.every
 import io.mockk.mockk
 import org.springframework.data.domain.PageImpl
+import org.springframework.http.MediaType
 
 class ProjectControllerTest : BaseControllerTest() {
     private val projectCreateUseCase: ProjectCreateUseCase = mockk()
@@ -77,7 +77,11 @@ class ProjectControllerTest : BaseControllerTest() {
 
             every { projectUpdateUseCase.execute(any(), any()) } returns projectResponse()
 
-            get("/v1/projects/{project_id}", pathParams = arrayOf("1")) {}
+            patch("/v1/projects/{project_id}", pathParams = arrayOf("1")) {
+                contentType(MediaType.APPLICATION_JSON)
+                accept(MediaType.APPLICATION_JSON)
+                content(objectMapper.writeValueAsString(projectUpdateRequest))
+            }
                 .isStatus(200)
                 .makeDocument(
                     DocumentInfo(
@@ -144,7 +148,7 @@ class ProjectControllerTest : BaseControllerTest() {
     )
 
     private fun projectResponse(): ProjectResponse {
-        val response = ProjectResponse(
+        return ProjectResponse(
             title = "제목",
             titleImage = "대표이미지",
             subTitle = "subTitle",
@@ -160,6 +164,5 @@ class ProjectControllerTest : BaseControllerTest() {
             ),
             createAt = DocumentObjects.dateTimeFormatString
         )
-        return response
     }
 }
