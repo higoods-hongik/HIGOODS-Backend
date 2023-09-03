@@ -17,7 +17,6 @@ import com.higoods.api.auth.usecase.WithDrawUseCase
 import com.higoods.api.common.BOOLEAN
 import com.higoods.api.common.BaseControllerTest
 import com.higoods.api.common.DocumentObjects
-import com.higoods.api.common.DocumentObjects.authorizationHeaderDocs
 import com.higoods.api.common.NUMBER
 import com.higoods.api.common.OpenApiTag
 import com.higoods.api.common.STRING
@@ -197,8 +196,7 @@ class AuthControllerTest : BaseControllerTest() {
             }
                 .isStatus(200)
                 .makeDocument(
-                    DocumentInfo(identifier = "로그아웃", tag = OpenApiTag.AUTH, description = "로그아웃"),
-                    authorizationHeaderDocs
+                    DocumentInfo(identifier = "로그아웃", tag = OpenApiTag.AUTH, description = "로그아웃")
                 )
         }
 
@@ -210,8 +208,7 @@ class AuthControllerTest : BaseControllerTest() {
             }
                 .isStatus(200)
                 .makeDocument(
-                    DocumentInfo(identifier = "회원탈퇴", tag = OpenApiTag.AUTH, description = "회원탈퇴"),
-                    authorizationHeaderDocs
+                    DocumentInfo(identifier = "회원탈퇴", tag = OpenApiTag.AUTH, description = "회원탈퇴")
                 )
         }
     }
