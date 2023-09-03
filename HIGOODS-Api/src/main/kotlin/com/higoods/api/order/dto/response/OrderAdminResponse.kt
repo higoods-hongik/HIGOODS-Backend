@@ -1,8 +1,8 @@
 package com.higoods.api.order.dto.response
 
+import com.higoods.common.helper.toHigoodsDateTimeFormat
 import com.higoods.domain.order.domain.Order
 import com.higoods.domain.order.domain.OrderState
-import java.time.format.DateTimeFormatter
 
 data class OrderAdminResponse(
     val orderNo: String, // 주문 번호
@@ -19,7 +19,7 @@ data class OrderAdminResponse(
                 orderNo = order.orderNo,
                 name = order.name,
                 depositName = order.depositName,
-                createdAt = order.createdAt.format(DateTimeFormatter.ofPattern("yy.MM.dd HH:mm")),
+                createdAt = order.createdAt.toHigoodsDateTimeFormat(),
                 phoneNum = order.phoneNum,
                 totalCost = order.totalCost,
                 orderState = order.orderState

@@ -1,9 +1,9 @@
 package com.higoods.api.project.dto.response
 
+import com.higoods.common.helper.toHigoodsDateTimeFormat
 import com.higoods.domain.common.vo.UserInfoVo
 import com.higoods.domain.project.domain.Project
 import com.higoods.domain.project.domain.ShipmentType
-import java.time.LocalDateTime
 
 data class ProjectResponse(
     val title: String,
@@ -11,10 +11,10 @@ data class ProjectResponse(
     val subTitle: String,
     val content: String,
     val minimumPurchaseQuantity: Long, // 최소 구매 인원
-    val endDateTime: LocalDateTime, // 마감기한 날짜
+    val endDateTime: String, // 마감기한 날짜
     val shipmentType: ShipmentType,
-    val userInfo: UserInfoVo,
-    val createAt: LocalDateTime
+    val user: UserInfoVo,
+    val createAt: String
 ) {
     companion object {
         fun of(project: Project, userInfo: UserInfoVo): ProjectResponse {
@@ -24,10 +24,10 @@ data class ProjectResponse(
                 subTitle = project.subTitle,
                 content = project.content,
                 minimumPurchaseQuantity = project.minimumPurchaseQuantity,
-                endDateTime = project.endDateTime,
+                endDateTime = project.endDateTime.toHigoodsDateTimeFormat(),
                 shipmentType = project.shipmentType,
-                userInfo = userInfo,
-                createAt = project.createdAt
+                user = userInfo,
+                createAt = project.createdAt.toHigoodsDateTimeFormat()
             )
         }
     }

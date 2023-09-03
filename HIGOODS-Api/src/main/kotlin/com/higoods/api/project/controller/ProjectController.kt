@@ -35,7 +35,7 @@ class ProjectController(
         return projectCreateUseCase.execute(projectCreateRequest)
     }
 
-    @PatchMapping("{project_id}")
+    @PatchMapping("/{project_id}")
     fun update(
         @PathVariable("project_id") projectId: Long,
         @Validated @RequestBody
