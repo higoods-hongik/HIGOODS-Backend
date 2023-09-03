@@ -9,7 +9,7 @@ import org.springframework.restdocs.request.RequestDocumentation.parameterWithNa
 import org.springframework.restdocs.snippet.Attributes
 
 class DocumentField(
-    private val name: String,
+    private var name: String,
     private var fieldType: JsonFieldType? = null,
     private val enumValues: List<Any>? = null
 ) {
@@ -18,6 +18,11 @@ class DocumentField(
 
     infix fun means(description: String): DocumentField {
         this.description = description
+        return this
+    }
+
+    fun prefixName(prefix: String): DocumentField {
+        name = prefix + name
         return this
     }
 
