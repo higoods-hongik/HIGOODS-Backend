@@ -153,7 +153,11 @@ abstract class BaseControllerTest : FunSpec() {
             "user",
             authDetails.authorities
         )
-        this.header(HttpHeaders.AUTHORIZATION, "bearerAuthJWT")
+        // 실제 토큰을 집어넣는이유.
+        // https://github.com/ePages-de/restdocs-api-spec/pull/86
+        // https://github.com/ePages-de/restdocs-api-spec/blob/4c735ca2796d0620ecef30e20471a173cec0809b/restdocs-api-spec/src/main/kotlin/com/epages/restdocs/apispec/JwtSecurityHandler.kt#L14
+        // 복호화해서 scope 들어있는 oauth 헤더가 아니면 자동으로 좌물쇠 채워주는 소스가 있습니다.
+        this.header(HttpHeaders.AUTHORIZATION, "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c")
     }
 
     protected fun ResultActions.isStatus(code: Int): ResultActions =
@@ -170,7 +174,6 @@ abstract class BaseControllerTest : FunSpec() {
                     .description(documentInfo.description)
                     .deprecated(documentInfo.deprecated)
                     .tag(documentInfo.tag.value),
-
                 snippets = snippets
             )
         )
