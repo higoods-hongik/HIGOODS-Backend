@@ -1,5 +1,3 @@
-
-import org.hidetake.gradle.swagger.generator.GenerateSwaggerCode
 import org.hidetake.gradle.swagger.generator.GenerateSwaggerUI
 import org.springframework.boot.gradle.tasks.bundling.BootJar
 
@@ -37,13 +35,10 @@ dependencies {
 
     testImplementation(Dependencies.REST_DOC)
     testImplementation(Dependencies.REST_DOC_API_SPEC)
-    swaggerUI("org.webjars:swagger-ui:4.11.1")
+    swaggerUI(Dependencies.SWAGGER_UI)
 
     tasks {
         withType<Jar> { enabled = false }
-        withType<GenerateSwaggerCode> {
-            language = "asdf"
-        }
         withType<GenerateSwaggerUI> {
             dependsOn("openapi3")
         }
