@@ -20,7 +20,6 @@ import com.higoods.domain.order.domain.ReceiveType
 import io.mockk.every
 import io.mockk.mockk
 import org.springframework.http.MediaType
-import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders
 import org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest
 import org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse
 import org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint
@@ -68,12 +67,12 @@ class OrderControllerTest : BaseControllerTest() {
         test("주문 생성 테스트") {
             every { orderCreateUseCase.execute(1, orderCreateRequest) } returns orderResponse
 
-            mockMvc.perform(
-                RestDocumentationRequestBuilders.post("/v1/orders/{project_id}", 1)
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .accept(MediaType.APPLICATION_JSON)
-                    .content(objectMapper.writeValueAsString(orderCreateRequest))
-            )
+            post("/v1/orders/{project_id}", pathParams = arrayOf("1")) {
+                contentType(MediaType.APPLICATION_JSON)
+                accept(MediaType.APPLICATION_JSON)
+                content(objectMapper.writeValueAsString(orderCreateRequest))
+                authorizationHeader(1)
+            }
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(
                     document(
@@ -91,7 +90,7 @@ class OrderControllerTest : BaseControllerTest() {
                                     fieldWithPath("name").type(JsonFieldType.STRING).description("이름"),
                                     fieldWithPath("studentId").type(JsonFieldType.STRING).description("학번"),
                                     fieldWithPath("phoneNum").type(JsonFieldType.STRING).description("전화번호"),
-                                    fieldWithPath("receiveType").type(JsonFieldType.STRING).description("상품 수령 방법"),
+                                    fieldWithPath("receiveType").type(JsonFieldType.STRING).description("상품 수령 방법 이넘 DISTRIBUTION,DELIVERY"),
                                     fieldWithPath("depositName").type(JsonFieldType.STRING).description("입금자명"),
                                     fieldWithPath("refundBank").type(JsonFieldType.STRING).description("환불 은행"),
                                     fieldWithPath("refundAccount").type(JsonFieldType.STRING).description("환불 계좌"),
@@ -99,11 +98,11 @@ class OrderControllerTest : BaseControllerTest() {
                                     fieldWithPath("orderOptions[]").type(JsonFieldType.ARRAY).description("상품 옵션 정보"),
                                     fieldWithPath("orderOptions[].optionId").type(JsonFieldType.NUMBER).description("상품 옵션 id"),
                                     fieldWithPath("orderOptions[].count").type(JsonFieldType.NUMBER).description("상품 옵션 수량"),
-                                    fieldWithPath("orderAnswers[]").type(JsonFieldType.ARRAY).description("커스텀 주문폼 정보").optional(),
-                                    fieldWithPath("orderAnswers[].optionId").type(JsonFieldType.NUMBER).description("커스텀 주문폼 정보").optional(),
-                                    fieldWithPath("orderAnswers[].answerType").type(JsonFieldType.STRING).description("커스텀 주문폼 정보").optional(),
-                                    fieldWithPath("orderAnswers[].multipleChoiceId").type(JsonFieldType.NUMBER).description("커스텀 주문폼 정보").optional(),
-                                    fieldWithPath("orderAnswers[].shortAnswer").type(JsonFieldType.STRING).description("커스텀 주문폼 정보").optional()
+                                    fieldWithPath("orderAnswers[]").type(JsonFieldType.ARRAY).description("커스텀 주문폼 정보, optional").optional(),
+                                    fieldWithPath("orderAnswers[].optionId").type(JsonFieldType.NUMBER).description("커스텀 주문폼 정보 id").optional(),
+                                    fieldWithPath("orderAnswers[].answerType").type(JsonFieldType.STRING).description("커스텀 주문폼 타입 이넘 SHORT(주관식),MULTIPLE_CHOICE(객관식)").optional(),
+                                    fieldWithPath("orderAnswers[].multipleChoiceId").type(JsonFieldType.NUMBER).description("객관식 답변 id").optional(),
+                                    fieldWithPath("orderAnswers[].shortAnswer").type(JsonFieldType.STRING).description("주관식 답변").optional()
                                 )
                                 .responseFields(
                                     fieldWithPath("orderNo").type(JsonFieldType.STRING).description("주문 번호"),
@@ -118,11 +117,11 @@ class OrderControllerTest : BaseControllerTest() {
                                     fieldWithPath("orderOptions[]").type(JsonFieldType.ARRAY).description("상품 옵션 정보"),
                                     fieldWithPath("orderOptions[].optionId").type(JsonFieldType.NUMBER).description("상품 옵션 id"),
                                     fieldWithPath("orderOptions[].count").type(JsonFieldType.NUMBER).description("상품 옵션 수량"),
-                                    fieldWithPath("orderAnswers[]").type(JsonFieldType.ARRAY).description("커스텀 주문폼 정보"),
-                                    fieldWithPath("orderAnswers[].optionId").type(JsonFieldType.NUMBER).description("커스텀 주문폼 정보").optional(),
-                                    fieldWithPath("orderAnswers[].answerType").type(JsonFieldType.STRING).description("커스텀 주문폼 정보").optional(),
-                                    fieldWithPath("orderAnswers[].multipleChoiceId").type(JsonFieldType.NUMBER).description("커스텀 주문폼 정보").optional(),
-                                    fieldWithPath("orderAnswers[].shortAnswer").type(JsonFieldType.STRING).description("커스텀 주문폼 정보").optional()
+                                    fieldWithPath("orderAnswers[]").type(JsonFieldType.ARRAY).description("커스텀 주문폼 정보, optional").optional(),
+                                    fieldWithPath("orderAnswers[].optionId").type(JsonFieldType.NUMBER).description("커스텀 주문폼 정보 id").optional(),
+                                    fieldWithPath("orderAnswers[].answerType").type(JsonFieldType.STRING).description("커스텀 주문폼 타입 이넘 SHORT(주관식),MULTIPLE_CHOICE(객관식)").optional(),
+                                    fieldWithPath("orderAnswers[].multipleChoiceId").type(JsonFieldType.NUMBER).description("객관식 답변 id").optional(),
+                                    fieldWithPath("orderAnswers[].shortAnswer").type(JsonFieldType.STRING).description("주관식 답변").optional()
                                 )
                                 .requestSchema(Schema.schema("주문 생성 Req"))
                                 .responseSchema(Schema.schema("주문 생성 Res"))
@@ -145,11 +144,11 @@ class OrderControllerTest : BaseControllerTest() {
 
             every { orderReadUseCase.findAll() } returns orderProjectResponse
 
-            mockMvc.perform(
-                RestDocumentationRequestBuilders.get("/v1/orders")
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .accept(MediaType.APPLICATION_JSON)
-            )
+            get("/v1/orders") {
+                contentType(MediaType.APPLICATION_JSON)
+                accept(MediaType.APPLICATION_JSON)
+                authorizationHeader(1)
+            }
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(
                     document(
@@ -165,7 +164,7 @@ class OrderControllerTest : BaseControllerTest() {
                                     fieldWithPath("[].title").type(JsonFieldType.STRING).description("제목"),
                                     fieldWithPath("[].titleImage").type(JsonFieldType.STRING).description("이미지"),
                                     fieldWithPath("[].subTitle").type(JsonFieldType.STRING).description("부제목"),
-                                    fieldWithPath("[].orderState").type(JsonFieldType.STRING).description("주문 상태")
+                                    fieldWithPath("[].orderState").type(JsonFieldType.STRING).description("주문 상태 이넘 PENDING,APPROVAL,CANCELED")
                                 )
                                 .responseSchema(Schema.schema("마이페이지-내 주문 목록 조회 Res"))
                                 .build()
@@ -176,13 +175,13 @@ class OrderControllerTest : BaseControllerTest() {
 
         test("내 주문 상세 조회") {
 
-            every { orderReadUseCase.findById(1L) } returns orderResponse
+            every { orderReadUseCase.findById(1) } returns orderResponse
 
-            mockMvc.perform(
-                RestDocumentationRequestBuilders.get("/v1/orders/{order_id}", 1L)
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .accept(MediaType.APPLICATION_JSON)
-            )
+            get("/v1/orders/{order_id}", arrayOf("1")) {
+                contentType(MediaType.APPLICATION_JSON)
+                accept(MediaType.APPLICATION_JSON)
+                authorizationHeader(1)
+            }
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(
                     document(
@@ -201,7 +200,7 @@ class OrderControllerTest : BaseControllerTest() {
                                     fieldWithPath("name").type(JsonFieldType.STRING).description("이름"),
                                     fieldWithPath("studentId").type(JsonFieldType.STRING).description("학번"),
                                     fieldWithPath("phoneNum").type(JsonFieldType.STRING).description("전화번호"),
-                                    fieldWithPath("receiveType").type(JsonFieldType.STRING).description("상품 수령 방법"),
+                                    fieldWithPath("receiveType").type(JsonFieldType.STRING).description("상품 수령 방법 이넘 DELIVERY,DISTRIBUTION"),
                                     fieldWithPath("depositName").type(JsonFieldType.STRING).description("입금자명"),
                                     fieldWithPath("refundBank").type(JsonFieldType.STRING).description("환불 은행"),
                                     fieldWithPath("refundAccount").type(JsonFieldType.STRING).description("환불 계좌"),
@@ -209,11 +208,11 @@ class OrderControllerTest : BaseControllerTest() {
                                     fieldWithPath("orderOptions[]").description("상품 옵션 정보"),
                                     fieldWithPath("orderOptions[].optionId").type(JsonFieldType.NUMBER).description("상품 옵션 id"),
                                     fieldWithPath("orderOptions[].count").type(JsonFieldType.NUMBER).description("상품 옵션 수량"),
-                                    fieldWithPath("orderAnswers[]").description("커스텀 주문폼 정보"),
-                                    fieldWithPath("orderAnswers[].optionId").type(JsonFieldType.NUMBER).description("커스텀 주문폼 정보").optional(),
-                                    fieldWithPath("orderAnswers[].answerType").type(JsonFieldType.STRING).description("커스텀 주문폼 정보").optional(),
-                                    fieldWithPath("orderAnswers[].multipleChoiceId").type(JsonFieldType.NUMBER).description("커스텀 주문폼 정보").optional(),
-                                    fieldWithPath("orderAnswers[].shortAnswer").type(JsonFieldType.STRING).description("커스텀 주문폼 정보").optional()
+                                    fieldWithPath("orderAnswers[]").description("커스텀 주문폼 정보, optional").optional(),
+                                    fieldWithPath("orderAnswers[].optionId").type(JsonFieldType.NUMBER).description("커스텀 주문폼 정보 id").optional(),
+                                    fieldWithPath("orderAnswers[].answerType").type(JsonFieldType.STRING).description("커스텀 주문폼 타입 이넘 SHORT(주관식),MULTIPLE_CHOICE(객관식)").optional(),
+                                    fieldWithPath("orderAnswers[].multipleChoiceId").type(JsonFieldType.NUMBER).description("객관식 답변 id").optional(),
+                                    fieldWithPath("orderAnswers[].shortAnswer").type(JsonFieldType.STRING).description("주관식 답변").optional()
                                 )
                                 .responseSchema(Schema.schema("내 주문 상세 조회 Res"))
                                 .build()

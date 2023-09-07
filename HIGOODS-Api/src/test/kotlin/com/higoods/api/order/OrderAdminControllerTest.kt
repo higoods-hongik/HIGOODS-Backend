@@ -6,6 +6,7 @@ import com.epages.restdocs.apispec.ResourceDocumentation.resource
 import com.epages.restdocs.apispec.ResourceSnippetParametersBuilder
 import com.epages.restdocs.apispec.Schema
 import com.higoods.api.common.BaseControllerTest
+import com.higoods.api.common.DocumentObjects
 import com.higoods.api.order.controller.OrderAdminController
 import com.higoods.api.order.dto.response.OrderAdminResponse
 import com.higoods.api.order.usecase.OrderApproveUseCase
@@ -39,19 +40,19 @@ class OrderAdminControllerTest : BaseControllerTest() {
                     orderNo = "H100001",
                     name = "이홍익",
                     depositName = "이홍익",
-                    createdAt = "23.08.27 03:15",
+                    createdAt = DocumentObjects.dateTimeFormatString,
                     phoneNum = "010-1111-2222",
                     totalCost = 10000,
                     orderState = OrderState.PENDING
                 )
 
-            every { orderCancelUseCase.execute(1L) } returns orderAdminResponse
+            every { orderCancelUseCase.execute(1) } returns orderAdminResponse
 
-            mockMvc.perform(
-                post("/v1/admins/orders/{order_id}/cancellations", 1L)
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .accept(MediaType.APPLICATION_JSON)
-            )
+            post("/v1/admins/orders/{order_id}/cancellations", arrayOf("1")) {
+                contentType(MediaType.APPLICATION_JSON)
+                accept(MediaType.APPLICATION_JSON)
+                authorizationHeader(1)
+            }
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(
                     document(
@@ -72,7 +73,7 @@ class OrderAdminControllerTest : BaseControllerTest() {
                                     fieldWithPath("createdAt").type(JsonFieldType.STRING).description("주문 일시"),
                                     fieldWithPath("phoneNum").type(JsonFieldType.STRING).description("전화번호"),
                                     fieldWithPath("totalCost").type(JsonFieldType.NUMBER).description("총 금액"),
-                                    fieldWithPath("orderState").type(JsonFieldType.STRING).description("주문 상태")
+                                    fieldWithPath("orderState").type(JsonFieldType.STRING).description("주문 상태 이넘 PENDING,APPROVAL,CANCELED")
                                 )
                                 .responseSchema(Schema.schema("[어드민] 주문 취소 Res"))
                                 .build()
@@ -87,19 +88,19 @@ class OrderAdminControllerTest : BaseControllerTest() {
                     orderNo = "H100001",
                     name = "이홍익",
                     depositName = "이홍익",
-                    createdAt = "23.08.27 03:15",
+                    createdAt = DocumentObjects.dateTimeFormatString,
                     phoneNum = "010-1111-2222",
                     totalCost = 10000,
                     orderState = OrderState.PENDING
                 )
 
-            every { orderApproveUseCase.execute(1L) } returns orderAdminResponse
+            every { orderApproveUseCase.execute(1) } returns orderAdminResponse
 
-            mockMvc.perform(
-                post("/v1/admins/orders/{order_id}/approvals", 1L)
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .accept(MediaType.APPLICATION_JSON)
-            )
+            post("/v1/admins/orders/{order_id}/approvals", arrayOf("1")) {
+                contentType(MediaType.APPLICATION_JSON)
+                accept(MediaType.APPLICATION_JSON)
+                authorizationHeader(1)
+            }
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(
                     document(
@@ -120,7 +121,7 @@ class OrderAdminControllerTest : BaseControllerTest() {
                                     fieldWithPath("createdAt").type(JsonFieldType.STRING).description("주문 일시"),
                                     fieldWithPath("phoneNum").type(JsonFieldType.STRING).description("전화번호"),
                                     fieldWithPath("totalCost").type(JsonFieldType.NUMBER).description("총 금액"),
-                                    fieldWithPath("orderState").type(JsonFieldType.STRING).description("주문 상태")
+                                    fieldWithPath("orderState").type(JsonFieldType.STRING).description("주문 상태 이넘 PENDING,APPROVAL,CANCELED")
                                 )
                                 .responseSchema(Schema.schema("[어드민] 입금 승인 Res"))
                                 .build()
@@ -136,7 +137,7 @@ class OrderAdminControllerTest : BaseControllerTest() {
                         orderNo = "H100001",
                         name = "이홍익",
                         depositName = "이홍익",
-                        createdAt = "23.08.27 03:15",
+                        createdAt = DocumentObjects.dateTimeFormatString,
                         phoneNum = "010-1111-2222",
                         totalCost = 10000,
                         orderState = OrderState.PENDING
@@ -146,15 +147,15 @@ class OrderAdminControllerTest : BaseControllerTest() {
 
             every { orderReadUseCase.findByStateAndName(1, OrderState.PENDING, null, PageRequest.of(1, 6)) } returns orderAdminResponse
 
-            mockMvc.perform(
-                get("/v1/admins/orders/{project_id}", 1)
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .accept(MediaType.APPLICATION_JSON)
-                    .param("state", OrderState.PENDING.toString())
-                    .param("name", null)
-                    .param("page", "1")
-                    .param("size", "6")
-            )
+            get("/v1/admins/orders/{project_id}", arrayOf("1")) {
+                contentType(MediaType.APPLICATION_JSON)
+                accept(MediaType.APPLICATION_JSON)
+                param("state", OrderState.PENDING.toString())
+                param("name", null)
+                param("page", "1")
+                param("size", "6")
+                authorizationHeader(1)
+            }
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(
                     document(
@@ -169,7 +170,7 @@ class OrderAdminControllerTest : BaseControllerTest() {
                                     parameterWithName("project_id").description("프로젝트 id")
                                 )
                                 .requestParameters(
-                                    parameterWithName("state").description("state"),
+                                    parameterWithName("state").description("state 이넘 PENDING,APPROVAL,CANCELED"),
                                     parameterWithName("name").description("name").optional(),
                                     parameterWithName("page").description("page"),
                                     parameterWithName("size").description("size")
@@ -182,7 +183,7 @@ class OrderAdminControllerTest : BaseControllerTest() {
                                     fieldWithPath("content[].createdAt").type(JsonFieldType.STRING).description("주문 일시"),
                                     fieldWithPath("content[].phoneNum").type(JsonFieldType.STRING).description("전화번호"),
                                     fieldWithPath("content[].totalCost").type(JsonFieldType.NUMBER).description("총 금액"),
-                                    fieldWithPath("content[].orderState").type(JsonFieldType.STRING).description("주문 상태"),
+                                    fieldWithPath("content[].orderState").type(JsonFieldType.STRING).description("주문 상태 이넘 PENDING,APPROVAL,CANCELED"),
                                     fieldWithPath("pageable").description("페이지 정보"),
                                     fieldWithPath("totalElements").description("전체 주문 개수"),
                                     fieldWithPath("totalPages").description("전체 페이지 수"),
