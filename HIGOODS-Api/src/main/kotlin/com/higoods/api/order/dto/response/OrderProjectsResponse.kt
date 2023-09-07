@@ -11,7 +11,7 @@ data class OrderProjectsResponse(
     val orderState: OrderState
     // TODO: 프로젝트단 관련 작업 완료되면 추가 작업 필요
     // val category: String,
-    // TODO: 프로젝트 상채 도메인 개발 후 추가 작업 필요
+    // TODO: 프로젝트 상태 도메인 개발 후 추가 작업 필요
     // val projectStatus: String
 ) {
     companion object {
