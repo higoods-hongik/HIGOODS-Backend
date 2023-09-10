@@ -12,7 +12,6 @@ import javax.persistence.Table
 @Table(name = "tbl_item_option_group")
 class ItemOptionGroup(
 
-    val itemId: Long,
     val name: String,
 
     @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.LAZY)

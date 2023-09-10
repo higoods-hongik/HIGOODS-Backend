@@ -26,7 +26,7 @@ class Project(
     var shipmentType: ShipmentType, // 배송 / 현장 배부 날짜
 
     @Enumerated(EnumType.STRING)
-    var projectProgress: ProjectProgress = ProjectProgress.PREPARING,
+    var progress: ProjectProgress = ProjectProgress.PREPARING,
 
     var content: String = "" // 프로젝트 소개
 

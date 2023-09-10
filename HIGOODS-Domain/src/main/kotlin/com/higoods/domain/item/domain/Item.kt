@@ -20,7 +20,7 @@ class Item(
     val category: ProductCategory,
 
     @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
-    @JoinColumn(name = "itemId")
+    @JoinColumn(name = "id")
     val itemOptionGroups: List<ItemOptionGroup> = emptyList()
 
 ) : BaseEntity()

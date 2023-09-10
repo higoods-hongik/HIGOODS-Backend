@@ -10,7 +10,8 @@ import java.util.*
 enum class ProjectErrorCode(val status: Int, val code: String, val reason: String) : BaseErrorCode {
 
     PROJECT_NOT_FOUND(NOT_FOUND, "PROJECT_404_1", "프로젝트를 찾을 수 없습니다."),
-    PROJECT_NOT_HOST(BAD_REQUEST, "PROJECT_400_1", "프로젝트에 권한이 없는 유저입니다.")
+    PROJECT_NOT_HOST(BAD_REQUEST, "PROJECT_400_1", "프로젝트에 권한이 없는 유저입니다."),
+    PROJECT_NOT_ITEM_CREATE_STATUS(BAD_REQUEST, "PROJECT_400_2", "아이템을 생성할 수 있는 상태가 아닙니다.( 준비중일 때만 가능 )")
     ;
 
     override val errorReason: ErrorReason

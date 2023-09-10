@@ -6,8 +6,8 @@ import com.epages.restdocs.apispec.ResourceDocumentation.resource
 import com.epages.restdocs.apispec.ResourceSnippetParametersBuilder
 import com.epages.restdocs.apispec.Schema
 import com.higoods.api.common.BaseControllerTest
+import com.higoods.api.item.dto.request.OrderAnswerDto
 import com.higoods.api.order.controller.OrderController
-import com.higoods.api.order.dto.request.OrderAnswerDto
 import com.higoods.api.order.dto.request.OrderCreateRequest
 import com.higoods.api.order.dto.request.OrderOptionDto
 import com.higoods.api.order.dto.response.OrderProjectsResponse
@@ -26,7 +26,6 @@ import org.springframework.restdocs.operation.preprocess.Preprocessors.preproces
 import org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint
 import org.springframework.restdocs.payload.JsonFieldType
 import org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath
-import org.springframework.restdocs.payload.PayloadDocumentation.responseFields
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 
 class OrderControllerTest : BaseControllerTest() {

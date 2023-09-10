@@ -7,9 +7,6 @@ import javax.persistence.Table
 @Entity
 @Table(name = "tbl_item_option")
 class ItemOption(
-
     val name: String,
-    val price: Long,
-    val optionGroupId: Long
-
+    val price: Long
 ) : BaseEntity()

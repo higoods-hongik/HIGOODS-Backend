@@ -7,13 +7,12 @@ import com.higoods.api.common.ENUM
 import com.higoods.api.common.NUMBER
 import com.higoods.api.common.OpenApiTag
 import com.higoods.api.common.STRING
-import com.higoods.api.project.controller.ProjectController
-import com.higoods.api.project.dto.request.ProjectCreateRequest
-import com.higoods.api.project.dto.request.ProjectUpdateRequest
-import com.higoods.api.project.dto.response.ProjectResponse
-import com.higoods.api.project.usecase.ProjectCreateUseCase
-import com.higoods.api.project.usecase.ProjectReadUseCase
-import com.higoods.api.project.usecase.ProjectUpdateUseCase
+import com.higoods.api.item.controller.ItemController
+import com.higoods.api.item.dto.request.ItemCreateRequest
+import com.higoods.api.item.dto.request.ItemUpdateRequest
+import com.higoods.api.item.dto.response.ItemResponse
+import com.higoods.api.item.usecase.ItemCreateUseCase
+import com.higoods.api.item.usecase.ItemReadUseCase
 import com.higoods.domain.common.vo.UserInfoVo
 import com.higoods.domain.project.domain.ShipmentType
 import io.mockk.every
@@ -22,11 +21,11 @@ import org.springframework.data.domain.PageImpl
 import org.springframework.http.MediaType
 
 class ProjectControllerTest : BaseControllerTest() {
-    private val projectCreateUseCase: ProjectCreateUseCase = mockk()
-    private val projectReadUseCase: ProjectReadUseCase = mockk()
-    private val projectUpdateUseCase: ProjectUpdateUseCase = mockk()
+    private val projectCreateUseCase: ItemCreateUseCase = mockk()
+    private val projectReadUseCase: ItemReadUseCase = mockk()
+    private val projectUpdateUseCase: ItemUpdateUseCase = mockk()
 
-    override val controller: ProjectController = ProjectController(
+    override val controller: ItemController = ItemController(
         projectCreateUseCase = projectCreateUseCase,
         projectReadUseCase = projectReadUseCase,
         projectUpdateUseCase = projectUpdateUseCase
@@ -37,7 +36,7 @@ class ProjectControllerTest : BaseControllerTest() {
 
             every { projectCreateUseCase.execute(any()) } returns projectResponse()
 
-            val request = ProjectCreateRequest(
+            val request = ItemCreateRequest(
                 title = "제목",
                 titleImage = "대표이미지",
                 subTitle = "subTitle",
@@ -70,7 +69,7 @@ class ProjectControllerTest : BaseControllerTest() {
 
         test("PATCH /v1/projects/{project_id}") {
 
-            val projectUpdateRequest = ProjectUpdateRequest(
+            val projectUpdateRequest = ItemUpdateRequest(
                 titleImage = "타이틀 이미지",
                 subTitle = "부제목",
                 content = "콘텐츠"
@@ -149,8 +148,8 @@ class ProjectControllerTest : BaseControllerTest() {
         "createAt" type STRING means "생성 시간"
     )
 
-    private fun projectResponse(): ProjectResponse {
-        return ProjectResponse(
+    private fun projectResponse(): ItemResponse {
+        return ItemResponse(
             title = "제목",
             titleImage = "대표이미지",
             subTitle = "subTitle",
