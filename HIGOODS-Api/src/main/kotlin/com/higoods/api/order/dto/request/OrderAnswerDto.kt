@@ -1,6 +1,5 @@
 package com.higoods.api.order.dto.request
 
-import com.higoods.api.item.dto.request.OrderAnswerDto
 import com.higoods.domain.order.domain.AnswerType
 import com.higoods.domain.order.domain.OrderAnswer
 

@@ -6,7 +6,6 @@ import com.higoods.domain.item.command.ItemOptionGroupCommand
 import com.higoods.domain.item.domain.ProductCategory
 
 data class ItemCreateRequest(
-    val projectId: Long,
     val category: ProductCategory,
     val name: String,
     val itemOptionGroups: List<ItemOptionGroupRequest>

@@ -6,8 +6,8 @@ import com.epages.restdocs.apispec.ResourceDocumentation.resource
 import com.epages.restdocs.apispec.ResourceSnippetParametersBuilder
 import com.epages.restdocs.apispec.Schema
 import com.higoods.api.common.BaseControllerTest
-import com.higoods.api.item.dto.request.OrderAnswerDto
 import com.higoods.api.order.controller.OrderController
+import com.higoods.api.order.dto.request.OrderAnswerDto
 import com.higoods.api.order.dto.request.OrderCreateRequest
 import com.higoods.api.order.dto.request.OrderOptionDto
 import com.higoods.api.order.dto.response.OrderProjectsResponse

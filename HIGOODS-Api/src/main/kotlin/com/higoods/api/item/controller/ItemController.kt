@@ -19,7 +19,7 @@ class ItemController(
     val itemReadUseCase: ItemReadUseCase
 ) {
 
-    @PostMapping
+    @PostMapping("/items")
     fun create(
         @PathVariable("project_id") projectId: Long,
         @Validated @RequestBody
@@ -28,7 +28,7 @@ class ItemController(
         return itemCreateUseCase.execute(projectId, itemCreateRequest)
     }
 
-    @GetMapping("/item/{item_id}")
+    @GetMapping("/items/{item_id}")
     fun getItemById(
         @PathVariable("project_id") projectId: Long,
         @PathVariable("item_id") itemId: Long
