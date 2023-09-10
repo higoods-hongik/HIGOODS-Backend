@@ -7,9 +7,9 @@ import com.higoods.api.common.ENUM
 import com.higoods.api.common.NUMBER
 import com.higoods.api.common.OpenApiTag
 import com.higoods.api.common.STRING
+import com.higoods.api.item.dto.request.ItemUpdateRequest
 import com.higoods.api.project.controller.ProjectController
 import com.higoods.api.project.dto.request.ProjectCreateRequest
-import com.higoods.api.project.dto.request.ProjectUpdateRequest
 import com.higoods.api.project.dto.response.ProjectResponse
 import com.higoods.api.project.usecase.ProjectCreateUseCase
 import com.higoods.api.project.usecase.ProjectReadUseCase
@@ -70,7 +70,7 @@ class ProjectControllerTest : BaseControllerTest() {
 
         test("PATCH /v1/projects/{project_id}") {
 
-            val projectUpdateRequest = ProjectUpdateRequest(
+            val projectUpdateRequest = ItemUpdateRequest(
                 titleImage = "타이틀 이미지",
                 subTitle = "부제목",
                 content = "콘텐츠"
