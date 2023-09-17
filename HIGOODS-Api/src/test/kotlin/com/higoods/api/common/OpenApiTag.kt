@@ -7,5 +7,6 @@ enum class OpenApiTag(
     AUTH("Auth"),
     USER("User"),
     PROJECT("PROJECT"),
-    ITEM("ITEM")
+    ITEM("ITEM"),
+    ORDER_FORM("ORDER_FORM")
 }
