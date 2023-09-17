@@ -17,8 +17,24 @@ class MultipleChoiceGroup(
 
     val orderFormId: Long,
 
+    val question: String,
+
     @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
     @JoinColumn(name = "multipleChoiceGroupId")
-    val questions: List<MultipleChoiceQuestion> = emptyList()
+    val choices: List<MultipleChoiceQuestion> = emptyList()
 
-) : BaseEntity()
+) : BaseEntity() {
+
+    fun toOrderFormContent(): OrderFormContent {
+        return OrderFormContent(
+            type = OrderFormType.MULTIPLE_CHOICE,
+            question = question,
+            choices = choices.map {
+                MultipleChoiceContent(
+                    id = it.id,
+                    optionDisplayName = it.optionDisplayName
+                )
+            }
+        )
+    }
+}

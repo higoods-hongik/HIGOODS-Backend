@@ -1,9 +1,9 @@
 package com.higoods.api.orderform.controller
 
-import com.higoods.api.order.dto.request.OrderCreateRequest
-import com.higoods.api.orderform.dto.response.OrderFormResponse
+import com.higoods.api.orderform.dto.request.OrderFormCreateRequest
 import com.higoods.api.orderform.usecase.OrderFormCreateUseCase
 import com.higoods.api.orderform.usecase.OrderFormReadUseCase
+import com.higoods.domain.orderform.domain.OrderFormVo
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -23,9 +23,9 @@ class OrderFormController(
     fun create(
         @PathVariable("project_id") projectId: Long,
         @Validated @RequestBody
-        orderCreateRequest: OrderCreateRequest
-    ): OrderFormResponse {
-        return orderFormCreateUseCase.execute(projectId, orderCreateRequest)
+        orderFormCreateRequests: List<OrderFormCreateRequest>
+    ): OrderFormVo {
+        return orderFormCreateUseCase.execute(projectId, orderFormCreateRequests)
     }
 
     /**
@@ -34,7 +34,7 @@ class OrderFormController(
     @GetMapping
     fun getOrderForm(
         @PathVariable("project_id") projectId: Long
-    ): OrderFormResponse {
+    ): OrderFormVo {
         return orderFormReadUseCase.execute(projectId)
     }
 }

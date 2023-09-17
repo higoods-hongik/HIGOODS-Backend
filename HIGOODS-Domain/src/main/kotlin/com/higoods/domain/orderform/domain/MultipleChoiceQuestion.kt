@@ -8,6 +8,6 @@ import javax.persistence.Table
 @Table(name = "tbl_multiple_choice_question")
 class MultipleChoiceQuestion(
 
-    val question: String
+    val optionDisplayName: String
 
 ) : BaseEntity()

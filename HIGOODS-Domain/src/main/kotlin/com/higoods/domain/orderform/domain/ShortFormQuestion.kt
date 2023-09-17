@@ -14,4 +14,11 @@ class ShortFormQuestion(
     val orderFormId: Long,
     val question: String
 
-) : BaseEntity()
+) : BaseEntity() {
+    fun toOrderFormContent(): OrderFormContent {
+        return OrderFormContent(
+            type = OrderFormType.SHORT_FORM,
+            question = question
+        )
+    }
+}

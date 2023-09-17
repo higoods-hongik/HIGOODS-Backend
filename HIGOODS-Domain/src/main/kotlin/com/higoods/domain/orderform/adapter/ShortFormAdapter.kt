@@ -16,4 +16,8 @@ class ShortFormAdapter(
     fun findAllByOrderFormId(orderFormId: Long): List<ShortFormQuestion> {
         return shortFormRepository.findAllByOrderFormIdIn(orderFormId)
     }
+
+    fun saveAll(shortFormQuestions: List<ShortFormQuestion>): List<ShortFormQuestion> {
+        return shortFormRepository.saveAll(shortFormQuestions)
+    }
 }
