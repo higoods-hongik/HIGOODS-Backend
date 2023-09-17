@@ -10,4 +10,8 @@ class OrderFormDomainService(
     private val orderFormAdapter: OrderFormAdapter,
     private val shortFormAdapter: ShortFormAdapter,
     private val multipleChoiceAdapter: MultipleChoiceAdapter
-)
+){
+
+
+    fun
+}
