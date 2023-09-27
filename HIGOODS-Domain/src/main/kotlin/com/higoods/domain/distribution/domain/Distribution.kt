@@ -19,4 +19,14 @@ class Distribution(
     @Enumerated(EnumType.STRING)
     var distributionState: DistributionType = DistributionType.NOT_RECEIVED // 배부 상태
 
-) : BaseEntity()
+) : BaseEntity() {
+    fun received() {
+        this.distributionState = DistributionType.RECEIVED
+        this.receiveDate = LocalDateTime.now()
+    }
+
+    fun notReceived() {
+        this.distributionState = DistributionType.NOT_RECEIVED
+        this.receiveDate = null
+    }
+}

@@ -6,6 +6,7 @@ import com.higoods.domain.distribution.domain.DistributionType
 import com.higoods.domain.order.domain.Order
 
 data class DistributionResponse(
+    val distributionId: Long,
     val orderNo: String,
     val name: String,
     val orderDate: String,
@@ -16,6 +17,7 @@ data class DistributionResponse(
     companion object {
         fun of(order: Order, distribution: Distribution): DistributionResponse {
             return DistributionResponse(
+                distributionId = distribution.id,
                 orderNo = order.orderNo,
                 name = order.name,
                 orderDate = order.createdAt.toHigoodsDateTimeFormat(),

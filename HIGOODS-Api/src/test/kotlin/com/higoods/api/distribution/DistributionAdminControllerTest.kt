@@ -1,5 +1,6 @@
 package com.higoods.api.distribution
 
+import com.higoods.api.common.BOOLEAN
 import com.higoods.api.common.BaseControllerTest
 import com.higoods.api.common.DocumentObjects
 import com.higoods.api.common.DocumentObjects.getPageResponse
@@ -8,7 +9,9 @@ import com.higoods.api.common.OpenApiTag
 import com.higoods.api.common.STRING
 import com.higoods.api.distribution.controller.DistributionAdminController
 import com.higoods.api.distribution.dto.response.DistributionResponse
+import com.higoods.api.distribution.dto.response.DistributionStateResponse
 import com.higoods.api.distribution.usecase.DistributionReadUseCase
+import com.higoods.api.distribution.usecase.DistributionUpdateUseCase
 import com.higoods.domain.distribution.domain.DistributionType
 import io.mockk.every
 import io.mockk.mockk
@@ -17,10 +20,12 @@ import org.springframework.http.MediaType
 
 class DistributionAdminControllerTest : BaseControllerTest() {
     private val distributionReadUseCase: DistributionReadUseCase = mockk()
-    override val controller: DistributionAdminController = DistributionAdminController(distributionReadUseCase)
+    private val distributionUpdateUseCase: DistributionUpdateUseCase = mockk()
+    override val controller: DistributionAdminController = DistributionAdminController(distributionReadUseCase, distributionUpdateUseCase)
 
     private fun distributionResponse(): DistributionResponse {
         return DistributionResponse(
+            distributionId = 1L,
             orderNo = "H100001",
             name = "홍길동",
             orderDate = DocumentObjects.dateTimeFormatString,
@@ -58,6 +63,7 @@ class DistributionAdminControllerTest : BaseControllerTest() {
                     ),
                     getPageResponse(
                         arrayOf(
+                            "distributionId" type NUMBER means "배부 id",
                             "orderNo" type STRING means "주문번호",
                             "name" type STRING means "이름",
                             "orderDate" type STRING means "주문 일시",
@@ -65,6 +71,33 @@ class DistributionAdminControllerTest : BaseControllerTest() {
                             "receiveDate" type STRING means "수령한 날짜",
                             "distributionType" type STRING means "상태 enum NOT_RECEIVED, RECEIVED"
                         )
+                    )
+                )
+        }
+
+        test("[어드민] 배부 상태 변경") {
+
+            every { distributionUpdateUseCase.updateState(any(), any()) } returns DistributionStateResponse(1L)
+
+            patch("/v1/admins/distributions/{distribution_id}", pathParams = arrayOf("1")) {
+                queryParam("isReceived", "true")
+                authorizationHeader(1)
+            }
+                .isStatus(200)
+                .makeDocument(
+                    DocumentInfo(
+                        identifier = "[어드민] 배부 상태 변경",
+                        tag = OpenApiTag.DISTRIBUTION,
+                        description = "[어드민] 배부 상태 변경 API, 배부 상태를 변경합니다."
+                    ),
+                    pathParameters(
+                        "distribution_id" type NUMBER means "배부 id"
+                    ),
+                    queryParameters(
+                        "isReceived" type BOOLEAN means "true:배부완료, false: 배부전"
+                    ),
+                    responseFields(
+                        "distributionId" type NUMBER means "배부 id"
                     )
                 )
         }

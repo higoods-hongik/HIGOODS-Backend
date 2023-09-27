@@ -19,7 +19,6 @@ import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.PageRequest
 import org.springframework.http.MediaType
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get
-import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post
 import org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest
 import org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse
 import org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint
@@ -49,7 +48,7 @@ class OrderAdminControllerTest : BaseControllerTest() {
 
             every { orderCancelUseCase.execute(1) } returns orderAdminResponse
 
-            post("/v1/admins/orders/{order_id}/cancellations", arrayOf("1")) {
+            patch("/v1/admins/orders/{order_id}/cancellations", arrayOf("1")) {
                 contentType(MediaType.APPLICATION_JSON)
                 accept(MediaType.APPLICATION_JSON)
                 authorizationHeader(1)
@@ -99,7 +98,7 @@ class OrderAdminControllerTest : BaseControllerTest() {
 
             every { orderApproveUseCase.execute(1) } returns orderAdminResponse
 
-            post("/v1/admins/orders/{order_id}/approvals", arrayOf("1")) {
+            patch("/v1/admins/orders/{order_id}/approvals", arrayOf("1")) {
                 contentType(MediaType.APPLICATION_JSON)
                 accept(MediaType.APPLICATION_JSON)
                 authorizationHeader(1)
