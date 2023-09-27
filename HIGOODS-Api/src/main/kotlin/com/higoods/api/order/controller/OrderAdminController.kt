@@ -46,7 +46,6 @@ class OrderAdminController(
         @RequestParam("page") page: Int,
         @RequestParam("size") size: Int
     ): Page<OrderAdminResponse> {
-        // TODO: 페이지네이션 정상 작동 api 테스트하면서 다시 확인하기
         return orderReadUseCase.findByStateAndName(projectId, state, name, PageRequest.of(page, size))
     }
 }

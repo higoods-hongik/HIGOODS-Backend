@@ -29,28 +29,6 @@ class DistributionReadUseCase(
         val orderIds = findAll.map { distribution -> distribution.orderId }.toList()
         val orders = orderAdapter.findAllById(orderIds)
 
-//        val filteredList = findAll
-//            .map { distribution ->
-//                val order = orders.find { it.id == distribution.orderId } ?: throw OrderNotFoundException.EXCEPTION
-//                DistributionResponse.of(order = order, distribution = distribution)
-//            }
-//            .filter { distributionResponse ->
-//                name == null || distributionResponse.name == name
-//            }
-//
-//        val start = pageable.offset.toInt()
-//        val end = minOf((start + pageable.pageSize), filteredList.size())
-//        return PageImpl(filteredList.subList(start, end), pageable, filteredList.siz.toLong())
-
-//        return findAll
-//            .map { distribution ->
-//                val order = orders.find { it.id == distribution.orderId } ?: throw OrderNotFoundException.EXCEPTION
-//                DistributionResponse.of(order = order, distribution = distribution)
-//            }
-//            .filter { distributionResponse ->
-//                name == null || distributionResponse.order.name == name
-//            }.toPageable(pageable)
-//
         return findAll.map { distribution ->
             val order = orders.find { it.id == distribution.orderId } ?: throw OrderNotFoundException.EXCEPTION
             DistributionResponse.of(order = order, distribution = distribution)

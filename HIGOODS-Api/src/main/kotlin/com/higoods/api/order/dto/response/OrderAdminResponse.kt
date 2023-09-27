@@ -5,6 +5,7 @@ import com.higoods.domain.order.domain.Order
 import com.higoods.domain.order.domain.OrderState
 
 data class OrderAdminResponse(
+    val orderId: Long,
     val orderNo: String, // 주문 번호
     val name: String, // 이름
     val depositName: String, // 입금자명
@@ -16,6 +17,7 @@ data class OrderAdminResponse(
     companion object {
         fun of(order: Order): OrderAdminResponse {
             return OrderAdminResponse(
+                orderId = order.id,
                 orderNo = order.orderNo,
                 name = order.name,
                 depositName = order.depositName,
