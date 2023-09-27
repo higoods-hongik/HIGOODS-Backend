@@ -11,6 +11,7 @@ import com.higoods.domain.order.domain.OrderState
 import com.higoods.domain.order.exception.OrderNotUserException
 import com.higoods.domain.project.adapter.ProjectAdapter
 import com.higoods.domain.project.exception.ProjectNotHostException
+import com.higoods.domain.projectStatus.adapter.ProjectStatusAdapter
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.transaction.annotation.Transactional
@@ -19,7 +20,8 @@ import org.springframework.transaction.annotation.Transactional
 class OrderReadUseCase(
     private val orderAdapter: OrderAdapter,
     private val projectAdapter: ProjectAdapter,
-    private val itemAdapter: ItemAdapter
+    private val itemAdapter: ItemAdapter,
+    private val projectStatusAdapter: ProjectStatusAdapter
 ) {
     @Transactional(readOnly = true)
     fun findAll(): List<OrderProjectsResponse> {
@@ -28,7 +30,8 @@ class OrderReadUseCase(
         return orders.map { order ->
             val project = projectAdapter.queryById(order.projectId)
             val item = itemAdapter.queryItemByProjectId(project.id)
-            OrderProjectsResponse.of(order.id, order.orderState, project, item.category)
+            val projectStatus = projectStatusAdapter.queryLatestByProjectId(project.id)
+            OrderProjectsResponse.of(order.id, order.orderState, project, item.category, projectStatus)
         }
     }
 

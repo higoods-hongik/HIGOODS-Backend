@@ -139,7 +139,8 @@ class OrderControllerTest : BaseControllerTest() {
                     titleImage = "image",
                     subTitle = "부제목",
                     orderState = OrderState.PENDING,
-                    category = ProductCategory.CLOTHES
+                    category = ProductCategory.CLOTHES,
+                    projectStatus = "구매 신청"
                 )
             )
 
@@ -166,7 +167,8 @@ class OrderControllerTest : BaseControllerTest() {
                                     fieldWithPath("[].titleImage").type(JsonFieldType.STRING).description("이미지"),
                                     fieldWithPath("[].subTitle").type(JsonFieldType.STRING).description("부제목"),
                                     fieldWithPath("[].orderState").type(JsonFieldType.STRING).description("주문 상태 이넘 PENDING,APPROVAL,CANCELED"),
-                                    fieldWithPath("[].category").type(JsonFieldType.STRING).description("카테고리 이넘 CLOTHES, OFFICE_SUPPLIES, STUFF, ETC")
+                                    fieldWithPath("[].category").type(JsonFieldType.STRING).description("카테고리 이넘 CLOTHES, OFFICE_SUPPLIES, STUFF, ETC"),
+                                    fieldWithPath("[].projectStatus").type(JsonFieldType.STRING).description("프로젝트 현황 키워드")
                                 )
                                 .responseSchema(Schema.schema("마이페이지-내 주문 목록 조회 Res"))
                                 .build()

@@ -26,4 +26,8 @@ class ProjectStatusAdapter(
     fun queryById(projectStatusId: Long): ProjectStatus {
         return projectStatusRepository.findByIdOrNull(projectStatusId) ?: throw ProjectStatusNotFoundException.EXCEPTION
     }
+
+    fun queryLatestByProjectId(projectId: Long): ProjectStatus {
+        return projectStatusRepository.findTopByProjectId(projectId) ?: throw ProjectStatusNotFoundException.EXCEPTION
+    }
 }
