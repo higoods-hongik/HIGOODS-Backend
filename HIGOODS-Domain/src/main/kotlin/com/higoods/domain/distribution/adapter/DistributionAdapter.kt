@@ -19,4 +19,8 @@ class DistributionAdapter(
     fun findAll(projectId: Long, name: String?, pageable: Pageable): Page<Distribution> {
         return distributionQuerydslRepository.findAllByProjectIdAndName(projectId, name, pageable)
     }
+
+    fun deleteByOrderId(orderId: Long) {
+        return distributionRepository.deleteByOrderId(orderId)
+    }
 }

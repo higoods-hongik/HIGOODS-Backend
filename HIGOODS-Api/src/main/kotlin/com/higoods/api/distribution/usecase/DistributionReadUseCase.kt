@@ -7,15 +7,12 @@ import com.higoods.domain.distribution.adapter.DistributionAdapter
 import com.higoods.domain.order.exception.OrderNotFoundException
 import com.higoods.domain.project.adapter.ProjectAdapter
 import com.higoods.domain.project.exception.ProjectNotHostException
-import com.higoods.domain.user.adapter.UserAdapter
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
-import org.springframework.data.domain.jaxb.OrderAdapter
 
 @UseCase
 class DistributionReadUseCase(
     private val distributionAdapter: DistributionAdapter,
-    private val userAdapter: UserAdapter,
     private val orderAdapter: com.higoods.domain.order.adapter.OrderAdapter,
     private val projectAdapter: ProjectAdapter
 ) {
