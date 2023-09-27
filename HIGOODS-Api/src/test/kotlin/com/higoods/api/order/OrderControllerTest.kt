@@ -14,6 +14,7 @@ import com.higoods.api.order.dto.response.OrderProjectsResponse
 import com.higoods.api.order.dto.response.OrderResponse
 import com.higoods.api.order.usecase.OrderCreateUseCase
 import com.higoods.api.order.usecase.OrderReadUseCase
+import com.higoods.domain.item.domain.ProductCategory
 import com.higoods.domain.order.domain.AnswerType
 import com.higoods.domain.order.domain.OrderState
 import com.higoods.domain.order.domain.ReceiveType
@@ -137,7 +138,8 @@ class OrderControllerTest : BaseControllerTest() {
                     title = "제목",
                     titleImage = "image",
                     subTitle = "부제목",
-                    orderState = OrderState.PENDING
+                    orderState = OrderState.PENDING,
+                    category = ProductCategory.CLOTHES
                 )
             )
 
@@ -163,7 +165,8 @@ class OrderControllerTest : BaseControllerTest() {
                                     fieldWithPath("[].title").type(JsonFieldType.STRING).description("제목"),
                                     fieldWithPath("[].titleImage").type(JsonFieldType.STRING).description("이미지"),
                                     fieldWithPath("[].subTitle").type(JsonFieldType.STRING).description("부제목"),
-                                    fieldWithPath("[].orderState").type(JsonFieldType.STRING).description("주문 상태 이넘 PENDING,APPROVAL,CANCELED")
+                                    fieldWithPath("[].orderState").type(JsonFieldType.STRING).description("주문 상태 이넘 PENDING,APPROVAL,CANCELED"),
+                                    fieldWithPath("[].category").type(JsonFieldType.STRING).description("카테고리 이넘 CLOTHES, OFFICE_SUPPLIES, STUFF, ETC")
                                 )
                                 .responseSchema(Schema.schema("마이페이지-내 주문 목록 조회 Res"))
                                 .build()

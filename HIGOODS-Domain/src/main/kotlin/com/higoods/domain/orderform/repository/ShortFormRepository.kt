@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository
 
 interface ShortFormRepository : JpaRepository<ShortFormQuestion, Long> {
 
-    fun findAllByOrderFormIdIn(orderFormId: Long): List<ShortFormQuestion>
+    fun findAllByOrderFormIdIn(orderFormId: List<Long>): List<ShortFormQuestion>
 }

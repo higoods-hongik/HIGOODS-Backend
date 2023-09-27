@@ -5,7 +5,7 @@ import javax.persistence.Entity
 import javax.persistence.Table
 
 @Entity
-@Table(name = "tbl_order_item")
+@Table(name = "tbl_order_option_item")
 class OrderOptionItem(
 
     val orderId: Long, // 주문 아이디

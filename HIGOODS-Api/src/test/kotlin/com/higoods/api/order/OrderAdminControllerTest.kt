@@ -19,7 +19,6 @@ import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.PageRequest
 import org.springframework.http.MediaType
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get
-import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post
 import org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest
 import org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse
 import org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint
@@ -37,6 +36,7 @@ class OrderAdminControllerTest : BaseControllerTest() {
         test("주문 취소") {
             val orderAdminResponse =
                 OrderAdminResponse(
+                    orderId = 1L,
                     orderNo = "H100001",
                     name = "이홍익",
                     depositName = "이홍익",
@@ -48,7 +48,7 @@ class OrderAdminControllerTest : BaseControllerTest() {
 
             every { orderCancelUseCase.execute(1) } returns orderAdminResponse
 
-            post("/v1/admins/orders/{order_id}/cancellations", arrayOf("1")) {
+            patch("/v1/admins/orders/{order_id}/cancellations", arrayOf("1")) {
                 contentType(MediaType.APPLICATION_JSON)
                 accept(MediaType.APPLICATION_JSON)
                 authorizationHeader(1)
@@ -67,6 +67,7 @@ class OrderAdminControllerTest : BaseControllerTest() {
                                     parameterWithName("order_id").description("주문 id")
                                 )
                                 .responseFields(
+                                    fieldWithPath("orderId").type(JsonFieldType.NUMBER).description("주문 id"),
                                     fieldWithPath("orderNo").type(JsonFieldType.STRING).description("주문 번호"),
                                     fieldWithPath("name").type(JsonFieldType.STRING).description("이름"),
                                     fieldWithPath("depositName").type(JsonFieldType.STRING).description("입금자명"),
@@ -85,6 +86,7 @@ class OrderAdminControllerTest : BaseControllerTest() {
         test("입금 승인") {
             val orderAdminResponse =
                 OrderAdminResponse(
+                    orderId = 1L,
                     orderNo = "H100001",
                     name = "이홍익",
                     depositName = "이홍익",
@@ -96,7 +98,7 @@ class OrderAdminControllerTest : BaseControllerTest() {
 
             every { orderApproveUseCase.execute(1) } returns orderAdminResponse
 
-            post("/v1/admins/orders/{order_id}/approvals", arrayOf("1")) {
+            patch("/v1/admins/orders/{order_id}/approvals", arrayOf("1")) {
                 contentType(MediaType.APPLICATION_JSON)
                 accept(MediaType.APPLICATION_JSON)
                 authorizationHeader(1)
@@ -115,6 +117,7 @@ class OrderAdminControllerTest : BaseControllerTest() {
                                     parameterWithName("order_id").description("주문 id")
                                 )
                                 .responseFields(
+                                    fieldWithPath("orderId").type(JsonFieldType.NUMBER).description("주문 id"),
                                     fieldWithPath("orderNo").type(JsonFieldType.STRING).description("주문 번호"),
                                     fieldWithPath("name").type(JsonFieldType.STRING).description("이름"),
                                     fieldWithPath("depositName").type(JsonFieldType.STRING).description("입금자명"),
@@ -134,6 +137,7 @@ class OrderAdminControllerTest : BaseControllerTest() {
             val orderAdminResponse = PageImpl(
                 listOf(
                     OrderAdminResponse(
+                        orderId = 1L,
                         orderNo = "H100001",
                         name = "이홍익",
                         depositName = "이홍익",
@@ -177,6 +181,7 @@ class OrderAdminControllerTest : BaseControllerTest() {
                                 )
                                 .responseFields(
                                     fieldWithPath("content[]").type(JsonFieldType.ARRAY).description("주문 목록"),
+                                    fieldWithPath("content[].orderId").type(JsonFieldType.NUMBER).description("주문 id"),
                                     fieldWithPath("content[].orderNo").type(JsonFieldType.STRING).description("주문 번호"),
                                     fieldWithPath("content[].name").type(JsonFieldType.STRING).description("이름"),
                                     fieldWithPath("content[].depositName").type(JsonFieldType.STRING).description("입금자명"),

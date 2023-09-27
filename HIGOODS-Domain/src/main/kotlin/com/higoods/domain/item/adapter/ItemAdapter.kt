@@ -18,4 +18,8 @@ class ItemAdapter(
     fun save(item: Item): Item {
         return itemRepository.save(item)
     }
+
+    fun queryItemByProjectId(projectId: Long): Item {
+        return itemRepository.findByProjectId(projectId) ?: run { throw ItemNotFoundException.EXCEPTION }
+    }
 }

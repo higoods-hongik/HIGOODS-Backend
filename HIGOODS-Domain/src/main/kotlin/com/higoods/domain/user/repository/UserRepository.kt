@@ -6,4 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository
 
 interface UserRepository : JpaRepository<User, Long> {
     fun findByOauthInfo(oauthInfo: OauthInfo): User?
+
+    fun findAllByNickname(name: String): List<User>?
 }

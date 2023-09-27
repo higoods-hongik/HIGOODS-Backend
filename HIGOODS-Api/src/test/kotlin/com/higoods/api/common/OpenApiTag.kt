@@ -8,5 +8,6 @@ enum class OpenApiTag(
     USER("User"),
     PROJECT("PROJECT"),
     ITEM("ITEM"),
-    ORDER_FORM("ORDER_FORM")
+    ORDER_FORM("ORDER_FORM"),
+    DISTRIBUTION("[어드민] 배부")
 }

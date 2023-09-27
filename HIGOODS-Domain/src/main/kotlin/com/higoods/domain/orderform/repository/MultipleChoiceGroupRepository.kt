@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository
 
 interface MultipleChoiceGroupRepository : JpaRepository<MultipleChoiceGroup, Long> {
 
-    fun findAllByOrderFormIdIn(orderFormId: Long): List<MultipleChoiceGroup>
+    fun findAllByOrderFormIdIn(orderFormId: List<Long>): List<MultipleChoiceGroup>
 }

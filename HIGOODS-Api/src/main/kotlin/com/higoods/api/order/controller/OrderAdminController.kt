@@ -8,8 +8,8 @@ import com.higoods.domain.order.domain.OrderState
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
@@ -22,7 +22,7 @@ class OrderAdminController(
     private val orderReadUseCase: OrderReadUseCase
 ) {
     // 주문 취소
-    @PostMapping("/{order_id}/cancellations")
+    @PatchMapping("/{order_id}/cancellations")
     fun create(
         @PathVariable("order_id") orderId: Long
     ): OrderAdminResponse {
@@ -30,7 +30,7 @@ class OrderAdminController(
     }
 
     // 입금 승인
-    @PostMapping("/{order_id}/approvals")
+    @PatchMapping("/{order_id}/approvals")
     fun approve(
         @PathVariable("order_id") orderId: Long
     ): OrderAdminResponse {
@@ -46,7 +46,6 @@ class OrderAdminController(
         @RequestParam("page") page: Int,
         @RequestParam("size") size: Int
     ): Page<OrderAdminResponse> {
-        // TODO: 페이지네이션 정상 작동 api 테스트하면서 다시 확인하기
         return orderReadUseCase.findByStateAndName(projectId, state, name, PageRequest.of(page, size))
     }
 }

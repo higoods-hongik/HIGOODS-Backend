@@ -27,4 +27,8 @@ class UserAdapter(
     fun save(user: User): User {
         return userRepository.save(user)
     }
+
+    fun findUsersByName(name: String): List<User>? {
+        return userRepository.findAllByNickname(name)
+    }
 }
