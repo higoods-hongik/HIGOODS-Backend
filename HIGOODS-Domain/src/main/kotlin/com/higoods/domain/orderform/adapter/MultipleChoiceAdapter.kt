@@ -14,7 +14,7 @@ class MultipleChoiceAdapter(
     }
 
     fun findAllByOrderFormId(orderFormId: Long): List<MultipleChoiceGroup> {
-        return multipleChoiceGroupRepository.findAllByOrderFormIdIn(orderFormId)
+        return multipleChoiceGroupRepository.findAllByOrderFormIdIn(listOf(orderFormId))
     }
 
     fun saveAll(multipleChoiceGroups: List<MultipleChoiceGroup>): MutableList<MultipleChoiceGroup> {
