@@ -22,7 +22,6 @@ class OrderCreateUseCase(
     fun execute(projectId: Long, orderCreateRequest: OrderCreateRequest): OrderResponse {
         val currentUserId = SecurityUtils.currentUserId
         val project = projectAdapter.queryById(projectId)
-        // TODO: 리스폰스에 주문번호 업데이트 되는지 확인 필요
         val newOrder = orderDomainService.createOrder(orderCreateRequest.toOrder(project.id, currentUserId))
         val newOrderOptions = orderDomainService.createOrderOptions(orderCreateRequest.toOrderOptionItems(newOrder.id))
         var newOrderAnswers: List<OrderAnswer>? = null

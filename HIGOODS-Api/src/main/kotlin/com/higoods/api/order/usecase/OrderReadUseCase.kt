@@ -5,6 +5,7 @@ import com.higoods.api.order.dto.response.OrderAdminResponse
 import com.higoods.api.order.dto.response.OrderProjectsResponse
 import com.higoods.api.order.dto.response.OrderResponse
 import com.higoods.common.annotation.UseCase
+import com.higoods.domain.item.adapter.ItemAdapter
 import com.higoods.domain.order.adapter.OrderAdapter
 import com.higoods.domain.order.domain.OrderState
 import com.higoods.domain.order.exception.OrderNotUserException
@@ -17,7 +18,8 @@ import org.springframework.transaction.annotation.Transactional
 @UseCase
 class OrderReadUseCase(
     private val orderAdapter: OrderAdapter,
-    private val projectAdapter: ProjectAdapter
+    private val projectAdapter: ProjectAdapter,
+    private val itemAdapter: ItemAdapter
 ) {
     @Transactional(readOnly = true)
     fun findAll(): List<OrderProjectsResponse> {
@@ -25,7 +27,8 @@ class OrderReadUseCase(
         if (orders.isNullOrEmpty()) return emptyList()
         return orders.map { order ->
             val project = projectAdapter.queryById(order.projectId)
-            OrderProjectsResponse.of(order.id, order.orderState, project)
+            val item = itemAdapter.queryItemByProjectId(project.id)
+            OrderProjectsResponse.of(order.id, order.orderState, project, item.category)
         }
     }
 
