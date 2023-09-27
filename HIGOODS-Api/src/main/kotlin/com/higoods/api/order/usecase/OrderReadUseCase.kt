@@ -41,6 +41,7 @@ class OrderReadUseCase(
         return OrderResponse.of(order, orderOptions, orderAnswers)
     }
 
+    @Transactional(readOnly = true)
     fun findByStateAndName(
         projectId: Long,
         state: OrderState,

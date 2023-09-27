@@ -16,4 +16,8 @@ class ProjectStatusAdapter(
         val projectStatus = ProjectStatus(projectId = projectId, keyword = "구매 신청", description = "프로젝트가 오픈되어 주문을 받고 있습니다.")
         return projectStatusRepository.save(projectStatus)
     }
+
+    fun findAllByProjectId(projectId: Long): List<ProjectStatus> {
+        return projectStatusRepository.findAllByProjectId(projectId)
+    }
 }

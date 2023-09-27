@@ -4,6 +4,7 @@ import com.higoods.common.const.SWAGGER_PATTERNS
 import com.higoods.common.helper.SpringEnvironmentHelper
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
+import org.springframework.http.HttpMethod
 import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
@@ -67,6 +68,8 @@ class SecurityConfig(
             .mvcMatchers("/v1/auth/oauth/**")
             .permitAll()
             .mvcMatchers("/v1/auth/token/refresh")
+            .permitAll()
+            .mvcMatchers(HttpMethod.GET, "/v1/projects/status/{project_id}")
             .permitAll()
 //            .hasRole("ADMIN") // 인증 이필요한 모든 요청은 USER 권한을 최소한 가지고있어야한다.
             // 스웨거용 인메모리 유저의 권한은 SWAGGER 이다
