@@ -7,6 +7,7 @@ import com.higoods.domain.projectStatus.domain.ProjectStatus
 
 data class OrderProjectsResponse(
     val orderId: Long,
+    val projectId: Long,
     val title: String,
     val titleImage: String,
     val subTitle: String,
@@ -18,6 +19,7 @@ data class OrderProjectsResponse(
         fun of(orderId: Long, orderState: OrderState, project: Project, category: ProductCategory, projectStatus: ProjectStatus): OrderProjectsResponse {
             return OrderProjectsResponse(
                 orderId = orderId,
+                projectId = project.id,
                 title = project.title,
                 titleImage = project.titleImage,
                 subTitle = project.subTitle,

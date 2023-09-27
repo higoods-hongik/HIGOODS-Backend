@@ -64,7 +64,7 @@ class OrderControllerTest : BaseControllerTest() {
     }
 
     init {
-        test("주문 생성 테스트") {
+        test("주문 생성") {
             every { orderCreateUseCase.execute(1, orderCreateRequest) } returns orderResponse
 
             post("/v1/orders/{project_id}", pathParams = arrayOf("1")) {
@@ -135,6 +135,7 @@ class OrderControllerTest : BaseControllerTest() {
             val orderProjectResponse = listOf(
                 OrderProjectsResponse(
                     orderId = 1,
+                    projectId = 1,
                     title = "제목",
                     titleImage = "image",
                     subTitle = "부제목",
@@ -163,6 +164,7 @@ class OrderControllerTest : BaseControllerTest() {
                                 .tag("주문")
                                 .responseFields(
                                     fieldWithPath("[].orderId").type(JsonFieldType.NUMBER).description("주문 id"),
+                                    fieldWithPath("[].projectId").type(JsonFieldType.NUMBER).description("프로젝트 id"),
                                     fieldWithPath("[].title").type(JsonFieldType.STRING).description("제목"),
                                     fieldWithPath("[].titleImage").type(JsonFieldType.STRING).description("이미지"),
                                     fieldWithPath("[].subTitle").type(JsonFieldType.STRING).description("부제목"),
