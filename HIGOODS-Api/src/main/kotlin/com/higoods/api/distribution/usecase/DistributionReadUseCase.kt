@@ -31,4 +31,20 @@ class DistributionReadUseCase(
             DistributionResponse.of(order = order, distribution = distribution)
         }
     }
+
+    fun findAllExcel(projectId: Long): List<DistributionResponse> {
+        val project = projectAdapter.queryById(projectId)
+        if (project.userId != SecurityUtils.currentUserId) {
+            throw ProjectNotHostException.EXCEPTION
+        }
+
+        val findAll = distributionAdapter.findAll(projectId)
+        val orderIds = findAll.map { distribution -> distribution.orderId }.toList()
+        val orders = orderAdapter.findAllById(orderIds)
+
+        return findAll.map { distribution ->
+            val order = orders.find { it.id == distribution.orderId } ?: throw OrderNotFoundException.EXCEPTION
+            DistributionResponse.of(order = order, distribution = distribution)
+        }
+    }
 }

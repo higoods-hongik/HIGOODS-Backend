@@ -38,4 +38,12 @@ class DistributionAdminController(
     ): DistributionStateResponse {
         return distributionUpdateUseCase.updateState(distributionId, isReceived)
     }
+
+    // [어드민] 현장 배부 목록 엑셀 데이터 추출
+    @GetMapping("/{project_id}/excels")
+    fun findAll(
+        @PathVariable("project_id") projectId: Long
+    ): List<DistributionResponse> {
+        return distributionReadUseCase.findAllExcel(projectId)
+    }
 }

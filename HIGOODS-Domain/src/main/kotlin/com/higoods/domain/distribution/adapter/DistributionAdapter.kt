@@ -29,4 +29,8 @@ class DistributionAdapter(
     fun queryById(distributionId: Long): Distribution {
         return distributionRepository.findByIdOrNull(distributionId) ?: throw DistributionNotFoundException.EXCEPTION
     }
+
+    fun findAll(projectId: Long): List<Distribution> {
+        return distributionRepository.findAllByProjectId(projectId)
+    }
 }

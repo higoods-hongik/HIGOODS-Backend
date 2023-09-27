@@ -5,4 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository
 
 interface DistributionRepository : JpaRepository<Distribution, Long> {
     fun deleteByOrderId(orderId: Long)
+
+    fun findAllByProjectId(projectId: Long): List<Distribution>
 }

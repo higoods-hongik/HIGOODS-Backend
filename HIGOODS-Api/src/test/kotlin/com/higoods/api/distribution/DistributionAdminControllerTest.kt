@@ -101,5 +101,36 @@ class DistributionAdminControllerTest : BaseControllerTest() {
                     )
                 )
         }
+
+        test("현장 배부 목록 엑셀 데이터 추출") {
+
+            every { distributionReadUseCase.findAllExcel(any()) } returns listOf(distributionResponse())
+
+            get("/v1/admins/distributions/{project_id}/excels", pathParams = arrayOf("1")) {
+                contentType(MediaType.APPLICATION_JSON)
+                accept(MediaType.APPLICATION_JSON)
+                authorizationHeader(1)
+            }
+                .isStatus(200)
+                .makeDocument(
+                    DocumentInfo(
+                        identifier = "[어드민] 현장 배부 목록 엑셀 데이터 추출",
+                        tag = OpenApiTag.DISTRIBUTION,
+                        description = "[어드민] 현현장 배부 목록 엑셀 데이터 추출 API, 엑셀용 현장 배부 전체 데이터를 조회합니다."
+                    ),
+                    pathParameters(
+                        "project_id" type NUMBER means "프로젝트 아이디"
+                    ),
+                    responseFields(
+                        "[].distributionId" type NUMBER means "배부 id",
+                        "[].orderNo" type STRING means "주문번호",
+                        "[].name" type STRING means "이름",
+                        "[].orderDate" type STRING means "주문 일시",
+                        "[].phoneNumber" type STRING means "전화번호",
+                        "[].receiveDate" type STRING means "수령한 날짜",
+                        "[].distributionType" type STRING means "상태 enum NOT_RECEIVED, RECEIVED"
+                    )
+                )
+        }
     }
 }
