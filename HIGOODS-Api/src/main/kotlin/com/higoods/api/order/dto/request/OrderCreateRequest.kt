@@ -43,12 +43,9 @@ data class OrderCreateRequest(
             .toList()
     }
 
-    fun toOrderOptionAnswers(orderId: Long): List<OrderAnswer> {
-        return orderAnswers!!
-            .map {
-                    orderAnswerDto ->
-                orderAnswerDto.toOrderAnswer(orderId)
-            }
-            .toList()
+    fun toOrderOptionAnswers(orderId: Long): List<OrderAnswer>? {
+        return orderAnswers?.map { orderAnswerDto ->
+            orderAnswerDto.toOrderAnswer(orderId)
+        }?.toList()
     }
 }

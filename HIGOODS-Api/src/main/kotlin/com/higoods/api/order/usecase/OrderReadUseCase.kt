@@ -26,7 +26,6 @@ class OrderReadUseCase(
     @Transactional(readOnly = true)
     fun findAll(): List<OrderProjectsResponse> {
         val orders = orderAdapter.findAll(SecurityUtils.currentUserId)
-        if (orders.isNullOrEmpty()) return emptyList()
         return orders.map { order ->
             val project = projectAdapter.queryById(order.projectId)
             val item = itemAdapter.queryItemByProjectId(project.id)
@@ -40,7 +39,7 @@ class OrderReadUseCase(
         val order = orderAdapter.queryById(orderId)
         if (order.userId != SecurityUtils.currentUserId) throw OrderNotUserException.EXCEPTION
         val orderOptions = orderAdapter.findOrderOptionItemByOrderId(orderId)
-        val orderAnswers = orderAdapter.findAllOrderAnswerByOrderIdOrNull(orderId)
+        val orderAnswers = orderAdapter.findAllOrderAnswerByOrderId(orderId)
         return OrderResponse.of(order, orderOptions, orderAnswers)
     }
 
