@@ -53,4 +53,8 @@ class OrderAdapter(
     fun queryOrders(projectId: Long, state: OrderState, name: String?, pageable: Pageable): Page<Order> {
         return orderQuerydslRepository.findAllByProjectIdAndStateAndName(projectId, state, name, pageable)
     }
+
+    fun findAllById(orderIds: List<Long>): List<Order> {
+        return orderRepository.findAllById(orderIds)
+    }
 }
