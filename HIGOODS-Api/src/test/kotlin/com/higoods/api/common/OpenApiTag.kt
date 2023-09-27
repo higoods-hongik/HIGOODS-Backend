@@ -10,5 +10,6 @@ enum class OpenApiTag(
     ITEM("ITEM"),
     ORDER_FORM("ORDER_FORM"),
     ADMIN_DISTRIBUTION("[어드민] 배부"),
-    PROJECT_STATUS("프로젝트 현황")
+    PROJECT_STATUS("프로젝트 현황"),
+    ADMIN_PROJECT_STATUS("[어드민] 프로젝트 현황")
 }

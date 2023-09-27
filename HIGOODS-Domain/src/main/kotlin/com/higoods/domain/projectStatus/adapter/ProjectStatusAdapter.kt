@@ -2,7 +2,9 @@ package com.higoods.domain.projectStatus.adapter
 
 import com.higoods.common.annotation.Adapter
 import com.higoods.domain.projectStatus.domain.ProjectStatus
+import com.higoods.domain.projectStatus.exception.ProjectStatusNotFoundException
 import com.higoods.domain.projectStatus.repository.ProjectStatusRepository
+import org.springframework.data.repository.findByIdOrNull
 
 @Adapter
 class ProjectStatusAdapter(
@@ -19,5 +21,9 @@ class ProjectStatusAdapter(
 
     fun findAllByProjectId(projectId: Long): List<ProjectStatus> {
         return projectStatusRepository.findAllByProjectId(projectId)
+    }
+
+    fun queryById(projectStatusId: Long): ProjectStatus {
+        return projectStatusRepository.findByIdOrNull(projectStatusId) ?: throw ProjectStatusNotFoundException.EXCEPTION
     }
 }
