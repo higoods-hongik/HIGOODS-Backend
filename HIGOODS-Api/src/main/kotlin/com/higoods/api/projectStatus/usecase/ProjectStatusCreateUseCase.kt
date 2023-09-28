@@ -16,7 +16,6 @@ class ProjectStatusCreateUseCase(
     private val projectAdapter: ProjectAdapter
 ) {
     fun execute(projectId: Long, projectStatusCreateRequest: ProjectStatusCreateRequest): ProjectStatusResponse {
-        // TODO: 이메일 전송 기능 추가 후 이메일 전송 로직 추가 필요
         val project = projectAdapter.queryById(projectId)
         if (project.userId != SecurityUtils.currentUserId) throw ProjectNotHostException.EXCEPTION
         val newProjectStatusId = projectStatusDomainService.create(projectStatusCreateRequest.toProjectStatus(projectId))
