@@ -50,7 +50,7 @@ class DistributionAdminControllerTest : BaseControllerTest() {
                 .makeDocument(
                     DocumentInfo(
                         identifier = "[어드민] 현장 배부 목록 조회",
-                        tag = OpenApiTag.DISTRIBUTION,
+                        tag = OpenApiTag.ADMIN_DISTRIBUTION,
                         description = "[어드민] 현장 배부 목록 조회 API, 현장 배부 목록을 조회합니다."
                     ),
                     pathParameters(
@@ -87,7 +87,7 @@ class DistributionAdminControllerTest : BaseControllerTest() {
                 .makeDocument(
                     DocumentInfo(
                         identifier = "[어드민] 배부 상태 변경",
-                        tag = OpenApiTag.DISTRIBUTION,
+                        tag = OpenApiTag.ADMIN_DISTRIBUTION,
                         description = "[어드민] 배부 상태 변경 API, 배부 상태를 변경합니다."
                     ),
                     pathParameters(
@@ -115,7 +115,7 @@ class DistributionAdminControllerTest : BaseControllerTest() {
                 .makeDocument(
                     DocumentInfo(
                         identifier = "[어드민] 현장 배부 목록 엑셀 데이터 추출",
-                        tag = OpenApiTag.DISTRIBUTION,
+                        tag = OpenApiTag.ADMIN_DISTRIBUTION,
                         description = "[어드민] 현현장 배부 목록 엑셀 데이터 추출 API, 엑셀용 현장 배부 전체 데이터를 조회합니다."
                     ),
                     pathParameters(

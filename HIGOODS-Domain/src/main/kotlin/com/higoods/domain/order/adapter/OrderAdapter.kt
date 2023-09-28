@@ -42,11 +42,11 @@ class OrderAdapter(
         return optionItemRepository.findAllByOrderId(orderId) ?: throw OrderOptionItemNotFoundException.EXCEPTION
     }
 
-    fun findAllOrderAnswerByOrderIdOrNull(orderId: Long): List<OrderAnswer>? {
+    fun findAllOrderAnswerByOrderId(orderId: Long): List<OrderAnswer> {
         return answerRepository.findAllByOrderId(orderId)
     }
 
-    fun findAll(userId: Long): List<Order>? {
+    fun findAll(userId: Long): List<Order> {
         return orderRepository.findAllByUserIdOrderByCreatedAtDesc(userId)
     }
 

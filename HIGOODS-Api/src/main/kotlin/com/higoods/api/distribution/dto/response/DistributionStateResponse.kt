@@ -1,5 +1,5 @@
 package com.higoods.api.distribution.dto.response
 
-class DistributionStateResponse(
+data class DistributionStateResponse(
     val distributionId: Long
 )

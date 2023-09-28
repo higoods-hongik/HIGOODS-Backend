@@ -11,6 +11,7 @@ import com.higoods.domain.order.domain.OrderState
 import com.higoods.domain.order.exception.OrderNotUserException
 import com.higoods.domain.project.adapter.ProjectAdapter
 import com.higoods.domain.project.exception.ProjectNotHostException
+import com.higoods.domain.projectStatus.adapter.ProjectStatusAdapter
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.transaction.annotation.Transactional
@@ -19,16 +20,17 @@ import org.springframework.transaction.annotation.Transactional
 class OrderReadUseCase(
     private val orderAdapter: OrderAdapter,
     private val projectAdapter: ProjectAdapter,
-    private val itemAdapter: ItemAdapter
+    private val itemAdapter: ItemAdapter,
+    private val projectStatusAdapter: ProjectStatusAdapter
 ) {
     @Transactional(readOnly = true)
     fun findAll(): List<OrderProjectsResponse> {
         val orders = orderAdapter.findAll(SecurityUtils.currentUserId)
-        if (orders.isNullOrEmpty()) return emptyList()
         return orders.map { order ->
             val project = projectAdapter.queryById(order.projectId)
             val item = itemAdapter.queryItemByProjectId(project.id)
-            OrderProjectsResponse.of(order.id, order.orderState, project, item.category)
+            val projectStatus = projectStatusAdapter.queryLatestByProjectId(project.id)
+            OrderProjectsResponse.of(order.id, order.orderState, project, item.category, projectStatus)
         }
     }
 
@@ -37,10 +39,11 @@ class OrderReadUseCase(
         val order = orderAdapter.queryById(orderId)
         if (order.userId != SecurityUtils.currentUserId) throw OrderNotUserException.EXCEPTION
         val orderOptions = orderAdapter.findOrderOptionItemByOrderId(orderId)
-        val orderAnswers = orderAdapter.findAllOrderAnswerByOrderIdOrNull(orderId)
+        val orderAnswers = orderAdapter.findAllOrderAnswerByOrderId(orderId)
         return OrderResponse.of(order, orderOptions, orderAnswers)
     }
 
+    @Transactional(readOnly = true)
     fun findByStateAndName(
         projectId: Long,
         state: OrderState,

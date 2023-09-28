@@ -64,7 +64,7 @@ class OrderControllerTest : BaseControllerTest() {
     }
 
     init {
-        test("주문 생성 테스트") {
+        test("주문 생성") {
             every { orderCreateUseCase.execute(1, orderCreateRequest) } returns orderResponse
 
             post("/v1/orders/{project_id}", pathParams = arrayOf("1")) {
@@ -98,7 +98,7 @@ class OrderControllerTest : BaseControllerTest() {
                                     fieldWithPath("orderOptions[]").type(JsonFieldType.ARRAY).description("상품 옵션 정보"),
                                     fieldWithPath("orderOptions[].optionId").type(JsonFieldType.NUMBER).description("상품 옵션 id"),
                                     fieldWithPath("orderOptions[].count").type(JsonFieldType.NUMBER).description("상품 옵션 수량"),
-                                    fieldWithPath("orderAnswers[]").type(JsonFieldType.ARRAY).description("커스텀 주문폼 정보, optional").optional(),
+                                    fieldWithPath("orderAnswers[]").type(JsonFieldType.ARRAY).description("커스텀 주문폼 정보, optional, 데이터 없으면 null로!!").optional(),
                                     fieldWithPath("orderAnswers[].optionId").type(JsonFieldType.NUMBER).description("커스텀 주문폼 정보 id").optional(),
                                     fieldWithPath("orderAnswers[].answerType").type(JsonFieldType.STRING).description("커스텀 주문폼 타입 이넘 SHORT(주관식),MULTIPLE_CHOICE(객관식)").optional(),
                                     fieldWithPath("orderAnswers[].multipleChoiceId").type(JsonFieldType.NUMBER).description("객관식 답변 id").optional(),
@@ -135,11 +135,13 @@ class OrderControllerTest : BaseControllerTest() {
             val orderProjectResponse = listOf(
                 OrderProjectsResponse(
                     orderId = 1,
+                    projectId = 1,
                     title = "제목",
                     titleImage = "image",
                     subTitle = "부제목",
                     orderState = OrderState.PENDING,
-                    category = ProductCategory.CLOTHES
+                    category = ProductCategory.CLOTHES,
+                    projectStatus = "구매 신청"
                 )
             )
 
@@ -162,11 +164,13 @@ class OrderControllerTest : BaseControllerTest() {
                                 .tag("주문")
                                 .responseFields(
                                     fieldWithPath("[].orderId").type(JsonFieldType.NUMBER).description("주문 id"),
+                                    fieldWithPath("[].projectId").type(JsonFieldType.NUMBER).description("프로젝트 id"),
                                     fieldWithPath("[].title").type(JsonFieldType.STRING).description("제목"),
                                     fieldWithPath("[].titleImage").type(JsonFieldType.STRING).description("이미지"),
                                     fieldWithPath("[].subTitle").type(JsonFieldType.STRING).description("부제목"),
                                     fieldWithPath("[].orderState").type(JsonFieldType.STRING).description("주문 상태 이넘 PENDING,APPROVAL,CANCELED"),
-                                    fieldWithPath("[].category").type(JsonFieldType.STRING).description("카테고리 이넘 CLOTHES, OFFICE_SUPPLIES, STUFF, ETC")
+                                    fieldWithPath("[].category").type(JsonFieldType.STRING).description("카테고리 이넘 CLOTHES, OFFICE_SUPPLIES, STUFF, ETC"),
+                                    fieldWithPath("[].projectStatus").type(JsonFieldType.STRING).description("프로젝트 현황 키워드")
                                 )
                                 .responseSchema(Schema.schema("마이페이지-내 주문 목록 조회 Res"))
                                 .build()
@@ -210,7 +214,7 @@ class OrderControllerTest : BaseControllerTest() {
                                     fieldWithPath("orderOptions[]").description("상품 옵션 정보"),
                                     fieldWithPath("orderOptions[].optionId").type(JsonFieldType.NUMBER).description("상품 옵션 id"),
                                     fieldWithPath("orderOptions[].count").type(JsonFieldType.NUMBER).description("상품 옵션 수량"),
-                                    fieldWithPath("orderAnswers[]").description("커스텀 주문폼 정보, optional").optional(),
+                                    fieldWithPath("orderAnswers[]").description("커스텀 주문폼 정보, 없으면 empty list, null 아님 주의"),
                                     fieldWithPath("orderAnswers[].optionId").type(JsonFieldType.NUMBER).description("커스텀 주문폼 정보 id").optional(),
                                     fieldWithPath("orderAnswers[].answerType").type(JsonFieldType.STRING).description("커스텀 주문폼 타입 이넘 SHORT(주관식),MULTIPLE_CHOICE(객관식)").optional(),
                                     fieldWithPath("orderAnswers[].multipleChoiceId").type(JsonFieldType.NUMBER).description("객관식 답변 id").optional(),
